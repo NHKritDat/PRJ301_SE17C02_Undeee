@@ -4,6 +4,7 @@
  */
 package fpt.fu.prj301_se17c02_undeee.models;
 
+
 import java.util.Date;
 
 /**
@@ -93,6 +94,5 @@ public class Products {
     public String toString() {
         return "Products{" + "id=" + product_id + ", name=" + name + ", category_id=" + category_id + ", image=" + image + ", price=" + price + ", status=" + status + ", create_at=" + create_at + '}';
     }
-    
     
 }
