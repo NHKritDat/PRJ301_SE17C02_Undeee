@@ -11,9 +11,10 @@ import java.util.Date;
  * @author dell
  */
 public class OrderDetails {
-    private int id;
+
+    private int order_detail_id;
     private int order_id;
-    private int drink_id;
+    private int product_id;
     private int size_id;
     private int quantity;
     private Date created_at;
@@ -21,21 +22,21 @@ public class OrderDetails {
     public OrderDetails() {
     }
 
-    public OrderDetails(int id, int order_id, int drink_id, int size_id, int quantity, Date created_at) {
-        this.id = id;
+    public OrderDetails(int id, int order_id, int product_id, int size_id, int quantity, Date created_at) {
+        this.order_detail_id = id;
         this.order_id = order_id;
-        this.drink_id = drink_id;
+        this.product_id = product_id;
         this.size_id = size_id;
         this.quantity = quantity;
         this.created_at = created_at;
     }
 
-    public int getId() {
-        return id;
+    public int getOrder_detail_id() {
+        return order_detail_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrder_detail_id(int id) {
+        this.order_detail_id = id;
     }
 
     public int getOrder_id() {
@@ -46,12 +47,12 @@ public class OrderDetails {
         this.order_id = order_id;
     }
 
-    public int getDrink_id() {
-        return drink_id;
+    public int getProduct_id() {
+        return product_id;
     }
 
-    public void setDrink_id(int drink_id) {
-        this.drink_id = drink_id;
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
     }
 
     public int getSize_id() {
@@ -77,5 +78,5 @@ public class OrderDetails {
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
-    
+
 }

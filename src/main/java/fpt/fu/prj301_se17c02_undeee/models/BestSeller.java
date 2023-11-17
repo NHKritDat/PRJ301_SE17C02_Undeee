@@ -54,6 +54,4 @@ public class BestSeller {
         return "BestSeller{" + "product_id=" + product_id + ", count=" + count + ", create_at=" + create_at + '}';
     }
 
-    
-    
 }

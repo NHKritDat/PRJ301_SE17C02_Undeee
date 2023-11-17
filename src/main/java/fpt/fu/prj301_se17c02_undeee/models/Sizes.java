@@ -11,6 +11,7 @@ import java.util.Date;
  * @author Hp
  */
 public class Sizes {
+
     private int size_id;
     private int product_id;
     private double price;
@@ -62,5 +63,5 @@ public class Sizes {
     public String toString() {
         return "Sizes{" + "size_id=" + size_id + ", product_id=" + product_id + ", price=" + price + ", create_at=" + create_at + '}';
     }
-    
+
 }
