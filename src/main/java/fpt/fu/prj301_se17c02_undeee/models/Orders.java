@@ -11,6 +11,7 @@ import java.util.Date;
  * @author dell
  */
 public class Orders {
+
     private int id;
     private int user_id;
     private double total_price;
@@ -67,5 +68,5 @@ public class Orders {
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
-    
+
 }

@@ -25,11 +25,11 @@ public class Categories {
     public Categories() {
     }
 
-    public int getId() {
+    public int getCategory_id() {
         return category_id;
     }
 
-    public void setId(int id) {
+    public void setCategory_id(int id) {
         this.category_id = id;
     }
 
