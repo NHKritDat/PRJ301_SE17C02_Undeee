@@ -8,25 +8,24 @@ import java.util.Date;
 
 /**
  *
- * @author dell
+ * @author Phong
  */
-public class Orders {
+public class Addresses {
 
     private int id;
     private int user_id;
-    private double total_price;
-    private String status;
+    private String address_detail;
     private Date created_at;
 
-    public Orders() {
-    }
-
-    public Orders(int id, int user_id, double total_price, String status, Date created_at) {
+    public Addresses(int id, int user_id, String address_detail, Date created_at) {
         this.id = id;
         this.user_id = user_id;
-        this.total_price = total_price;
-        this.status = status;
+        this.address_detail = address_detail;
         this.created_at = created_at;
+    }
+
+    public Addresses() {
+
     }
 
     public int getId() {
@@ -45,20 +44,12 @@ public class Orders {
         this.user_id = user_id;
     }
 
-    public double getTotal_price() {
-        return total_price;
+    public String getAddress_detail() {
+        return address_detail;
     }
 
-    public void setTotal_price(double total_price) {
-        this.total_price = total_price;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setAddress_detail(String address_detail) {
+        this.address_detail = address_detail;
     }
 
     public Date getCreated_at() {
@@ -67,6 +58,11 @@ public class Orders {
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
+    }
+
+    @Override
+    public String toString() {
+        return "Addresses{" + "id=" + id + ", user_id=" + user_id + ", address_detail=" + address_detail + ", created_at=" + created_at + '}';
     }
 
 }
