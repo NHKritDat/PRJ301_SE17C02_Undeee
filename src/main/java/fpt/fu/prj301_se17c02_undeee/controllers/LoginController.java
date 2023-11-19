@@ -4,18 +4,24 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers;
 
+import fpt.fu.prj301_se17c02_undeee.models.Users;
+import fpt.fu.prj301_se17c02_undeee.services.UserServices;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Admin
+ * @author dell
  */
-public class Login extends HttpServlet {
+@WebServlet(name = "LoginController", urlPatterns = {"/login"})
+public class LoginController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,10 +40,10 @@ public class Login extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Login</title>");
+            out.println("<title>Servlet LoginController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -55,7 +61,8 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -69,7 +76,26 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        if (email == null || password == null) {
+            response.sendRedirect("./login");
+            return;
+        }
+        UserServices userServices = new UserServices();
+        Users user = userServices.checkLogin(email, password);
+        if (user != null) {
+            int role = user.getRole();
+            if (role == 2) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user_loged", user);
+                response.sendRedirect("./views/admin/adminPage.jsp"); //Thay bằng servlet để dẫn vô trang jsp
+            } else {
+                response.sendRedirect("./views/home.jsp");//Thay bằng servlet để dẫn vô trang jsp
+            }
+        } else {
+            response.sendRedirect("./login");
+        }
     }
 
     /**
