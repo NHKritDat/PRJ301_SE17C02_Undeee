@@ -21,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebFilter(urlPatterns = {"/"}) //Thêm trang filter này cần kiểm tra trước khi cho phép vào trang. Ví dụ: "/AdminPage"
-public class CheckLogin implements Filter {
+@WebFilter(urlPatterns = {"/"}) //Thêm trang filter này cần kiểm tra trước khi cho phép vào trang. Ví dụ: "/Login"
+public class CheckAlreadyLogin implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
