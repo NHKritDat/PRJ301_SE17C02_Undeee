@@ -35,5 +35,4 @@ public class DBConnect implements Serializable {
         }
         return c;
     }
-
 }
