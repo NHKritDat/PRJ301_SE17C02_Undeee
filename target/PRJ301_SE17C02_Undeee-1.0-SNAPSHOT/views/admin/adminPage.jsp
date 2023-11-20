@@ -22,5 +22,8 @@
     <body>
         <h1>Admin Page</h1>
         <h1>Hi, <%= userLogin.getFullname()%></h1>
+        <form action="view-orders">
+            <input type="submit" value="View Order">
+        </form>
     </body>
 </html>
