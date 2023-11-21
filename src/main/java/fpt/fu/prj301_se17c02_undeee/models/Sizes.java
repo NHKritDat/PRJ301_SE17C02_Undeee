@@ -14,12 +14,14 @@ public class Sizes {
 
     private int size_id;
     private int product_id;
+    private String name;
     private double price;
     private Date create_at;
 
-    public Sizes(int size_id, int product_id, double price, Date create_at) {
+    public Sizes(int size_id, int product_id, String name, double price, Date create_at) {
         this.size_id = size_id;
         this.product_id = product_id;
+        this.name = name;
         this.price = price;
         this.create_at = create_at;
     }
@@ -41,6 +43,14 @@ public class Sizes {
 
     public void setProduct_id(int product_id) {
         this.product_id = product_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getPrice() {

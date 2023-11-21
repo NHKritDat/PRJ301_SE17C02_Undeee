@@ -2,11 +2,35 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>Login</servlet-name>
-        <servlet-class>fpt.fu.prj301_se17c02_undeee.controllers.Login</servlet-class>
+        <servlet-class>fpt.fu.prj301_se17c02_undeee.controllers.servlets.Login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddToCartController</servlet-name>
+        <servlet-class>fpt.fu.prj301_se17c02_undeee.controllers.servlets.AddToCartController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditCartController</servlet-name>
+        <servlet-class>fpt.fu.prj301_se17c02_undeee.controllers.servlets.EditCartController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateOrdersController</servlet-name>
+        <servlet-class>fpt.fu.prj301_se17c02_undeee.controllers.servlets.CreateOrdersController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddToCartController</servlet-name>
+        <url-pattern>/AddToCartController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditCartController</servlet-name>
+        <url-pattern>/EditCartController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateOrdersController</servlet-name>
+        <url-pattern>/CreateOrdersController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

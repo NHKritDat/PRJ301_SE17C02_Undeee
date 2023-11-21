@@ -22,32 +22,6 @@ import javax.servlet.http.HttpSession;
  * @author Admin
  */
 @WebFilter(urlPatterns = {"/"}) //Thêm trang filter này cần kiểm tra trước khi cho phép vào trang. Ví dụ: "/AdminPage"
-public class CheckLogin implements Filter {
+public class CheckLogin {
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
-        HttpSession session = req.getSession();
-        
-        Users u = new Users();
-        Object status = session.getAttribute("");
-        if (status != null) {
-            u = (Users) status;
-        }
-        if (u.getEmail() != null) {
-            res.sendRedirect("./"); //Thêm trang sẽ được điều hướng đến
-        } else {
-            chain.doFilter(request, response); //Tiếp tục đi vào trang mà filter này đang kiểm tra
-        }
-    }
-
-    @Override
-    public void destroy() {
-    }
-    
 }
