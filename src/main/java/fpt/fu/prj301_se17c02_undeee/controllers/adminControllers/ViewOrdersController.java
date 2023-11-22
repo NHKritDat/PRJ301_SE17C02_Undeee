@@ -4,7 +4,9 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
 
-import fpt.fu.prj301_se17c02_undeee.services.OrderDto;
+
+import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
+
 import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
 import java.io.IOException;
 import java.io.PrintWriter;

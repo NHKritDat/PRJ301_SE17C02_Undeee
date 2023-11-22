@@ -5,6 +5,7 @@
 package fpt.fu.prj301_se17c02_undeee.services;
 
 import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
+import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
 import fpt.fu.prj301_se17c02_undeee.models.Orders;
 import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.models.Sizes;
@@ -17,21 +18,57 @@ import java.util.List;
 
 /**
  *
- * @author dell
+ * @author Admin
  */
-public class OrdersServices {
+public class OrdersServices extends DBConnect {
 
-    DBConnect db = new DBConnect();
+    private PreparedStatement pst = null;
+    private ResultSet rs = null;
+    private String sql = "";
+
+    public int insertOrder(int user_id, int address_id, double total_price, String status) {
+        int order_id = 0;
+        sql = "insert into Orders (user_id, address_id, total_price, status) values (?, ?, ?, ?)";
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setInt(1, user_id);
+            pst.setInt(2, address_id);
+            pst.setDouble(3, total_price);
+            pst.setString(4, status);
+            pst.execute();
+            rs = pst.getGeneratedKeys();
+            while (rs.next()) {
+                order_id = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return order_id;
+    }
+
+    public void insertOrderDetails(int order_id, int product_id, int size_id, int quantity) {
+        sql = "insert into OrderDetails (order_id, product_id, size_id, quantity) values (?, ?, ?, ?)";
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setInt(1, order_id);
+            pst.setInt(2, product_id);
+            pst.setInt(3, size_id);
+            pst.setInt(4, quantity);
+            pst.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public List<OrderDto> getOrders(String search) {
         List<OrderDto> orders = new ArrayList<>();
         try {
-            String sql = "select o.*, u.fullname from Orders o join Users u on o.user_id = u.id";
+            sql = "select o.*, u.fullname from Orders o join Users u on o.user_id = u.id";
             if (search != null) {
                 sql += " WHERE o.status like '%" + search + "%'";
             }
-            PreparedStatement preparedStatement = db.connection.prepareStatement(sql);
-            ResultSet rs = preparedStatement.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 OrderDto orderDto = new OrderDto();
 
@@ -58,9 +95,9 @@ public class OrdersServices {
     public OrderDto getOrdersById(String id) {
         OrderDto orderDto = null;
         try {
-            String sql = "SELECT o.*, u.fullname FROM Orders o JOIN Users u ON o.user_id = u.id WHERE o.id = " + id;
-            PreparedStatement preparedStatement = db.connection.prepareStatement(sql);
-            ResultSet rs = preparedStatement.executeQuery();
+            sql = "SELECT o.*, u.fullname FROM Orders o JOIN Users u ON o.user_id = u.id WHERE o.id = " + id;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
                 orderDto = new OrderDto();
@@ -86,8 +123,8 @@ public class OrdersServices {
 
     public void updateOrders(Orders order) {
         try {
-            String sql = "UPDATE Orders SET total_price=?, status=? WHERE id=?";
-            PreparedStatement preparedStatement = db.connection.prepareStatement(sql);
+            sql = "UPDATE Orders SET total_price=?, status=? WHERE id=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDouble(1, order.getTotal_price());
             preparedStatement.setString(2, order.getStatus());
             preparedStatement.setInt(3, order.getId());
@@ -102,26 +139,26 @@ public class OrdersServices {
         String deleteOrderSql = "DELETE FROM Orders WHERE id = ?";
 
         try {
-            db.connection.setAutoCommit(false);
+            connection.setAutoCommit(false);
 
             // Xóa từ bảng OrderDetails trước
-            try (PreparedStatement preparedStatementOrderDetails = db.connection.prepareStatement(deleteOrderDetailsSql)) {
+            try (PreparedStatement preparedStatementOrderDetails = connection.prepareStatement(deleteOrderDetailsSql)) {
                 preparedStatementOrderDetails.setInt(1, orderId);
                 preparedStatementOrderDetails.executeUpdate();
             }
 
             // Sau đó xóa từ bảng Orders
-            try (PreparedStatement preparedStatementOrders = db.connection.prepareStatement(deleteOrderSql)) {
+            try (PreparedStatement preparedStatementOrders = connection.prepareStatement(deleteOrderSql)) {
                 preparedStatementOrders.setInt(1, orderId);
                 preparedStatementOrders.executeUpdate();
             }
 
             // Commit transaction
-            db.connection.commit();
+            connection.commit();
         } catch (SQLException e) {
             try {
                 // Rollback nếu có lỗi
-                db.connection.rollback();
+                connection.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -129,7 +166,7 @@ public class OrdersServices {
         } finally {
             try {
                 // Set lại AutoCommit về true
-                db.connection.setAutoCommit(true);
+                connection.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -139,33 +176,33 @@ public class OrdersServices {
     public List<OrderDetailDto> getOrderDetails(int orderId) {
         List<OrderDetailDto> orderDetailsList = new ArrayList<>();
 
-        String sql = "SELECT od.order_id, od.product_id, od.size_id, p.name AS product_name, s.name AS size_name, od.quantity, od.created_at "
-            + "FROM Orders o "
-            + "JOIN OrderDetails od ON o.id = od.order_id "
-            + "JOIN Products p ON od.product_id = p.id "
-            + "JOIN Sizes s ON od.size_id = s.id "
-            + "WHERE od.order_id = ?";
+        sql = "SELECT od.order_id, od.product_id, od.size_id, p.name AS product_name, s.name AS size_name, od.quantity, od.created_at "
+                + "FROM Orders o "
+                + "JOIN OrderDetails od ON o.id = od.order_id "
+                + "JOIN Products p ON od.product_id = p.id "
+                + "JOIN Sizes s ON od.size_id = s.id "
+                + "WHERE od.order_id = ?";
 
-        try (PreparedStatement preparedStatement = db.connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, orderId);
-            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
                 OrderDetailDto orderDetailsDto = new OrderDetailDto();
-                
+
                 OrderDetails orderDetail = new OrderDetails();
                 orderDetail.setOrder_id(rs.getInt("order_id"));
                 orderDetail.setProduct_id(rs.getInt("product_id"));
                 orderDetail.setSize_id(rs.getInt("size_id"));
                 orderDetail.setQuantity(rs.getInt("quantity"));
                 orderDetail.setCreated_at(rs.getDate("created_at"));
-                
+
                 Products product = new Products();
                 product.setName(rs.getString("product_name"));
-                
+
                 Sizes size = new Sizes();
                 size.setName(rs.getString("size_name"));
-                
+
                 orderDetailsDto.setOrderDetail(orderDetail);
                 orderDetailsDto.setProduct(product);
                 orderDetailsDto.setSize(size);

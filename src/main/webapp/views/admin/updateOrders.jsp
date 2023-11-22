@@ -4,7 +4,7 @@
     Author     : dell
 --%>
 
-<%@page import="fpt.fu.prj301_se17c02_undeee.services.OrderDto"%>
+<%@page import="fpt.fu.prj301_se17c02_undeee.models.OrderDto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     OrderDto orderToUpdate = (OrderDto) request.getAttribute("orderToUpdate");
