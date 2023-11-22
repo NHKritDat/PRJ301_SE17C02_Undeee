@@ -66,9 +66,10 @@ public class UpdateUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String id = (String) request.getParameter("id");
         UserService us = new UserService();
-        Users user = us.getUserbyID("1");
+        Users user = us.getUserbyID("3");
         if (user != null) {
             request.setAttribute("user", user);
             RequestDispatcher rd = request.getRequestDispatcher("/views/updateUser.jsp");

@@ -4,13 +4,9 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.models.Categories;
-import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.services.ProductService;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Hp
  */
-@WebServlet(name = "ViewProductsController", urlPatterns = {"/view"})
-public class ViewProductsController extends HttpServlet {
+@WebServlet(name = "DeleteProductController", urlPatterns = {"/delete"})
+public class DeleteProductController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +37,10 @@ public class ViewProductsController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewProductsController</title>");
+            out.println("<title>Servlet DeleteProductController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewProductsController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteProductController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,13 +58,16 @@ public class ViewProductsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductService ps = new ProductService();
-        List<Products>list = ps.getAllProducts();
-          List<Categories> categoryList = ps.getCategories();
-                  request.setAttribute("categoryList", categoryList);
-        request.setAttribute("list", list);
-            RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
-            rd.forward(request, response);
+          String id = request.getParameter("id");
+        ProductService productService = new ProductService();
+        if (id != null) {
+            int result = productService.deleteProducts(id);
+            if (result > 0) {
+                System.out.println("delete succes");
+                        response.sendRedirect("view");
+
+            }
+        }
     }
 
     /**
@@ -82,14 +81,7 @@ public class ViewProductsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductService ps = new ProductService();
-        String search = (String) request.getParameter("searchKeyword");
-        List<Products>list = ps.searchProducts(search);
-        request.setAttribute("list", list);
-          List<Categories> categoryList = ps.getCategories();
-                  request.setAttribute("categoryList", categoryList);
-            RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
-            rd.forward(request, response);
+        processRequest(request, response);
     }
 
     /**

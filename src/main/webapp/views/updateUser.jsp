@@ -67,7 +67,7 @@
             <div class="image-container">
 
                 <div style="align-items: center">
-                    <img  src=".<%= news.getAvatar()%>" style="width: 200px ; margin-bottom: 20px" alt="..." class=" rounded-circle">
+                    <img  src="views/Admins/<%= news.getAvatar()%>" style="width: 200px ; margin-bottom: 20px" alt="..." class=" rounded-circle">
 
                 </div>
 
@@ -106,4 +106,3 @@
 
 </body>
 </html>
-
