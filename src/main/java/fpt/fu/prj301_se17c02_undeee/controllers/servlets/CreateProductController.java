@@ -4,13 +4,13 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.models.Users;
-import fpt.fu.prj301_se17c02_undeee.services.UserService;
+import fpt.fu.prj301_se17c02_undeee.models.Categories;
+import fpt.fu.prj301_se17c02_undeee.services.ProductService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.attribute.UserPrincipalLookupService;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -25,8 +25,8 @@ import javax.servlet.http.Part;
  * @author Hp
  */
 @MultipartConfig
-@WebServlet(name = "UpdateUserController", urlPatterns = {"/updateUser"})
-public class UpdateUserController extends HttpServlet {
+@WebServlet(name = "CreateProductController", urlPatterns = {"/create"})
+public class CreateProductController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +45,10 @@ public class UpdateUserController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateUserController</title>");            
+            out.println("<title>Servlet CreateProductController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateUserController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CreateProductController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,16 +66,14 @@ public class UpdateUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-  String id = (String) request.getParameter("id"); // can chuyen Id 
-        UserService us = new UserService();
-        Users user = us.getUserbyID("3");
-        if (user != null) {
-            request.setAttribute("user", user);
-            RequestDispatcher rd = request.getRequestDispatcher("/views/updateUser.jsp");
-            rd.forward(request, response);
+                    ProductService ps = new ProductService();
 
-            //  response.sendRedirect("views/admin_update.jsp");
-        }    }
+          List<Categories> categoryList = ps.getCategories();
+                  request.setAttribute("categoryList", categoryList);
+
+       RequestDispatcher rd = request.getRequestDispatcher("/views/create_product.jsp");
+        rd.forward(request, response);
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -88,57 +86,42 @@ public class UpdateUserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        //validate news update
-        String id = request.getParameter("id");
-
-      UserService us = new UserService();
-        Users user = us.getUserbyID("1");
-        if (user == null) {
-            response.sendError(404);
+         String name = request.getParameter("name");
+         String price = request.getParameter("price");
+         double priceSave =0;
+         if (price!=null) {
+            priceSave = Double.parseDouble(price);
         }
-      
-        // get value form
-        //  double price = Double.parseDouble((String)request.getParameter("price"));
-        String fullname = request.getParameter("fullname");
-        String password = request.getParameter("password");
-        String phone = request.getParameter("phone");
-        String imageSave = user.getAvatar();
-        // xu ly image
-        Part part = request.getPart("imageNews");
-        if (part.getSize()>0) {
-            // path folder chua anh
-            String folderSaveFile = "/images";
-            String pathUpload = request.getServletContext().getRealPath(folderSaveFile);
-            // file name user upload
-            String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-
-            if (!Files.exists(Paths.get(pathUpload))) {
-                Files.createDirectories(Paths.get(pathUpload));
-            }
-            System.out.println(pathUpload);
-            part.write(pathUpload + "/" + fileName);//
-            
-            //.io.FileNotFoundException: 
-            //E:\New Folder (2)\MyPetShop\target\MyPetShop-1.0-SNAPSHOT\images (Access is denied)
-            imageSave = folderSaveFile + "/" + fileName;
+         String categoryID = request.getParameter("category");
+           int categoryIDSave =0;
+         if (categoryID!=null) {
+            categoryIDSave = Integer.parseInt(categoryID);
         }
+         String status = "Active";
+   
+        Part part = request.getPart("image");
+        String folderSaveFile = "/views/Drinks";
+        String pathUpload = request.getServletContext().getRealPath(folderSaveFile);
+        String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
-        
-        int uerID = Integer.parseInt(id);
-        if (fullname != null && phone != null&& password!=null) {
-            int result = us.updateUsers(fullname, password, phone, imageSave, uerID);
+        if (!Files.exists(Paths.get(pathUpload))) {
+            Files.createDirectories(Paths.get(pathUpload));
+        }
+        part.write(pathUpload + "/" + fileName);
+
+        if (name != null && price != null && categoryID != null&&status!=null) {
+            ProductService productService = new ProductService();
+            String imageSave = folderSaveFile + "/" + fileName;
+            int result = productService.insertProducts(name, categoryIDSave, fileName, priceSave, status);
+         // tam thoi lay luon file name
             if (result > 0) {
-            //   sesstion.setAttribute("name", name);
-                    response.sendRedirect("./views/test.jsp");    }  // chỗ này đổi lun nha đồng chí :)))
-
-    //        response.sendRedirect("./NewController");  // Hello ban oi đổi đường dẫn ở đây nha (I'm Hiển)
+                response.sendRedirect("view");
                 return;
             }
         }
-    
-// Khuc nay se dua ra trang home.jsp nha 
-    //  response.sendRedirect("./home"); 
+        response.sendRedirect("create");
+    }
+
     /**
      * Returns a short description of the servlet.
      *

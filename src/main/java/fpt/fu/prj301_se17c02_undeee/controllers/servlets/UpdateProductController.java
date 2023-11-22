@@ -4,13 +4,14 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.models.Users;
-import fpt.fu.prj301_se17c02_undeee.services.UserService;
+import fpt.fu.prj301_se17c02_undeee.models.Categories;
+import fpt.fu.prj301_se17c02_undeee.models.Products;
+import fpt.fu.prj301_se17c02_undeee.services.ProductService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.attribute.UserPrincipalLookupService;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -25,8 +26,8 @@ import javax.servlet.http.Part;
  * @author Hp
  */
 @MultipartConfig
-@WebServlet(name = "UpdateUserController", urlPatterns = {"/updateUser"})
-public class UpdateUserController extends HttpServlet {
+@WebServlet(name = "UpdateProductController", urlPatterns = {"/UpdateProductController"})
+public class UpdateProductController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +46,10 @@ public class UpdateUserController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateUserController</title>");            
+            out.println("<title>Servlet UpdateProductController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateUserController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateProductController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,16 +67,20 @@ public class UpdateUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-  String id = (String) request.getParameter("id"); // can chuyen Id 
-        UserService us = new UserService();
-        Users user = us.getUserbyID("3");
-        if (user != null) {
-            request.setAttribute("user", user);
-            RequestDispatcher rd = request.getRequestDispatcher("/views/updateUser.jsp");
+        String id = (String) request.getParameter("id");
+        ProductService ps = new ProductService();
+        Products product = ps.getProductById(id);
+        if (product != null) {
+               List<Categories> categoryList = ps.getCategories();
+                  request.setAttribute("categoryList", categoryList);
+            request.setAttribute("product", product);
+            RequestDispatcher rd = request.getRequestDispatcher("/views/update_product.jsp");
             rd.forward(request, response);
 
             //  response.sendRedirect("views/admin_update.jsp");
-        }    }
+        }
+        //    response.sendRedirect("view");
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -89,26 +94,41 @@ public class UpdateUserController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        /*
+            private String name;
+    private int category_id;
+    private String image;
+    private double price;
+    private String status;
+         */
         //validate news update
         String id = request.getParameter("id");
 
-      UserService us = new UserService();
-        Users user = us.getUserbyID("1");
-        if (user == null) {
+        ProductService ps = new ProductService();
+        Products product = ps.getProductById(id);
+        if (product == null) {
             response.sendError(404);
         }
-      
+        String price = request.getParameter("price");
+
+        double priceSave=0 ;
+        if (price != null) {
+            priceSave = Double.parseDouble(price);
+        }else{
+            priceSave =  product.getPrice();
+        }
+           
         // get value form
         //  double price = Double.parseDouble((String)request.getParameter("price"));
-        String fullname = request.getParameter("fullname");
-        String password = request.getParameter("password");
-        String phone = request.getParameter("phone");
-        String imageSave = user.getAvatar();
+        String name = request.getParameter("name");
+        String categoty_id = request.getParameter("category");// coi lai
+        String status = request.getParameter("status");
+        String imageSave = product.getImage();
         // xu ly image
-        Part part = request.getPart("imageNews");
-        if (part.getSize()>0) {
+        Part part = request.getPart("image");
+        if (part.getSize() > 0) {
             // path folder chua anh
-            String folderSaveFile = "/images";
+            String folderSaveFile = "/views/Drinks";
             String pathUpload = request.getServletContext().getRealPath(folderSaveFile);
             // file name user upload
             String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
@@ -118,27 +138,20 @@ public class UpdateUserController extends HttpServlet {
             }
             System.out.println(pathUpload);
             part.write(pathUpload + "/" + fileName);//
-            
-            //.io.FileNotFoundException: 
-            //E:\New Folder (2)\MyPetShop\target\MyPetShop-1.0-SNAPSHOT\images (Access is denied)
-            imageSave = folderSaveFile + "/" + fileName;
+
+            imageSave = fileName;
         }
 
-        
-        int uerID = Integer.parseInt(id);
-        if (fullname != null && phone != null&& password!=null) {
-            int result = us.updateUsers(fullname, password, phone, imageSave, uerID);
+        if (name != null && categoty_id != null && status != null) {
+            int result = ps.updateProducts(id,name, categoty_id, priceSave, imageSave, status);
             if (result > 0) {
-            //   sesstion.setAttribute("name", name);
-                    response.sendRedirect("./views/test.jsp");    }  // chỗ này đổi lun nha đồng chí :)))
-
-    //        response.sendRedirect("./NewController");  // Hello ban oi đổi đường dẫn ở đây nha (I'm Hiển)
+                response.sendRedirect("./view");
                 return;
             }
         }
-    
-// Khuc nay se dua ra trang home.jsp nha 
-    //  response.sendRedirect("./home"); 
+        response.sendRedirect("./views/update_product.jsp");
+    }
+
     /**
      * Returns a short description of the servlet.
      *

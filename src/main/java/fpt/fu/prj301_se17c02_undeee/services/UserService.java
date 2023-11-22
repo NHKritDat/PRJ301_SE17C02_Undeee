@@ -18,22 +18,7 @@ import java.util.List;
  */
 public class UserService extends DBConnect {
 
-    /*
-    CREATE TABLE `Users`(
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `email` VARCHAR(45) NOT NULL,
-    `password` VARCHAR(32) NOT NULL,
-    `fullname` VARCHAR(255) NOT NULL,
-    `phone` VARCHAR(15) NOT NULL,
-    `avatar` VARCHAR(255) NULL,
-    `role` TINYINT UNSIGNED NOT NULL,
-    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-ALTER TABLE
-    `Users` ADD UNIQUE `users_email_unique`(`email`);
 
-);
-     */
     public List<Users> getPets() {
         List<Users> list = new ArrayList<>();
         String query = "SELECT* FROM Users ";
