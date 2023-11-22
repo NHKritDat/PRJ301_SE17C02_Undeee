@@ -6,7 +6,7 @@ package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
 import fpt.fu.prj301_se17c02_undeee.models.Categories;
 import fpt.fu.prj301_se17c02_undeee.models.Products;
-import fpt.fu.prj301_se17c02_undeee.services.ProductService;
+import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -68,11 +68,11 @@ public class UpdateProductController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = (String) request.getParameter("id");
-        ProductService ps = new ProductService();
+        ProductsServices ps = new ProductsServices();
         Products product = ps.getProductById(id);
         if (product != null) {
-               List<Categories> categoryList = ps.getCategories();
-                  request.setAttribute("categoryList", categoryList);
+            List<Categories> categoryList = ps.getCategories();
+            request.setAttribute("categoryList", categoryList);
             request.setAttribute("product", product);
             RequestDispatcher rd = request.getRequestDispatcher("/views/update_product.jsp");
             rd.forward(request, response);
@@ -104,20 +104,20 @@ public class UpdateProductController extends HttpServlet {
         //validate news update
         String id = request.getParameter("id");
 
-        ProductService ps = new ProductService();
+        ProductsServices ps = new ProductsServices();
         Products product = ps.getProductById(id);
         if (product == null) {
             response.sendError(404);
         }
         String price = request.getParameter("price");
 
-        double priceSave=0 ;
+        double priceSave = 0;
         if (price != null) {
             priceSave = Double.parseDouble(price);
-        }else{
-            priceSave =  product.getPrice();
+        } else {
+            priceSave = product.getPrice();
         }
-           
+
         // get value form
         //  double price = Double.parseDouble((String)request.getParameter("price"));
         String name = request.getParameter("name");
@@ -143,7 +143,7 @@ public class UpdateProductController extends HttpServlet {
         }
 
         if (name != null && categoty_id != null && status != null) {
-            int result = ps.updateProducts(id,name, categoty_id, priceSave, imageSave, status);
+            int result = ps.updateProducts(id, name, categoty_id, priceSave, imageSave, status);
             if (result > 0) {
                 response.sendRedirect("./view");
                 return;

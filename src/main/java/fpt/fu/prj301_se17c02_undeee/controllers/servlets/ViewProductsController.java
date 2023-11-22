@@ -6,7 +6,7 @@ package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
 import fpt.fu.prj301_se17c02_undeee.models.Categories;
 import fpt.fu.prj301_se17c02_undeee.models.Products;
-import fpt.fu.prj301_se17c02_undeee.services.ProductService;
+import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -62,13 +62,13 @@ public class ViewProductsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductService ps = new ProductService();
-        List<Products>list = ps.getAllProducts();
-          List<Categories> categoryList = ps.getCategories();
-                  request.setAttribute("categoryList", categoryList);
+        ProductsServices ps = new ProductsServices();
+        List<Products> list = ps.getAllProducts();
+        List<Categories> categoryList = ps.getCategories();
+        request.setAttribute("categoryList", categoryList);
         request.setAttribute("list", list);
-            RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
-            rd.forward(request, response);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -82,14 +82,14 @@ public class ViewProductsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductService ps = new ProductService();
+        ProductsServices ps = new ProductsServices();
         String search = (String) request.getParameter("searchKeyword");
-        List<Products>list = ps.searchProducts(search);
+        List<Products> list = ps.searchProducts(search);
         request.setAttribute("list", list);
-          List<Categories> categoryList = ps.getCategories();
-                  request.setAttribute("categoryList", categoryList);
-            RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
-            rd.forward(request, response);
+        List<Categories> categoryList = ps.getCategories();
+        request.setAttribute("categoryList", categoryList);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
+        rd.forward(request, response);
     }
 
     /**

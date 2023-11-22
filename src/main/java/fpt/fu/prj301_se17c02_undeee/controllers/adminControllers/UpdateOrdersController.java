@@ -4,8 +4,8 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
 
-import fpt.fu.prj301_se17c02_undeee.services.OrderDto;
-import fpt.fu.prj301_se17c02_undeee.services.OrderServices;
+import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
+import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -61,7 +61,7 @@ public class UpdateOrdersController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
-        OrderServices orderService = new OrderServices();
+        OrdersServices orderService = new OrdersServices();
         OrderDto orderToUpdate = orderService.getOrdersById(id);
         if (orderToUpdate != null) {
             request.setAttribute("orderToUpdate", orderToUpdate);
@@ -84,7 +84,7 @@ public class UpdateOrdersController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
-        OrderServices orderService = new OrderServices();
+        OrdersServices orderService = new OrdersServices();
         OrderDto orderToUpdate = orderService.getOrdersById(id);
         if (orderToUpdate == null) {
             response.sendError(404);

@@ -5,12 +5,11 @@
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
 import fpt.fu.prj301_se17c02_undeee.models.Users;
-import fpt.fu.prj301_se17c02_undeee.services.UserService;
+import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.attribute.UserPrincipalLookupService;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -67,9 +66,9 @@ public class UpdateUserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String id = (String) request.getParameter("id");
-        UserService us = new UserService();
-        Users user = us.getUserbyID("3");
+        String id = (String) request.getParameter("id");//lấy session
+        UsersServices us = new UsersServices();//lấy session
+        Users user = us.getUserbyID("3");//lấy session
         if (user != null) {
             request.setAttribute("user", user);
             RequestDispatcher rd = request.getRequestDispatcher("/views/updateUser.jsp");
@@ -92,10 +91,10 @@ public class UpdateUserController extends HttpServlet {
             throws ServletException, IOException {
 
         //validate news update
-        String id = request.getParameter("id");
+        String id = request.getParameter("id");//lấy session
 
-        UserService us = new UserService();
-        Users user = us.getUserbyID("1");
+        UsersServices us = new UsersServices();//lấy session
+        Users user = us.getUserbyID("3"); //lấy session
         if (user == null) {
             response.sendError(404);
         }
@@ -123,7 +122,7 @@ public class UpdateUserController extends HttpServlet {
 
             //.io.FileNotFoundException: 
             //E:\New Folder (2)\MyPetShop\target\MyPetShop-1.0-SNAPSHOT\images (Access is denied)
-            imageSave = folderSaveFile + "/" + fileName;
+            imageSave = fileName;
         }
 
         int uerID = Integer.parseInt(id);

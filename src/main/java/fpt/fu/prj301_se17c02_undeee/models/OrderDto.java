@@ -2,16 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package fpt.fu.prj301_se17c02_undeee.services;
-
-import fpt.fu.prj301_se17c02_undeee.models.Orders;
-import fpt.fu.prj301_se17c02_undeee.models.Users;
+package fpt.fu.prj301_se17c02_undeee.models;
 
 /**
  *
  * @author dell
  */
 public class OrderDto {
+
     private Orders order;
     private Users user;
 
@@ -38,5 +36,5 @@ public class OrderDto {
     public void setUser(Users user) {
         this.user = user;
     }
-    
+
 }

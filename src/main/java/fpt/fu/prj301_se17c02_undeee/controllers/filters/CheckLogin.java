@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebFilter(urlPatterns = {"/"}) //Thêm trang filter này cần kiểm tra trước khi cho phép vào trang. Ví dụ: "/AdminPage"
+@WebFilter(urlPatterns = {"/view", "/admin-page"}) //Thêm đường dẫn
 public class CheckLogin implements Filter {
 
     @Override
@@ -35,14 +35,14 @@ public class CheckLogin implements Filter {
         HttpSession session = req.getSession();
 
         Users u = new Users();
-        Object status = session.getAttribute("");
+        Object status = session.getAttribute("user_loged");
         if (status != null) {
             u = (Users) status;
         }
-        if (u.getEmail() != null) {
-            res.sendRedirect("./"); //Thêm trang sẽ được điều hướng đến
+        if (u.getEmail() == null) {
+            res.sendRedirect("./login");
         } else {
-            chain.doFilter(request, response); //Tiếp tục đi vào trang mà filter này đang kiểm tra
+            chain.doFilter(request, response);
         }
     }
 

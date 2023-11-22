@@ -71,8 +71,7 @@ public class AddToCartController extends HttpServlet {
         }
         request.setAttribute("total_quantity", total_quantity);
         
-        RequestDispatcher rd = request.getRequestDispatcher("/views/viewProductDetailForCustomerJsp.jsp");
-        rd.forward(request, response);
+        response.sendRedirect("./view"); //Sửa lại link
     }
 
     /**
@@ -113,8 +112,7 @@ public class AddToCartController extends HttpServlet {
         }
         request.setAttribute("total_quantity", total_quantity);
         
-        RequestDispatcher rd = request.getRequestDispatcher("/views/viewProductDetailForCustomerJsp.jsp");
-        rd.forward(request, response);
+        response.sendRedirect("./view"); //Sửa lại link
     }
 
     /**
