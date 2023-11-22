@@ -8,6 +8,7 @@ import fpt.fu.prj301_se17c02_undeee.models.Cart;
 import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +59,20 @@ public class AddToCartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("CART");
+        if (cart == null) {
+            cart = new Cart();
+        }
+        
+        int total_quantity = 0;
+        for (OrderDetails orderDetails : cart.getAll()) {
+            total_quantity += orderDetails.getQuantity();
+        }
+        request.setAttribute("total_quantity", total_quantity);
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/views/viewProductDetailForCustomerJsp.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -99,7 +113,8 @@ public class AddToCartController extends HttpServlet {
         }
         request.setAttribute("total_quantity", total_quantity);
         
-        response.sendRedirect("./ViewProductsController");
+        RequestDispatcher rd = request.getRequestDispatcher("/views/viewProductDetailForCustomerJsp.jsp");
+        rd.forward(request, response);
     }
 
     /**
