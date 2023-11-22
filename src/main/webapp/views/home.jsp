@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="layout/headerHome.jsp" %>
+<%@include file="layout/header.jsp" %>
 <div class="container">
     <div class="row">
         
