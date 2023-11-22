@@ -4,7 +4,9 @@
  */
 package fpt.fu.prj301_se17c02_undeee.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,4 +58,19 @@ public class Cart {
         }
     }
 
+    public List<OrderDetails> getAll() {
+        List<OrderDetails> list = new ArrayList<>();
+        for (Map.Entry<String, OrderDetails> entry : cart.entrySet()) {
+            list.add(entry.getValue());
+        }
+        return list;
+    }
+
+    public int getSize() {
+        return cart.size();
+    }
+    
+    public OrderDetails getByKey(String key) {
+        return cart.get(key);
+    }
 }
