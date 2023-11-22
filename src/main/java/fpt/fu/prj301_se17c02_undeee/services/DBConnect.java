@@ -4,6 +4,7 @@
  */
 package fpt.fu.prj301_se17c02_undeee.services;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
  *
  * @author Admin
  */
-public class DBConnect {
+public class DBConnect implements Serializable {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/undeee";
     private static final String DB_USERNAME = "root";
@@ -34,5 +35,4 @@ public class DBConnect {
         }
         return c;
     }
-
 }
