@@ -41,7 +41,7 @@ public class ViewProductsController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewProductsController</title>");            
+            out.println("<title>Servlet ViewProductsController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ViewProductsController at " + request.getContextPath() + "</h1>");
