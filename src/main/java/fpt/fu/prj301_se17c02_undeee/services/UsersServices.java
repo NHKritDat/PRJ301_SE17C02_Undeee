@@ -15,7 +15,7 @@ import java.util.Date;
  *
  * @author dell
  */
-public class UserServices {
+public class UsersServices {
 
     DBConnect db = new DBConnect();
 
