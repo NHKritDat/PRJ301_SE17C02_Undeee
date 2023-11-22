@@ -5,7 +5,7 @@
 package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
 
 import fpt.fu.prj301_se17c02_undeee.services.OrderDetailDto;
-import fpt.fu.prj301_se17c02_undeee.services.OrderServices;
+import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -62,7 +62,7 @@ public class ViewOrderDetailsController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
-        OrderServices orderService = new OrderServices();
+        OrdersServices orderService = new OrdersServices();
         List<OrderDetailDto> orderDetails = orderService.getOrderDetails(Integer.parseInt(id));
         request.setAttribute("orderDetails", orderDetails);
         RequestDispatcher rd = request.getRequestDispatcher("/views/admin/viewOrderDetails.jsp");

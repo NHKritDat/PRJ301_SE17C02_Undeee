@@ -6,6 +6,7 @@ package fpt.fu.prj301_se17c02_undeee.services;
 
 
 import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
+import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
 import fpt.fu.prj301_se17c02_undeee.models.Orders;
 import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.models.Sizes;
@@ -68,7 +69,7 @@ public class OrdersServices extends DBConnect {
             if (search != null) {
                 sql += " WHERE o.status like '%" + search + "%'";
             }
-            PreparedStatement preparedStatement = db.connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 OrderDto orderDto = new OrderDto();
@@ -97,7 +98,7 @@ public class OrdersServices extends DBConnect {
         OrderDto orderDto = null;
         try {
             sql = "SELECT o.*, u.fullname FROM Orders o JOIN Users u ON o.user_id = u.id WHERE o.id = " + id;
-            PreparedStatement preparedStatement = db.connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
@@ -125,7 +126,7 @@ public class OrdersServices extends DBConnect {
     public void updateOrders(Orders order) {
         try {
             sql = "UPDATE Orders SET total_price=?, status=? WHERE id=?";
-            PreparedStatement preparedStatement = db.connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDouble(1, order.getTotal_price());
             preparedStatement.setString(2, order.getStatus());
             preparedStatement.setInt(3, order.getId());
@@ -140,26 +141,26 @@ public class OrdersServices extends DBConnect {
         String deleteOrderSql = "DELETE FROM Orders WHERE id = ?";
 
         try {
-            db.connection.setAutoCommit(false);
+            connection.setAutoCommit(false);
 
             // Xóa từ bảng OrderDetails trước
-            try (PreparedStatement preparedStatementOrderDetails = db.connection.prepareStatement(deleteOrderDetailsSql)) {
+            try (PreparedStatement preparedStatementOrderDetails = connection.prepareStatement(deleteOrderDetailsSql)) {
                 preparedStatementOrderDetails.setInt(1, orderId);
                 preparedStatementOrderDetails.executeUpdate();
             }
 
             // Sau đó xóa từ bảng Orders
-            try (PreparedStatement preparedStatementOrders = db.connection.prepareStatement(deleteOrderSql)) {
+            try (PreparedStatement preparedStatementOrders = connection.prepareStatement(deleteOrderSql)) {
                 preparedStatementOrders.setInt(1, orderId);
                 preparedStatementOrders.executeUpdate();
             }
 
             // Commit transaction
-            db.connection.commit();
+            connection.commit();
         } catch (SQLException e) {
             try {
                 // Rollback nếu có lỗi
-                db.connection.rollback();
+                connection.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -167,7 +168,7 @@ public class OrdersServices extends DBConnect {
         } finally {
             try {
                 // Set lại AutoCommit về true
-                db.connection.setAutoCommit(true);
+                connection.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -185,7 +186,7 @@ public class OrdersServices extends DBConnect {
             + "JOIN Sizes s ON od.size_id = s.id "
             + "WHERE od.order_id = ?";
 
-        try (PreparedStatement preparedStatement = db.connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, orderId);
             rs = preparedStatement.executeQuery();
 

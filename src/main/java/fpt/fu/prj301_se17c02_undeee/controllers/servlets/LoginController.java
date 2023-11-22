@@ -5,7 +5,7 @@
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
 import fpt.fu.prj301_se17c02_undeee.models.Users;
-import fpt.fu.prj301_se17c02_undeee.services.UserServices;
+import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -82,16 +82,16 @@ public class LoginController extends HttpServlet {
             response.sendRedirect("login");
             return;
         }
-        UserServices userServices = new UserServices();
+        UsersServices userServices = new UsersServices();
         Users user = userServices.checkLogin(email, password);
         if (user != null) {
             int role = user.getRole();
             if (role == 2) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user_loged", user);
-                response.sendRedirect("./views/admin/adminPage.jsp"); //Thay bằng servlet để dẫn vô trang jsp
+                response.sendRedirect("./admin-page");
             } else {
-                response.sendRedirect("./views/home.jsp");//Thay bằng servlet để dẫn vô trang jsp
+                response.sendRedirect("./view");//thay đường dẫn đến customer page
             }
         } else {
             response.sendRedirect("./login");

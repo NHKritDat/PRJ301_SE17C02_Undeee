@@ -16,7 +16,7 @@
 <%
     session = request.getSession();
     Cart cart = (Cart) session.getAttribute("CART");
-    Users u = (Users) session.getAttribute("users"); //check lại lưu users tên gì
+    Users u = (Users) session.getAttribute("user_loged");
     UsersServices us = new UsersServices();
     Addresses ad = us.getFirstAddressByUserId(u.getId());
     ProductsServices ps = new ProductsServices();
