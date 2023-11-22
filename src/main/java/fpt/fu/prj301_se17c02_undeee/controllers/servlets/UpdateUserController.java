@@ -45,7 +45,7 @@ public class UpdateUserController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateUserController</title>");            
+            out.println("<title>Servlet UpdateUserController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet UpdateUserController at " + request.getContextPath() + "</h1>");
@@ -66,7 +66,7 @@ public class UpdateUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-  String id = (String) request.getParameter("id");
+        String id = (String) request.getParameter("id");
         UserService us = new UserService();
         Users user = us.getUserbyID("1");
         if (user != null) {
@@ -75,7 +75,8 @@ public class UpdateUserController extends HttpServlet {
             rd.forward(request, response);
 
             //  response.sendRedirect("views/admin_update.jsp");
-        }    }
+        }
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -92,12 +93,12 @@ public class UpdateUserController extends HttpServlet {
         //validate news update
         String id = request.getParameter("id");
 
-      UserService us = new UserService();
+        UserService us = new UserService();
         Users user = us.getUserbyID("1");
         if (user == null) {
             response.sendError(404);
         }
-      
+
         // get value form
         //  double price = Double.parseDouble((String)request.getParameter("price"));
         String fullname = request.getParameter("fullname");
@@ -106,7 +107,7 @@ public class UpdateUserController extends HttpServlet {
         String imageSave = user.getAvatar();
         // xu ly image
         Part part = request.getPart("imageNews");
-        if (part.getSize()>0) {
+        if (part.getSize() > 0) {
             // path folder chua anh
             String folderSaveFile = "/images";
             String pathUpload = request.getServletContext().getRealPath(folderSaveFile);
@@ -118,25 +119,25 @@ public class UpdateUserController extends HttpServlet {
             }
             System.out.println(pathUpload);
             part.write(pathUpload + "/" + fileName);//
-            
+
             //.io.FileNotFoundException: 
             //E:\New Folder (2)\MyPetShop\target\MyPetShop-1.0-SNAPSHOT\images (Access is denied)
             imageSave = folderSaveFile + "/" + fileName;
         }
 
-        
         int uerID = Integer.parseInt(id);
-        if (fullname != null && phone != null&& password!=null) {
+        if (fullname != null && phone != null && password != null) {
             int result = us.updateUsers(fullname, password, phone, imageSave, uerID);
             if (result > 0) {
-            //   sesstion.setAttribute("name", name);
-                    response.sendRedirect("./views/test.jsp");    }  // chỗ này đổi lun nha đồng chí :)))
+                //   sesstion.setAttribute("name", name);
+                response.sendRedirect("./views/test.jsp");
+            }  // chỗ này đổi lun nha đồng chí :)))
 
-    //        response.sendRedirect("./NewController");  // Hello ban oi đổi đường dẫn ở đây nha (I'm Hiển)
-                return;
-            }
+            //        response.sendRedirect("./NewController");  // Hello ban oi đổi đường dẫn ở đây nha (I'm Hiển)
+            return;
         }
-    
+    }
+
 // Khuc nay se dua ra trang home.jsp nha 
     //  response.sendRedirect("./home"); 
     /**
