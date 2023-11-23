@@ -7,6 +7,10 @@
 <%@page import="java.util.List"%>
 <%
     String name = (String) session.getAttribute("name");
+    String report = (String) request.getAttribute("report");
+    if(report==null){
+    report="...";
+    }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -184,19 +188,45 @@
                     <label for="hinhAnh">Hình ảnh sản phẩm</label>
                     <input type="file" class="form-control-file" id="hinhAnh" name="image">
                 </div>
+                
+                 <div class="form-group">
+                    <label  for="status">STATUS</label>
+                    <select name="status" class="form-control" id="status">
+                        <option value="Active">Active</option>
+                        <option value="Sold out">Sold out</option>
+
+                    </select>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Tạo sản phẩm</button>
             </form>
+                        <h1 >Trạng thái: <span style="color:red"> <%= report%></span></h1>
         </div>
 
+ <button onclick="CalTotal()">Calculate Total</button>
+
+    <script>
+        function CalTotal() {
+            let sizeCode = "", menuListOrder = document.querySelectorAll('.menu-list')[0],
+                checkedItems = menuListOrder.querySelectorAll('input[type="checkbox"]:checked');
+
+            checkedItems.forEach(item => {
+                sizeCode += item.value;
+            });
+
+            if (sizeCode.length > 0) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('Post', 'create?sizeCode=' + sizeCode, true);
+                xhr.send();
+
+                // ... Rest of your code to update UI or perform other actions
+            } else {
+                alert('Please select at least one size.');
+            }
+        }
+    </script>
 
 
-        <!-- Footer -->
-        <!-- Footer -->
-        <footer class="bg-dark text-white p-3" style="position: fixed; bottom: 0; width: 100%;">
-            <div class="container">
-                <p class="text-center">© 2023 Website của bạn. Tất cả quyền được bảo lưu.</p>
-            </div>
-        </footer>
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
