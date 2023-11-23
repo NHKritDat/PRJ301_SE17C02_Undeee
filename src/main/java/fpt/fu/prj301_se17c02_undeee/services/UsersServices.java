@@ -78,10 +78,10 @@ public class UsersServices extends DBConnect {
     public Users checkLogin(String email, String password) {
         try {
             sql = "Select * from Users where email = ? and password = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, email);
-            stm.setString(2, password);
-            rs = stm.executeQuery();
+            pst = connection.prepareStatement(sql);
+            pst.setString(1, email);
+            pst.setString(2, password);
+            rs = pst.executeQuery();
             if (rs.next()) {
                 int id = rs.getInt("id");
                 String fullname = rs.getString("fullname");
@@ -129,14 +129,12 @@ public class UsersServices extends DBConnect {
     public Users getUserbyID(String id) {
         String query = "SELECT* FROM Users where id =?";
         PreparedStatement preparestatement;
-        Users user = null;
-
         try {
             preparestatement = connection.prepareStatement(query);
             preparestatement.setString(1, id);
             ResultSet res = preparestatement.executeQuery();
             while (res.next()) {
-                user = new Users();
+                Users user = new Users();
                 user.setId(res.getInt(1));
                 user.setEmail(res.getString(2));
                 user.setPassword(res.getString(3));

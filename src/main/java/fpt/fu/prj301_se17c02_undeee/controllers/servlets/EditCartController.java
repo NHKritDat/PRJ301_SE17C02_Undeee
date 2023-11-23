@@ -38,7 +38,7 @@ public class EditCartController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditCartController</title>");            
+            out.println("<title>Servlet EditCartController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet EditCartController at " + request.getContextPath() + "</h1>");
@@ -64,13 +64,13 @@ public class EditCartController extends HttpServlet {
         if (cart == null) {
             cart = new Cart();
         }
-        
+
         int total_quantity = 0;
         for (OrderDetails orderDetails : cart.getAll()) {
             total_quantity += orderDetails.getQuantity();
         }
         request.setAttribute("total_quantity", total_quantity);
-        
+
         RequestDispatcher rd = request.getRequestDispatcher("/views/viewCartJsp.jsp");
         rd.forward(request, response);
     }
@@ -95,7 +95,7 @@ public class EditCartController extends HttpServlet {
         Cart cart = (Cart) session.getAttribute("CART");
         OrderDetails ods = cart.getByKey(key);
         int fix;
-        
+
         switch (status) {
             case "up":
                 fix = ods.getQuantity() + 1;
@@ -106,7 +106,11 @@ public class EditCartController extends HttpServlet {
             case "down":
                 fix = ods.getQuantity() - 1;
                 ods.setQuantity(fix);
-                cart.update(key, ods);
+                if (ods.getQuantity() == 0) {
+                    cart.remove(key);
+                } else {
+                    cart.update(key, ods);
+                }
                 session.setAttribute("CART", cart);
                 break;
             case "remove":
@@ -118,13 +122,13 @@ public class EditCartController extends HttpServlet {
                 session.setAttribute("CART", cart);
                 break;
         }
-        
+
         int total_quantity = 0;
         for (OrderDetails orderDetails : cart.getAll()) {
             total_quantity += orderDetails.getQuantity();
         }
         request.setAttribute("total_quantity", total_quantity);
-        
+
         RequestDispatcher rd = request.getRequestDispatcher("/views/viewCartJsp.jsp");
         rd.forward(request, response);
     }

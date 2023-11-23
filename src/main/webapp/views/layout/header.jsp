@@ -9,6 +9,11 @@
 <%
     session = request.getSession();
     Users u = (Users) session.getAttribute("user_loged");
+    Object total_quantity_String = request.getAttribute("total_quantity");
+    int total_quantity = 0;
+    if (total_quantity_String != null) {
+        total_quantity = Integer.parseInt(total_quantity_String.toString());
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -22,33 +27,43 @@
 
         <nav class="navbar navbar-expand-lg " style="background-color: aqua">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <a class="navbar-brand" href="./">
+                    <img src="views/layout/logo.jpg" alt="Logo" width="40" height="40" style="border-radius: 50px">
+                    Ún đeee
+                </a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <%
+                            if (u != null) {
+                                if (u.getRole() == 1) {
+                        %>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
+                            <a class="nav-link active" aria-current="page" href="./AddToCartController">View products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                            <a class="nav-link" href="./EditCartController">Cart</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" aria-disabled="true"><%= total_quantity%></a>
+                        </li>
+                        <%
+                        } else {
+                        %>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./admin-page">Admin Page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./view">View products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./view-orders">View orders</a>
+                        </li>
+                        <%
+                                }
+                            }
+                        %>
                     </ul>
+
                     <%
                         if (u == null) {
                     %>
@@ -58,9 +73,15 @@
                     <%
                     } else {
                     %>
-                    <button>
-                        <a class="nav-link active" aria-current="page" href="./updateUser"><%= u.getFullname()%></a>
-                    </button>
+                    <li class="nav-item dropdown" style="list-style-type: none">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <%= u.getFullname()%>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="./updateUser">View profile</a></li>
+                            <li><a class="dropdown-item" href="./logout">Logout</a></li>
+                        </ul>
+                    </li>
                     <%
                         }
                     %>

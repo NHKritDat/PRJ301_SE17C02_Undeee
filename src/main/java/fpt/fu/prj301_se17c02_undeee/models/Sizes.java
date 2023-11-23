@@ -15,14 +15,14 @@ public class Sizes {
     private int size_id;
     private int product_id;
     private String name;
-    private double price;
+    private double percent;
     private Date create_at;
 
-    public Sizes(int size_id, int product_id, String name, double price, Date create_at) {
+    public Sizes(int size_id, int product_id, String name, double percent, Date create_at) {
         this.size_id = size_id;
         this.product_id = product_id;
         this.name = name;
-        this.price = price;
+        this.percent = percent;
         this.create_at = create_at;
     }
 
@@ -53,12 +53,12 @@ public class Sizes {
         this.name = name;
     }
 
-    public double getPrice() {
-        return price;
+    public double getPercent() {
+        return percent;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPercent(double percent) {
+        this.percent = percent;
     }
 
     public Date getCreate_at() {
@@ -71,7 +71,7 @@ public class Sizes {
 
     @Override
     public String toString() {
-        return "Sizes{" + "size_id=" + size_id + ", product_id=" + product_id + ", price=" + price + ", create_at=" + create_at + '}';
+        return "Sizes{" + "size_id=" + size_id + ", product_id=" + product_id + ", percent=" + percent + ", create_at=" + create_at + '}';
     }
 
 }
