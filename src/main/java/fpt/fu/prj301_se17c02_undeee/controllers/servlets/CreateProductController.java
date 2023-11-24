@@ -88,18 +88,24 @@ public class CreateProductController extends HttpServlet {
             throws ServletException, IOException {
         String name = request.getParameter("name");
         String price = request.getParameter("price");
-        double priceSave = 0;
-        if (price != null) {
-            priceSave = Double.parseDouble(price);
-        }
-        String categoryID = request.getParameter("category");
-        int categoryIDSave = 0;
-        if (categoryID != null) {
-            categoryIDSave = Integer.parseInt(categoryID);
-        }
-        String status = "Active";
+        String size = request.getParameter("sizeCode");
 
+        String categoryID = request.getParameter("category");
+
+        String status = request.getParameter("status");
         Part part = request.getPart("image");
+
+        if (name == null || price == null || categoryID == null || status == null
+                || name.isEmpty() || price.isEmpty() || categoryID.isEmpty() || status.isEmpty()||part.getSize()==0){
+            ProductsServices ps = new ProductsServices();
+
+            List<Categories> categoryList = ps.getCategories();
+            request.setAttribute("categoryList", categoryList);
+            request.setAttribute("report", "thêm sản phẩm thât bại");
+            RequestDispatcher rd = request.getRequestDispatcher("/views/create_product.jsp");
+            rd.forward(request, response);
+        }
+
         String folderSaveFile = "/views/Drinks";
         String pathUpload = request.getServletContext().getRealPath(folderSaveFile);
         String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
@@ -108,7 +114,15 @@ public class CreateProductController extends HttpServlet {
             Files.createDirectories(Paths.get(pathUpload));
         }
         part.write(pathUpload + "/" + fileName);
+        double priceSave = 0;
+        if (price != null) {
+            priceSave = Double.parseDouble(price);
+        }
 
+        int categoryIDSave = 0;
+        if (categoryID != null) {
+            categoryIDSave = Integer.parseInt(categoryID);
+        }
         if (name != null && price != null && categoryID != null && status != null) {
             ProductsServices productService = new ProductsServices();
             String imageSave = fileName;

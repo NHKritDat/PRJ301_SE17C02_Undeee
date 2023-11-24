@@ -8,7 +8,7 @@
 <%@page import="java.util.List"%>
 
 <%
-    String name = (String) session.getAttribute("name");
+    String name = (String) session.getAttribute("user-loged");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -33,27 +33,36 @@
                         <a class="nav-link" href="view">Sản phẩm <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="add">Tạo mới sản phẩm</a>
+                        <a class="nav-link" href="create">Tạo mới sản phẩm</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="login">Đăng xuất</a>
+                        <a class="nav-link" href="logout">Đăng xuất</a>
                     </li>
                     <li>
                         <div style="margin: 0 !important;" class="form-group">
-                            <label for="loaiSanPham">Categories</label>
                             <select class="form-control" id="loaiSanPham" name="category">
+                                 <option value="0"%>">Categories</option>
                                 <%
                                     List<Categories> categoryList = (List<Categories>) request.getAttribute("categoryList");
                                     for (int i = 0; i < categoryList.size(); i++) {
                                         Categories category = categoryList.get(i);
                                 %>
-                                <option value="<%= category.getCategory_id()%>"><%= category.getName()%></option>
+                                  <option value="<%= category.getCategory_id()%>"><%= category.getName()%></option>
                                 <%
                                     }
                                 %>     
                             </select>
                         </div>
                     </li>
+                    
+                    <li>     <div class="form-group">
+                    <select name="status" class="form-control" id="status">
+                        <option value="">STATUS</option>
+                        <option value="Active">Active</option>
+                        <option value="Sold out">Sold out</option>
+
+                    </select>
+                </div></li>
                 </ul>
             </div>
             <div class="ml-auto">
@@ -78,6 +87,7 @@
             <div class="row">
                 <%
                     List<Products> productList = (List<Products>) request.getAttribute("list");
+                  
                     for (int i = 0; i < productList.size(); i++) {
                         Products product = productList.get(i);
                 %>
@@ -93,12 +103,12 @@
                         <div class="card-footer">
                             <button style="background-color: red"><a href="delete?id=<%= product.getId()%>" class="btn" role="button">Delete</a></button>
                             <button style="background-color: yellow"><a href="UpdateProductController?id=<%= product.getId()%>" class="btn" role="button">Update</a></button>
-                            
+
                         </div>
                     </div>
                 </div>
                 <%
-                    } 
+                    }
                 %>         
             </div>
         </div>
@@ -144,8 +154,36 @@
 </script>
 
 
+<--<!-- Search Category -->
+<script>
+    document.getElementById('loaiSanPham').addEventListener('change', function() {
+    const categoryId = document.getElementById('loaiSanPham').value;
+    const searchForm = document.getElementById('searchForm');
+
+    // Update the search form action URL to include the selected category ID
+    searchForm.action = "view?searchCategory=" + categoryId;
+
+    // Submit the search form to trigger the servlet processing
+    searchForm.submit();
+});
+
+</script>
 
 
+<--<!-- Search Status -->
+<script>
+    document.getElementById('status').addEventListener('change', function() {
+    const status = document.getElementById('status').value;
+    const searchForm = document.getElementById('searchForm');
+
+    // Update the search form action URL to include the selected category ID
+    searchForm.action = "view?searchKeyword=" + status;
+
+    // Submit the search form to trigger the servlet processing
+    searchForm.submit();
+});
+
+</script>
 
 
 
