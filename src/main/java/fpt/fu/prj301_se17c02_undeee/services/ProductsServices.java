@@ -25,14 +25,15 @@ public class ProductsServices extends DBConnect {
     private String sql = "";
 
     public SizeProducts getSizeProductById(int product_id, int size_id) {
-        SizeProducts sp = new SizeProducts();
-        sql = "Select p.name, p.image, s.name, s.percent, p.price from Products p left join Sizes s on p.id = s.product_id where p.id = ? and s.id = ?";
+        SizeProducts sp = null;
+        sql = "Select p.name, p.image, s.name, s.percent, p.price from Products p left join Sizes s on p.category_id = s.category_id where p.id = ? and s.id = ?";
         try {
             pst = connection.prepareStatement(sql);
             pst.setInt(1, product_id);
             pst.setInt(2, size_id);
             rs = pst.executeQuery();
             while (rs.next()) {
+                sp = new SizeProducts();
                 sp.setProduct_id(product_id);
                 sp.setSize_id(size_id);
                 sp.setProduct_name(rs.getString(1));
@@ -49,7 +50,7 @@ public class ProductsServices extends DBConnect {
 
     public List<SizeProducts> getSizeProductById(int product_id) {
         List<SizeProducts> list = new ArrayList<>();
-        sql = "Select p.id, s.id, p.name, p.image, s.name, s.percent, p.price from Products p left join Sizes s on p.id = s.product_id where p.id = ?";
+        sql = "Select p.name, p.image, p.price, s.id, s.name, s.percent from Products p left join Sizes s on p.category_id = s.category_id where p.id = ?";
         try {
             pst = connection.prepareStatement(sql);
             pst.setInt(1, product_id);
@@ -57,12 +58,12 @@ public class ProductsServices extends DBConnect {
             while (rs.next()) {
                 SizeProducts sp = new SizeProducts();
                 sp.setProduct_id(product_id);
-                sp.setSize_id(rs.getInt(2));
-                sp.setProduct_name(rs.getString(3));
-                sp.setImage(rs.getString(4));
+                sp.setProduct_name(rs.getString(1));
+                sp.setImage(rs.getString(2));
+                sp.setPrice(rs.getDouble(3));
+                sp.setSize_id(rs.getInt(4));
                 sp.setSize_name(rs.getString(5));
                 sp.setPercent(rs.getDouble(6));
-                sp.setPrice(rs.getDouble(7));
                 list.add(sp);
             }
         } catch (SQLException e) {

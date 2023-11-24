@@ -70,11 +70,6 @@ public class AddToCartController extends HttpServlet {
             cart = new Cart();
         }
 
-        int total_quantity = 0;
-        for (OrderDetails orderDetails : cart.getAll()) {
-            total_quantity += orderDetails.getQuantity();
-        }
-        request.setAttribute("total_quantity", total_quantity);
         request.setAttribute("list", list);
 
         RequestDispatcher rd = request.getRequestDispatcher("/views/viewProductDetailForCustomerJsp.jsp");
@@ -99,7 +94,6 @@ public class AddToCartController extends HttpServlet {
         int product_id = Integer.parseInt(product_id_string);
         int size_id = Integer.parseInt(size_id_string);
         int quantity = Integer.parseInt(quantity_string);
-        int total_quantity = 0;
 
         if (quantity != 0) {
             OrderDetails ods = new OrderDetails();
@@ -114,14 +108,8 @@ public class AddToCartController extends HttpServlet {
             }
             cart.add(ods);
             session.setAttribute("CART", cart);
-
-            for (OrderDetails orderDetails : cart.getAll()) {
-                total_quantity += orderDetails.getQuantity();
-            }
-
         }
 
-        request.setAttribute("total_quantity", total_quantity);
         ProductsServices ps = new ProductsServices();
         List<Products> list = ps.getAllProducts();
         request.setAttribute("list", list);

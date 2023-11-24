@@ -59,18 +59,6 @@ public class EditCartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Cart cart = (Cart) session.getAttribute("CART");
-        if (cart == null) {
-            cart = new Cart();
-        }
-
-        int total_quantity = 0;
-        for (OrderDetails orderDetails : cart.getAll()) {
-            total_quantity += orderDetails.getQuantity();
-        }
-        request.setAttribute("total_quantity", total_quantity);
-
         RequestDispatcher rd = request.getRequestDispatcher("/views/viewCartJsp.jsp");
         rd.forward(request, response);
     }
@@ -122,12 +110,6 @@ public class EditCartController extends HttpServlet {
                 session.setAttribute("CART", cart);
                 break;
         }
-
-        int total_quantity = 0;
-        for (OrderDetails orderDetails : cart.getAll()) {
-            total_quantity += orderDetails.getQuantity();
-        }
-        request.setAttribute("total_quantity", total_quantity);
 
         RequestDispatcher rd = request.getRequestDispatcher("/views/viewCartJsp.jsp");
         rd.forward(request, response);

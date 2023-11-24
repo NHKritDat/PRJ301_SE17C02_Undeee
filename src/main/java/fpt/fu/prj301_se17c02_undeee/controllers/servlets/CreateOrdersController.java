@@ -63,7 +63,7 @@ public class CreateOrdersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.sendRedirect("./AddToCartController");
     }
 
     /**
@@ -77,6 +77,7 @@ public class CreateOrdersController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String address = request.getParameter("address");
         String total_price_String = request.getParameter("total_price");
         double total_price = 0;
@@ -90,9 +91,13 @@ public class CreateOrdersController extends HttpServlet {
         Users u = (Users) session.getAttribute("user_loged");
 
         UsersServices us = new UsersServices();
-        Addresses ad = us.getAddressByUserId(u.getId(), address);
+        if (address.equals("other")) {
+            address = request.getParameter("otherAddress");
+        }
+        Addresses ad = us.getAddress(u.getId(), address);
         if (ad.getAddress_detail() == null) {
             us.insertAddress(u.getId(), address);
+            ad = us.getAddress(u.getId(), address);
         }
 
         OrdersServices os = new OrdersServices();
@@ -102,8 +107,6 @@ public class CreateOrdersController extends HttpServlet {
         }
         cart = new Cart();
         session.setAttribute("CART", cart);
-        int total_quantity = 0;
-        request.setAttribute("total_quantity", total_quantity);
 
         RequestDispatcher rd = request.getRequestDispatcher("/views/viewOrderSuccess.jsp");
         rd.forward(request, response);

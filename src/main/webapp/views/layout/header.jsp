@@ -4,15 +4,20 @@
     Author     : Admin
 --%>
 
+<%@page import="fpt.fu.prj301_se17c02_undeee.models.OrderDetails"%>
+<%@page import="fpt.fu.prj301_se17c02_undeee.models.Cart"%>
 <%@page import="fpt.fu.prj301_se17c02_undeee.models.Users"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     session = request.getSession();
     Users u = (Users) session.getAttribute("user_loged");
-    Object total_quantity_String = request.getAttribute("total_quantity");
+    Cart cart = (Cart) session.getAttribute("CART");
+    if (cart == null) {
+        cart = new Cart();
+    }
     int total_quantity = 0;
-    if (total_quantity_String != null) {
-        total_quantity = Integer.parseInt(total_quantity_String.toString());
+    for (OrderDetails od : cart.getAll()) {
+        total_quantity += od.getQuantity();
     }
 %>
 <!DOCTYPE html>

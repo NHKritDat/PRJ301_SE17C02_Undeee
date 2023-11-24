@@ -91,7 +91,7 @@ public class LoginController extends HttpServlet {
             if (role == 2) {
                 response.sendRedirect("./admin-page");
             } else {
-                response.sendRedirect("./AddToCartController");//thay đường dẫn đến customer page
+                response.sendRedirect("./AddToCartController");
             }
         } else {
             response.sendRedirect("./login");

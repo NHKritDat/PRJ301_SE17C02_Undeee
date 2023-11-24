@@ -23,27 +23,25 @@ public class UsersServices extends DBConnect {
     private PreparedStatement pst = null;
     private ResultSet rs = null;
     private String sql = "";
-
-    public Addresses getFirstAddressByUserId(int user_id) {
-        Addresses ad = new Addresses();
-        sql = "Select * from Addresses where user_id = 5 limit 1";
+    
+    public List<Addresses> getAddresses(int user_id) {
+        List<Addresses> list = new ArrayList<>();
+        sql = "select * from Addresses where user_id = ?";
         try {
             pst = connection.prepareStatement(sql);
-//            pst.setInt(1, user_id);
+            pst.setInt(1, user_id);
             rs = pst.executeQuery();
             while (rs.next()) {
-                ad.setId(rs.getInt(1));
-                ad.setUser_id(rs.getInt(2));
-                ad.setAddress_detail(rs.getString(3));
-                ad.setCreated_at(rs.getDate(4));
+                Addresses a = new Addresses(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4));
+                list.add(a);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return ad;
+        return list;
     }
 
-    public Addresses getAddressByUserId(int user_id, String address) {
+    public Addresses getAddress(int user_id, String address) {
         Addresses ad = new Addresses();
         sql = "select * from Addresses where user_id = ? and address_detail = ?";
         try {
