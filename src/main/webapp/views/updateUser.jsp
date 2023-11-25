@@ -75,7 +75,7 @@
                 <input class="form-control" type="file" id="imageInput" name="imageNews" />
             </div>
             <div class="information">
-                <form action="./updateUser?id=<%= news.getId()%>" method="POST" enctype="multipart/form-data">
+                <form action="./updateUser?id=<%= news.getId()%>" method="GET" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="fullname" class="form-label">New Name</label>
                         <input type="text" value="<%= news.getFullname()%>" name="fullname" class="form-control"  placeholder="Enter new fullname">

@@ -91,7 +91,7 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("user_loged", user);
                 response.sendRedirect("./admin-page");
             } else {
-                response.sendRedirect("./view");//thay đường dẫn đến customer page
+                response.sendRedirect("./AddToCartController");//thay đường dẫn đến customer page
             }
         } else {
             response.sendRedirect("./login");
