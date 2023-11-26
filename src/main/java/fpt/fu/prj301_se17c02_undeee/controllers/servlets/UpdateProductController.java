@@ -70,10 +70,12 @@ public class UpdateProductController extends HttpServlet {
         String id = (String) request.getParameter("id");
         ProductsServices ps = new ProductsServices();
         Products product = ps.getProductById(id);
+        String sizeCode = ps.getSizes(id);
         if (product != null) {
             List<Categories> categoryList = ps.getCategories();
             request.setAttribute("categoryList", categoryList);
             request.setAttribute("product", product);
+            request.setAttribute("size-code", sizeCode);
             RequestDispatcher rd = request.getRequestDispatcher("/views/update_product.jsp");
             rd.forward(request, response);
 
@@ -102,6 +104,7 @@ public class UpdateProductController extends HttpServlet {
     private String status;
          */
         //validate news update
+          request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
 
         ProductsServices ps = new ProductsServices();
