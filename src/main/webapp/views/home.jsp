@@ -27,24 +27,24 @@
         <style>
             .card{
                 margin-bottom: 60px !important;
-                
+
             }
             .center{
                 text-align: center !important;
             }
-             
+
             .blue{
                 color: #006bff
             }
             .footer-bottom{
                 background-color: black;
-                
+
                 color: white;
                 font-size: 20px;
                 font-weight: 500;
             }
             .footer-main{
-                display: flex; 
+                display: flex;
                 justify-content: space-between
             }
         </style>
@@ -57,25 +57,25 @@
                 <img src="views/layout/logo.jpg" alt="Logo" width="40" height="40" style="border-radius: 50px">
                 Ún đeee
             </a>
-         
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                       <li class="nav-item">
-                        <a class="nav-link" href="home">Trang chủ</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Trang chủ</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="view">Sản phẩm <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="AddToCartController">Sản phẩm <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Về chúng tôi</a>
                     </li>
-                     <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="#">Tuyển dụng</a>
                     </li>
-                     <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="#">Nhượng quyền</a>
                     </li>
                 </ul>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </form>
-      
+
         </nav>
 
         <!-- Danh sách sản phẩm dạng card -->
@@ -97,8 +97,8 @@
 
             <div class="center blue">  <h1 >Undeee menu</h1></div>
             <div  class="center"> <h2>Best Seller</h2></div>
-          
-           
+
+
 
 
             <div class="row">
@@ -129,7 +129,7 @@
             </div>
         </div>
 
-     
+
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>

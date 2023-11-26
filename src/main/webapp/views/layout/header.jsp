@@ -36,14 +36,15 @@
                     <img src="views/layout/logo.jpg" alt="Logo" width="40" height="40" style="border-radius: 50px">
                     Ún đeee
                 </a>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
                         <%
                             if (u != null) {
                                 if (u.getRole() == 1) {
                         %>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="./AddToCartController">View products</a>
+                            <a class="nav-link" href="./AddToCartController">View products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./EditCartController">Cart</a>
@@ -64,32 +65,49 @@
                             <a class="nav-link" href="./view-orders">View orders</a>
                         </li>
                         <%
-                                }
+                            }
+                        } else {
+                        %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./AddToCartController">View products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./EditCartController">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" aria-disabled="true"><%= total_quantity%></a>
+                        </li>
+                        <%
                             }
                         %>
                     </ul>
+                </div>
 
-                    <%
-                        if (u == null) {
-                    %>
-                    <button>
-                        <a class="nav-link active" aria-current="page" href="./login">Đăng nhập</a>
-                    </button>
-                    <%
-                    } else {
-                    %>
-                    <li class="nav-item dropdown" style="list-style-type: none">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <%= u.getFullname()%>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="./updateUser">View profile</a></li>
-                            <li><a class="dropdown-item" href="./logout">Logout</a></li>
-                        </ul>
-                    </li>
-                    <%
-                        }
-                    %>
+
+                <div class="mb-3">
+                    <div class="input-group-append">
+                        <%
+                            if (u == null) {
+                        %>
+                        <button>
+                            <a class="nav-link active" aria-current="page" href="./login">Đăng nhập</a>
+                        </button>
+                        <%
+                        } else {
+                        %>
+                        <li class="nav-item dropdown" style="list-style-type: none">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <%= u.getFullname()%>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="./updateUser">View profile</a></li>
+                                <li><a class="dropdown-item" href="./logout">Logout</a></li>
+                            </ul>
+                        </li>
+                        <%
+                            }
+                        %>
+                    </div>
                 </div>
             </div>
         </nav>
