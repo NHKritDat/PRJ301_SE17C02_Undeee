@@ -4,9 +4,10 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.services.RegisterServices;
+import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -58,7 +59,8 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/register.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -78,10 +80,10 @@ public class RegisterController extends HttpServlet {
         String phone = request.getParameter("txtPhone");
         String password = request.getParameter("txtPassword");
 
-        RegisterServices sv = new RegisterServices();
+        UsersServices sv = new UsersServices();
         boolean result = sv.registerAccount(email, fullname, phone, password);
         if (result) {
-            response.sendRedirect("/views/login.jsp");
+            response.sendRedirect("./login");
         }
     }
 

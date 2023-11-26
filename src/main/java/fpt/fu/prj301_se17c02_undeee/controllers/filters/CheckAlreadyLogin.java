@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebFilter(urlPatterns = {"/"}) //Thêm trang filter này cần kiểm tra trước khi cho phép vào trang. Ví dụ: "/Login"
+@WebFilter(urlPatterns = {"/login"})
 public class CheckAlreadyLogin implements Filter {
 
     @Override
@@ -35,14 +35,18 @@ public class CheckAlreadyLogin implements Filter {
         HttpSession session = req.getSession();
 
         Users u = new Users();
-        Object status = session.getAttribute("");
+        Object status = session.getAttribute("user_loged");
         if (status != null) {
             u = (Users) status;
         }
         if (u.getEmail() != null) {
-            res.sendRedirect("./"); //Thêm trang sẽ được điều hướng đến
+            if (u.getRole() == 1) {
+                res.sendRedirect("./AddToCartController");
+            } else {
+                res.sendRedirect("./admin-page");
+            }
         } else {
-            chain.doFilter(request, response); //Tiếp tục đi vào trang mà filter này đang kiểm tra
+            chain.doFilter(request, response);
         }
     }
 

@@ -4,12 +4,13 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
+import fpt.fu.prj301_se17c02_undeee.models.Categories;
 import fpt.fu.prj301_se17c02_undeee.models.Products;
-import fpt.fu.prj301_se17c02_undeee.services.ViewProductsServices;
+import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,9 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Phong
+ * @author Hp
  */
-@WebServlet(name = "ViewProductsController", urlPatterns = {"/viewProducts"})
+@WebServlet(name = "ViewProductsController", urlPatterns = {"/view"})
 public class ViewProductsController extends HttpServlet {
 
     /**
@@ -61,7 +62,13 @@ public class ViewProductsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        ProductsServices ps = new ProductsServices();
+        List<Products> list = ps.getAllProducts();
+        List<Categories> categoryList = ps.getCategories();
+        request.setAttribute("categoryList", categoryList);
+        request.setAttribute("list", list);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -75,14 +82,14 @@ public class ViewProductsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        ViewProductsServices vp = new ViewProductsServices();
-        List<Products> result = new ArrayList<>();
-        result = vp.getProducts();
-        request.setAttribute("PRODUCTS", result);
-        if (result != null) {
-            response.sendRedirect("");
-        }
+        ProductsServices ps = new ProductsServices();
+        String search = (String) request.getParameter("searchKeyword");
+        List<Products> list = ps.searchProducts(search);
+        request.setAttribute("list", list);
+        List<Categories> categoryList = ps.getCategories();
+        request.setAttribute("categoryList", categoryList);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
+        rd.forward(request, response);
     }
 
     /**

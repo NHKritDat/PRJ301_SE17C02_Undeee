@@ -13,14 +13,16 @@ import java.util.Date;
 public class Sizes {
 
     private int size_id;
-    private int product_id;
-    private double price;
+    private int category_id;
+    private String name;
+    private double percent;
     private Date create_at;
 
-    public Sizes(int size_id, int product_id, double price, Date create_at) {
+    public Sizes(int size_id, int category_id, String name, double percent, Date create_at) {
         this.size_id = size_id;
-        this.product_id = product_id;
-        this.price = price;
+        this.category_id = category_id;
+        this.name = name;
+        this.percent = percent;
         this.create_at = create_at;
     }
 
@@ -35,20 +37,28 @@ public class Sizes {
         this.size_id = size_id;
     }
 
-    public int getProduct_id() {
-        return product_id;
+    public int getCategory_id() {
+        return category_id;
     }
 
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
     }
 
-    public double getPrice() {
-        return price;
+    public String getName() {
+        return name;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
     }
 
     public Date getCreate_at() {
@@ -61,7 +71,7 @@ public class Sizes {
 
     @Override
     public String toString() {
-        return "Sizes{" + "size_id=" + size_id + ", product_id=" + product_id + ", price=" + price + ", create_at=" + create_at + '}';
+        return "Sizes{" + "size_id=" + size_id + ", category_id=" + category_id + ", percent=" + percent + ", create_at=" + create_at + '}';
     }
 
 }

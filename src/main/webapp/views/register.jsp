@@ -5,13 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Register</title>
-    </head>
-    <body>
+<%@include file="layout/header.jsp" %>
     <center>
         <div>
             <form action="RegisterController" method="POST">
@@ -26,5 +20,4 @@
             </form>
         </div>
     </center>
-</body>
-</html>
+<%@include file="layout/footer.jsp" %>

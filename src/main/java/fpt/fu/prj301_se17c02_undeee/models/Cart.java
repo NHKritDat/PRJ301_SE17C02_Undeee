@@ -4,7 +4,9 @@
  */
 package fpt.fu.prj301_se17c02_undeee.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,14 +48,31 @@ public class Cart {
         }
     }
 
-    public void update(String key, OrderDetails ods) {
-        String newKey = String.valueOf(ods.getProduct_id()) + "_" + String.valueOf(ods.getSize_id());
+    public void update(String newKey, OrderDetails ods) {
+        String key = ods.getProduct_id() + "_" + ods.getSize_id();
         if (!key.equals(newKey)) {
             remove(key);
+            String size_id = newKey.split("_")[1];
+            ods.setSize_id(Integer.parseInt(size_id));
             add(ods);
         } else {
             cart.replace(key, ods);
         }
     }
 
+    public List<OrderDetails> getAll() {
+        List<OrderDetails> list = new ArrayList<>();
+        for (Map.Entry<String, OrderDetails> entry : cart.entrySet()) {
+            list.add(entry.getValue());
+        }
+        return list;
+    }
+
+    public int getSize() {
+        return cart.size();
+    }
+
+    public OrderDetails getByKey(String key) {
+        return cart.get(key);
+    }
 }

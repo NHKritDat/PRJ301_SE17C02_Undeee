@@ -14,6 +14,7 @@ public class Orders {
 
     private int id;
     private int user_id;
+    private int address_id;
     private double total_price;
     private String status;
     private Date created_at;
@@ -21,9 +22,10 @@ public class Orders {
     public Orders() {
     }
 
-    public Orders(int id, int user_id, double total_price, String status, Date created_at) {
+    public Orders(int id, int user_id, int address_id,double total_price, String status, Date created_at) {
         this.id = id;
         this.user_id = user_id;
+        this.address_id = address_id;
         this.total_price = total_price;
         this.status = status;
         this.created_at = created_at;
@@ -43,6 +45,14 @@ public class Orders {
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
+    }
+
+    public int getAddress_id() {
+        return address_id;
+    }
+
+    public void setAddress_id(int address_id) {
+        this.address_id = address_id;
     }
 
     public double getTotal_price() {
