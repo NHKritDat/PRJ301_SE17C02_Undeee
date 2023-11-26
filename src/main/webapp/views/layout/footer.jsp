@@ -5,15 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<<<<<<< Updated upstream
-<footer class="bg-dark text-white p-3" style="position: fixed;bottom: 0; width: 100%; z-index: 1;">
-    <div class="container">
-        <p class="text-center">© 2023 Website của bạn. Tất cả quyền được bảo lưu.</p>
-=======
 <footer >
     <div class="footer-wrap container " >
         <div class="footer-main col-md-12">
-
             <div class="footer-1 col-md-6">
                 <div class="col-md-3"><img style="width: 200px ; height: 200px" class="footer-logo img-responsive " src="views/layout/logo.jpg" /></div>
                 <div class="col-md-3">
@@ -44,8 +38,6 @@
                         <a target="_blank" href="https://zalo.me/2268915497539367639"><i class="fab fa-google-plus"></i></a>
                     </div>
                 </div>
-
-
             </div>
             <div class="footer-2 col-md-3">
                 <div class="footer-title">Về chúng tôi</div>
@@ -77,8 +69,8 @@
                 Copyrights © 2023 by Undeee. All rights reserved.
             </div>
         </div>
->>>>>>> Stashed changes
     </div>
+    <div class="footer-cover"></div>
 </footer>
 
 <script src="./assets/js/popupCard.js"></script>

@@ -64,14 +64,6 @@ public class AddToCartController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductsServices ps = new ProductsServices();
-<<<<<<< Updated upstream
-        List<Products> list = ps.getAllProducts();
-        HttpSession session = request.getSession();
-        Cart cart = (Cart) session.getAttribute("CART");
-        if (cart == null) {
-            cart = new Cart();
-        }
-=======
         List<Products> ProductList = ps.getAllProducts();
         List<Categories> CategoryList = ps.getCategories();
         
@@ -88,7 +80,6 @@ public class AddToCartController extends HttpServlet {
         
         request.setAttribute("CategoryList", CategoryList);
         request.setAttribute("ProductList", ProductList);
->>>>>>> Stashed changes
 
         RequestDispatcher rd = request.getRequestDispatcher("/views/CustomersViewProductsJSP.jsp");
         rd.forward(request, response);

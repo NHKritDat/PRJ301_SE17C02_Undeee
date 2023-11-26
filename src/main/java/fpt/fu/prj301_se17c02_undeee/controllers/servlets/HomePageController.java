@@ -2,12 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
+package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
-import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
+import fpt.fu.prj301_se17c02_undeee.models.Categories;
+import fpt.fu.prj301_se17c02_undeee.models.Products;
+import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,10 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author dell
+ * @author Hp
  */
-@WebServlet(name = "ViewOrdersController", urlPatterns = {"/c"})
-public class ViewOrdersController extends HttpServlet {
+@WebServlet(name = "HomePageController", urlPatterns = {"/home"})
+public class HomePageController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +42,10 @@ public class ViewOrdersController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewOrdersController</title>");
+            out.println("<title>Servlet HomePageController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewOrdersController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet HomePageController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,11 +63,13 @@ public class ViewOrdersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String search = request.getParameter("search");
-        OrdersServices orderService = new OrdersServices();
-        List<OrderDto> orders = orderService.getOrders(search);
-        request.setAttribute("orders", orders);
-        RequestDispatcher rd = request.getRequestDispatcher("/views/admin/viewOrders.jsp");
+        
+              ProductsServices ps = new ProductsServices();
+        List<Products> list = ps.getAllProducts();
+        List<Categories> categoryList = ps.getCategories();
+        request.setAttribute("categoryList", categoryList);
+        request.setAttribute("list", list);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/home.jsp");
         rd.forward(request, response);
     }
 
@@ -80,8 +84,20 @@ public class ViewOrdersController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-    }
+ ProductsServices ps = new ProductsServices();
+         List<Products> list = new ArrayList<>();
+        String search = (String) request.getParameter("searchKeyword");
+        String category = (String) request.getParameter("searchCategory");
+        if (category==null) {
+                   list = ps.searchProducts(search);
+        }else{
+             list= ps.searchProductsByCategory(category);
+        }
+        request.setAttribute("list", list);
+        List<Categories> categoryList = ps.getCategories();
+        request.setAttribute("categoryList", categoryList);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/home.jsp");
+        rd.forward(request, response);    }
 
     /**
      * Returns a short description of the servlet.

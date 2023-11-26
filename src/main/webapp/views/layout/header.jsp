@@ -37,14 +37,15 @@
                     <img src="views/layout/logo.jpg" alt="Logo" width="40" height="40" style="border-radius: 50px">
                     Ún đeee
                 </a>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
                         <%
                             if (u != null) {
                                 if (u.getRole() == 1) {
                         %>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="./AddToCartController">View products</a>
+                            <a class="nav-link" href="./AddToCartController">View products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./EditCartController">Cart</a>
@@ -68,12 +69,23 @@
                             <a class="nav-link" href="./view-orders">View orders</a>
                         </li>
                         <%
-                                }
+                            }
+                        } else {
+                        %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./AddToCartController">View products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./EditCartController">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" aria-disabled="true"><%= total_quantity%></a>
+                        </li>
+                        <%
                             }
                         %>
                     </ul>
-
-<<<<<<< Updated upstream
+                </div>
                     <%
                         if (u == null) {
                     %>
@@ -95,9 +107,6 @@
                     <%
                         }
                     %>
-=======
-
-                <div class="me">
                     <div class="input-group-append">
                         <%
                             if (u == null) {
@@ -121,7 +130,6 @@
                             }
                         %>
                     </div>
->>>>>>> Stashed changes
                 </div>
             </div>
         </nav>
