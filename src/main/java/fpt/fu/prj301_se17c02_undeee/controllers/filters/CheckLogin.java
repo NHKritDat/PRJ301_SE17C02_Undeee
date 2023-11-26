@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebFilter(urlPatterns = { "/admin-page"}) //Thêm đường dẫn
+@WebFilter(urlPatterns = {"/admin-page", "/EditCartController"}) //Thêm đường dẫn
 public class CheckLogin implements Filter {
 
     @Override
