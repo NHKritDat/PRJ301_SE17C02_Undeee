@@ -23,27 +23,25 @@ public class UsersServices extends DBConnect {
     private PreparedStatement pst = null;
     private ResultSet rs = null;
     private String sql = "";
-
-    public Addresses getFirstAddressByUserId(int user_id) {
-        Addresses ad = new Addresses();
-        sql = "Select * from Addresses where user_id = 5 limit 1";
+    
+    public List<Addresses> getAddresses(int user_id) {
+        List<Addresses> list = new ArrayList<>();
+        sql = "select * from Addresses where user_id = ?";
         try {
             pst = connection.prepareStatement(sql);
-//            pst.setInt(1, user_id);
+            pst.setInt(1, user_id);
             rs = pst.executeQuery();
             while (rs.next()) {
-                ad.setId(rs.getInt(1));
-                ad.setUser_id(rs.getInt(2));
-                ad.setAddress_detail(rs.getString(3));
-                ad.setCreated_at(rs.getDate(4));
+                Addresses a = new Addresses(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4));
+                list.add(a);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return ad;
+        return list;
     }
 
-    public Addresses getAddressByUserId(int user_id, String address) {
+    public Addresses getAddress(int user_id, String address) {
         Addresses ad = new Addresses();
         sql = "select * from Addresses where user_id = ? and address_detail = ?";
         try {
@@ -78,10 +76,10 @@ public class UsersServices extends DBConnect {
     public Users checkLogin(String email, String password) {
         try {
             sql = "Select * from Users where email = ? and password = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, email);
-            stm.setString(2, password);
-            rs = stm.executeQuery();
+            pst = connection.prepareStatement(sql);
+            pst.setString(1, email);
+            pst.setString(2, password);
+            rs = pst.executeQuery();
             if (rs.next()) {
                 int id = rs.getInt("id");
                 String fullname = rs.getString("fullname");
@@ -129,14 +127,12 @@ public class UsersServices extends DBConnect {
     public Users getUserbyID(String id) {
         String query = "SELECT* FROM Users where id =?";
         PreparedStatement preparestatement;
-        Users user = null;
-
         try {
             preparestatement = connection.prepareStatement(query);
             preparestatement.setString(1, id);
             ResultSet res = preparestatement.executeQuery();
             while (res.next()) {
-                user = new Users();
+                Users user = new Users();
                 user.setId(res.getInt(1));
                 user.setEmail(res.getString(2));
                 user.setPassword(res.getString(3));

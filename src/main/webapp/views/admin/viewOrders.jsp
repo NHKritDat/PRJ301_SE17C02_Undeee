@@ -10,13 +10,9 @@
 <%
     List<OrderDto> orders = (List<OrderDto>) request.getAttribute("orders");
 %>    
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Undeee</title>
-    </head>
-    <body>
+<%@include file="../layout/header.jsp" %>
+<div class="container">
+    <div class="row">
         <a href="view-orders"><h1>View Orders</h1></a>
         <h2>Order Lists</h2>
         <form action="view-orders">
@@ -25,7 +21,10 @@
                 <button type="submit">Search</button>
             </div>
         </form>
-        <table border="1">
+    </div>
+
+    <div class="row">
+        <table class="table table-striped-columns align-middle table-bordered">
             <thead>
                 <tr>
                     <th>Order ID</th>
@@ -36,7 +35,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-group-divider">
                 <% for (OrderDto orderDto : orders) {%>
                 <tr>
                     <td><%= orderDto.getOrder().getId()%></td>
@@ -62,5 +61,6 @@
                 <% }%>
             </tbody>
         </table>
-    </body>
-</html>
+    </div>
+</div>
+<%@include file="../layout/footer.jsp" %>
