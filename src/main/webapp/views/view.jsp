@@ -42,6 +42,10 @@
                         <div style="margin: 0 !important;" class="form-group">
                             <label for="loaiSanPham">Categories</label>
                             <select class="form-control" id="loaiSanPham" name="category">
+<<<<<<< Updated upstream
+=======
+                                <option value="0"%>Categories</option>
+>>>>>>> Stashed changes
                                 <%
                                     List<Categories> categoryList = (List<Categories>) request.getAttribute("categoryList");
                                     for (int i = 0; i < categoryList.size(); i++) {

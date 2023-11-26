@@ -5,6 +5,7 @@
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
 import fpt.fu.prj301_se17c02_undeee.models.Cart;
+import fpt.fu.prj301_se17c02_undeee.models.Categories;
 import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
 import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
@@ -63,16 +64,33 @@ public class AddToCartController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductsServices ps = new ProductsServices();
+<<<<<<< Updated upstream
         List<Products> list = ps.getAllProducts();
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("CART");
         if (cart == null) {
             cart = new Cart();
         }
+=======
+        List<Products> ProductList = ps.getAllProducts();
+        List<Categories> CategoryList = ps.getCategories();
+        
+        String search = request.getParameter("search");
+        String category = request.getParameter("category");
+        
+        if (search != null || category != null) {
+            if (category != null) {
+                ProductList = ps.searchProductsByCategory(category);
+            } else {
+                ProductList = ps.searchProducts(search);
+            }
+        }
+        
+        request.setAttribute("CategoryList", CategoryList);
+        request.setAttribute("ProductList", ProductList);
+>>>>>>> Stashed changes
 
-        request.setAttribute("list", list);
-
-        RequestDispatcher rd = request.getRequestDispatcher("/views/viewProductDetailForCustomerJsp.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/views/CustomersViewProductsJSP.jsp");
         rd.forward(request, response);
     }
 
@@ -110,12 +128,7 @@ public class AddToCartController extends HttpServlet {
             session.setAttribute("CART", cart);
         }
 
-        ProductsServices ps = new ProductsServices();
-        List<Products> list = ps.getAllProducts();
-        request.setAttribute("list", list);
-
-        RequestDispatcher rd = request.getRequestDispatcher("/views/viewProductDetailForCustomerJsp.jsp");
-        rd.forward(request, response);
+        doGet(request, response);
     }
 
     /**
