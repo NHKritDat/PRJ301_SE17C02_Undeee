@@ -9,7 +9,7 @@
 <%
     String name = (String) session.getAttribute("name");
     Products product = (Products) request.getAttribute("product");
-    String sizeCode = (String) request.getAttribute("size-code");
+   
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -158,30 +158,7 @@
                 </div>
 
                 --<!-- end category -->
-                <span id="sizeCode" value="<%=Integer.parseInt(sizeCode)%>"></span>
-                <div class="size">
-
-                    <div class="menu-list_header">
-                        <p class="menu-list_header-first">Sizes of product</p>
-                    </div>
-
-                    <div class="menu-list_content">
-                        <div class="menu-list_item">
-                            <div>
-                                <input type="checkbox" name="sizeS" value="S" >
-                                <label class="labelSize" for="small">Small</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="sizeM" value="M" >
-                                <label class="labelSize" for="medium">Medium</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="sizeL" value="L" >
-                                <label class="labelSize" for="large">Large</label>
-                            </div>
-                        </div>
-                    </div>                        
-                </div>
+             
 
                 <div class="form-group">
                     <label for="hinhAnh">Hình ảnh sản phẩm</label>
@@ -201,46 +178,6 @@
         </div>
 
 
-
-        <!-- Footer -->
-        <!-- Footer -->
-        <script>
-            // Assume that 'loadedSizes' is an array containing the sizes loaded from the database
-            var sizeCode = parseInt(document.getElementById("sizeCode").getAttribute("value"));
-
-            var loadedSizes;
-
-            if (sizeCode === 1) {
-                loadedSizes = ['S'];
-            } else if (sizeCode === 2) {
-                loadedSizes = ['M'];
-            } else if (sizeCode === 3) {
-                loadedSizes = ['L'];
-            } else if (sizeCode === 12) {
-                loadedSizes = ['S', 'M'];
-            } else if (sizeCode === 13) {
-                loadedSizes = ['S', 'L'];
-            } else if (sizeCode === 23) {
-                loadedSizes = ['M', 'L'];
-            } else if (sizeCode === 123) {
-                loadedSizes = ['S', 'M', 'L'];
-            } else {
-                // Default case or handle other values
-                loadedSizes = [];
-            }
-
-            // Replace this with your actual loaded sizes
-
-            // Loop through each checkbox and check if its value is in the 'loadedSizes' array
-            document.querySelectorAll('.menu-list_item input[type="checkbox"]').forEach(function (checkbox) {
-                var checkboxValue = checkbox.value;
-
-                // Check if the checkbox value is in the 'loadedSizes' array
-                if (loadedSizes.includes(checkboxValue)) {
-                    checkbox.checked = true;
-                }
-            });
-        </script>
 
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

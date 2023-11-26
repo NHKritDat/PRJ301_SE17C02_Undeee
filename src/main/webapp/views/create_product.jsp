@@ -160,29 +160,6 @@
 
                 --<!-- end category -->
 
-                <div class="size">
-
-                    <div class="menu-list_header">
-                        <p class="menu-list_header-first">Sizes of product</p>
-                    </div>
-
-                    <div class="menu-list_content">
-                        <div class="menu-list_item">
-                            <div>
-                                <input type="checkbox" name="size" value="S" >
-                                <label class="labelSize" for="small">Small</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="size" value="M" >
-                                <label class="labelSize" for="medium">Medium</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="size" value="L" >
-                                <label class="labelSize" for="large">Large</label>
-                            </div>
-                        </div>
-                    </div>                        
-                </div>
 
                 <div class="form-group">
                     <label for="hinhAnh">Hình ảnh sản phẩm</label>
@@ -205,26 +182,7 @@
 
  <button onclick="CalTotal()">Calculate Total</button>
 
-    <script>
-        function CalTotal() {
-            let sizeCode = "", menuListOrder = document.querySelectorAll('.menu-list')[0],
-                checkedItems = menuListOrder.querySelectorAll('input[type="checkbox"]:checked');
-
-            checkedItems.forEach(item => {
-                sizeCode += item.value;
-            });
-
-            if (sizeCode.length > 0) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('Post', 'create?sizeCode=' + sizeCode, true);
-                xhr.send();
-
-                // ... Rest of your code to update UI or perform other actions
-            } else {
-                alert('Please select at least one size.');
-            }
-        }
-    </script>
+  
 
 
 

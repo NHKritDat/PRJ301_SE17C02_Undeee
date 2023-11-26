@@ -128,9 +128,9 @@ public class ProductsServices extends DBConnect {
             while (res.next()) {
                 category = new Sizes();
                 category.setSize_id(res.getInt(1));
-                category.setProduct_id(res.getInt(2));
+                category.setCategory_id(res.getInt(2));
                 category.setName(res.getString(3));
-                category.setPrice(res.getDouble(4));
+                category.setPercent(res.getDouble(4));
                 category.setCreate_at(res.getDate(5));
                 list.add(category);
             }

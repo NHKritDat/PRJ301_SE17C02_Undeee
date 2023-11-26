@@ -5,6 +5,22 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
     </body>
+   
+     <script>
+        const imageElement = document.getElementById("clubs");
+        const imageSources = ["views/layout/Dong-gia-25k-slide-banner.png"
+            , "views/layout/Series-ly-1-lit-slide-banner.png",
+        "views/layout/Slide_banner-1.jpg"]; // Danh sách các đường dẫn ảnh
+
+        let currentImageIndex = 0;
+
+        function changeImage() {
+            imageElement.src = imageSources[currentImageIndex];
+            currentImageIndex = (currentImageIndex + 1) % imageSources.length;
+        }
+
+        setInterval(changeImage, 3000); // Thực hiện hàm changeImage sau mỗi 3000ms (3 giây)
+    </script>
 </html>

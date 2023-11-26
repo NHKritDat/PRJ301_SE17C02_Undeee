@@ -4,9 +4,14 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
+import fpt.fu.prj301_se17c02_undeee.models.Categories;
+import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Hp
  */
-@WebServlet(name = "DeleteProductController", urlPatterns = {"/delete"})
-public class DeleteProductController extends HttpServlet {
+@WebServlet(name = "HomePageController", urlPatterns = {"/home"})
+public class HomePageController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +42,10 @@ public class DeleteProductController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteProductController</title>");            
+            out.println("<title>Servlet HomePageController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DeleteProductController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet HomePageController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,19 +63,14 @@ public class DeleteProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          String id = request.getParameter("id");
-        ProductsServices productService = new ProductsServices();
-        if (id != null) {
-            int result = productService.deleteProducts(id);
-            if (result > 0) {
-                System.out.println("delete success");
-                        response.sendRedirect("view");
-
-            }else{
-                            response.sendRedirect("view");
-
-            }
-        }
+        
+              ProductsServices ps = new ProductsServices();
+        List<Products> list = ps.getAllProducts();
+        List<Categories> categoryList = ps.getCategories();
+        request.setAttribute("categoryList", categoryList);
+        request.setAttribute("list", list);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/home.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -84,8 +84,20 @@ public class DeleteProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
+ ProductsServices ps = new ProductsServices();
+         List<Products> list = new ArrayList<>();
+        String search = (String) request.getParameter("searchKeyword");
+        String category = (String) request.getParameter("searchCategory");
+        if (category==null) {
+                   list = ps.searchProducts(search);
+        }else{
+             list= ps.searchProductsByCategory(category);
+        }
+        request.setAttribute("list", list);
+        List<Categories> categoryList = ps.getCategories();
+        request.setAttribute("categoryList", categoryList);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/home.jsp");
+        rd.forward(request, response);    }
 
     /**
      * Returns a short description of the servlet.

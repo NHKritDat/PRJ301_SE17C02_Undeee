@@ -104,6 +104,7 @@ public class UpdateProductController extends HttpServlet {
     private String status;
          */
         //validate news update
+          request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
 
         ProductsServices ps = new ProductsServices();
