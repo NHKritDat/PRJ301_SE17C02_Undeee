@@ -15,17 +15,19 @@ public class SizeProducts {
     private String product_name;
     private String size_name;
     private String image;
+    private double percent;
     private double price;
 
     public SizeProducts() {
     }
 
-    public SizeProducts(int product_id, int size_id, String product_name, String size_name, String image, double price) {
+    public SizeProducts(int product_id, int size_id, String product_name, String size_name, String image, double percent, double price) {
         this.product_id = product_id;
         this.size_id = size_id;
         this.product_name = product_name;
         this.size_name = size_name;
         this.image = image;
+        this.percent = percent;
         this.price = price;
     }
 
@@ -67,6 +69,14 @@ public class SizeProducts {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
     }
 
     public double getPrice() {
