@@ -86,6 +86,7 @@
                         %>
                     </ul>
                 </div>
+                <div class="input-group-append">
                     <%
                         if (u == null) {
                     %>
@@ -107,29 +108,7 @@
                     <%
                         }
                     %>
-                    <div class="input-group-append">
-                        <%
-                            if (u == null) {
-                        %>
-                        <button>
-                            <a class="nav-link active" aria-current="page" href="./login">Đăng nhập</a>
-                        </button>
-                        <%
-                        } else {
-                        %>
-                        <li class="nav-item dropdown" style="list-style-type: none">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <%= u.getFullname()%>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="./updateUser">View profile</a></li>
-                                <li><a class="dropdown-item" href="./logout">Logout</a></li>
-                            </ul>
-                        </li>
-                        <%
-                            }
-                        %>
-                    </div>
                 </div>
             </div>
-        </nav>
+        </div>
+    </nav>
