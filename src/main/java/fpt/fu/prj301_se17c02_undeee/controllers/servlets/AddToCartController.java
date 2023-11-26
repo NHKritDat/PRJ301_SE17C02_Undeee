@@ -64,11 +64,6 @@ public class AddToCartController extends HttpServlet {
             throws ServletException, IOException {
         ProductsServices ps = new ProductsServices();
         List<Products> list = ps.getAllProducts();
-        HttpSession session = request.getSession();
-        Cart cart = (Cart) session.getAttribute("CART");
-        if (cart == null) {
-            cart = new Cart();
-        }
 
         request.setAttribute("list", list);
 
