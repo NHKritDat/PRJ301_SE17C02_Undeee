@@ -6,6 +6,7 @@ package fpt.fu.prj301_se17c02_undeee.controllers.filters;
 
 import fpt.fu.prj301_se17c02_undeee.models.Users;
 import java.io.IOException;
+import java.util.HashSet;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebFilter(urlPatterns = {"/"}) //Thêm trang filter này cần kiểm tra trước khi cho phép vào trang. Ví dụ: "/Login"
+@WebFilter(urlPatterns = {"./login"}) //Thêm trang filter này cần kiểm tra trước khi cho phép vào trang. Ví dụ: "/Login"
 public class CheckRememberMe implements Filter {
 
     @Override
@@ -36,10 +37,30 @@ public class CheckRememberMe implements Filter {
         HttpSession session = req.getSession();
         Cookie[] cookies = req.getCookies();
 
-        Users u = new Users();
-        for (Cookie cookie : cookies) {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String remember = request.getParameter("Remember me");
 
+        Users u = new Users();
+
+        Cookie cEmail = new Cookie("cEmail", email);
+        Cookie cPassword = new Cookie("cPassword", password);
+        Cookie cRemember = new Cookie("cRemember", remember);
+
+        if (remember != null) {
+            cEmail.setMaxAge(60 * 60 * 24 * 7); //7 ngày
+            cPassword.setMaxAge(60 * 60 * 24 * 7);
+            cRemember.setMaxAge(60 * 60 * 24 * 7);
+        } else {
+            cEmail.setMaxAge(0);
+            cPassword.setMaxAge(0);
+            cRemember.setMaxAge(0);
         }
+
+        res.addCookie(cEmail);
+        res.addCookie(cPassword);
+        res.addCookie(cRemember);
+
         chain.doFilter(request, response); //Tiếp tục đi vào trang mà filter này đang kiểm tra
     }
 

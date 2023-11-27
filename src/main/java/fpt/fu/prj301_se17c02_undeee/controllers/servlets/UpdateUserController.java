@@ -68,7 +68,7 @@ public class UpdateUserController extends HttpServlet {
 
         String id = (String) request.getParameter("id");//lấy session
         UsersServices us = new UsersServices();//lấy session
-        Users user = us.getUserbyID("3");//lấy session
+        Users user = us.getUserbyID(id);//lấy session
         if (user != null) {
             request.setAttribute("user", user);
             RequestDispatcher rd = request.getRequestDispatcher("/views/updateUser.jsp");
@@ -94,7 +94,7 @@ public class UpdateUserController extends HttpServlet {
         String id = request.getParameter("id");//lấy session
 
         UsersServices us = new UsersServices();//lấy session
-        Users user = us.getUserbyID("3"); //lấy session
+        Users user = us.getUserbyID(id); //lấy session
         if (user == null) {
             response.sendError(404);
         }
@@ -125,20 +125,21 @@ public class UpdateUserController extends HttpServlet {
             imageSave = fileName;
         }
 
-        int uerID = Integer.parseInt(id);
+        int userID = Integer.parseInt(id);
         if (fullname != null && phone != null && password != null) {
-            int result = us.updateUsers(fullname, password, phone, imageSave, uerID);
+            int result = us.updateUsers(fullname, password, phone, imageSave, userID);
             if (result > 0) {
-                //   sesstion.setAttribute("name", name);
-                response.sendRedirect("./views/test.jsp");
-            }  // chỗ này đổi lun nha đồng chí :)))
-
-            //        response.sendRedirect("./NewController");  // Hello ban oi đổi đường dẫn ở đây nha (I'm Hiển)
+                String urlRewriting = "./updateUser?id=" + userID;
+                RequestDispatcher rd = request.getRequestDispatcher(urlRewriting);
+                rd.forward(request, response);
+                System.out.println("Update successfully!");
+            } else {
+                System.out.println("Update failed!");
+            }
             return;
         }
     }
-
-// Khuc nay se dua ra trang home.jsp nha 
+        
     //  response.sendRedirect("./home"); 
     /**
      * Returns a short description of the servlet.
