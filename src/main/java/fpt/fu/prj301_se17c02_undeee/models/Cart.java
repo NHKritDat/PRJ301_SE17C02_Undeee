@@ -48,10 +48,12 @@ public class Cart {
         }
     }
 
-    public void update(String key, OrderDetails ods) {
-        String newKey = String.valueOf(ods.getProduct_id()) + "_" + String.valueOf(ods.getSize_id());
+    public void update(String newKey, OrderDetails ods) {
+        String key = ods.getProduct_id() + "_" + ods.getSize_id();
         if (!key.equals(newKey)) {
             remove(key);
+            String size_id = newKey.split("_")[1];
+            ods.setSize_id(Integer.parseInt(size_id));
             add(ods);
         } else {
             cart.replace(key, ods);
@@ -69,7 +71,7 @@ public class Cart {
     public int getSize() {
         return cart.size();
     }
-    
+
     public OrderDetails getByKey(String key) {
         return cart.get(key);
     }

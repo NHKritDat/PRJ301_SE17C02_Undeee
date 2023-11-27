@@ -25,23 +25,22 @@ public class ProductsServices extends DBConnect {
     private String sql = "";
 
     public SizeProducts getSizeProductById(int product_id, int size_id) {
-        SizeProducts sp = new SizeProducts();
-        sql = "Select p.name, p.image, s.name, s.price from Products p"
-                + "left join Sizes s"
-                + "on p.id = s.product_id"
-                + "where p.id = ? and s.id = ?";
+        SizeProducts sp = null;
+        sql = "Select p.name, p.image, s.name, s.percent, p.price from Products p left join Sizes s on p.category_id = s.category_id where p.id = ? and s.id = ?";
         try {
             pst = connection.prepareStatement(sql);
             pst.setInt(1, product_id);
             pst.setInt(2, size_id);
             rs = pst.executeQuery();
             while (rs.next()) {
+                sp = new SizeProducts();
                 sp.setProduct_id(product_id);
                 sp.setSize_id(size_id);
                 sp.setProduct_name(rs.getString(1));
                 sp.setImage(rs.getString(2));
                 sp.setSize_name(rs.getString(3));
-                sp.setPrice(rs.getDouble(4));
+                sp.setPercent(rs.getDouble(4));
+                sp.setPrice(rs.getDouble(5));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -51,22 +50,20 @@ public class ProductsServices extends DBConnect {
 
     public List<SizeProducts> getSizeProductById(int product_id) {
         List<SizeProducts> list = new ArrayList<>();
-        SizeProducts sp = new SizeProducts();
-        sql = "Select p.id, s.id, p.name, p.image, s.name, s.price from Products p"
-                + "left join Sizes s"
-                + "on p.id = s.product_id"
-                + "where p.id = ?";
+        sql = "Select p.name, p.image, p.price, s.id, s.name, s.percent from Products p left join Sizes s on p.category_id = s.category_id where p.id = ?";
         try {
             pst = connection.prepareStatement(sql);
             pst.setInt(1, product_id);
             rs = pst.executeQuery();
             while (rs.next()) {
+                SizeProducts sp = new SizeProducts();
                 sp.setProduct_id(product_id);
-                sp.setSize_id(rs.getInt(2));
-                sp.setProduct_name(rs.getString(3));
-                sp.setImage(rs.getString(4));
+                sp.setProduct_name(rs.getString(1));
+                sp.setImage(rs.getString(2));
+                sp.setPrice(rs.getDouble(3));
+                sp.setSize_id(rs.getInt(4));
                 sp.setSize_name(rs.getString(5));
-                sp.setPrice(rs.getDouble(6));
+                sp.setPercent(rs.getDouble(6));
                 list.add(sp);
             }
         } catch (SQLException e) {
@@ -78,13 +75,11 @@ public class ProductsServices extends DBConnect {
     public List<Products> getAllProducts() {
         List<Products> list = new ArrayList<>();
         String query = "SELECT * FROM Products ";
-        Products product = null;
-        PreparedStatement preparestatement;
         try {
-            preparestatement = connection.prepareStatement(query);
-            ResultSet res = preparestatement.executeQuery();
+            pst = connection.prepareStatement(query);
+            ResultSet res = pst.executeQuery();
             while (res.next()) {
-                product = new Products();
+                Products product = new Products();
                 product.setId(res.getInt(1));
                 product.setName(res.getString(2));
                 product.setCategory_id(res.getInt(3));
@@ -229,15 +224,15 @@ public class ProductsServices extends DBConnect {
         }
         return 0;
     }
-    
-    public List<Products> getProducts(){
+
+    public List<Products> getProducts() {
         List<Products> list = new ArrayList<>();
-        
+
         try {
             sql = "Select * from Products";
             PreparedStatement stm = connection.prepareCall(sql);
             rs = stm.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int product_id = rs.getInt("id");
                 String name = rs.getString("name");
                 int category_id = rs.getInt("category_id");
@@ -245,17 +240,17 @@ public class ProductsServices extends DBConnect {
                 double price = rs.getDouble("price");
                 String status = rs.getString("status");
                 Date created_at = rs.getDate("created_at");
-                
+
                 Products p = new Products(product_id, name, category_id, image, price, status, created_at);
                 list.add(p);
-                
+
             }
-            
-        }catch(SQLException ex){
+
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
+
         return list;
-        
+
     }
 }

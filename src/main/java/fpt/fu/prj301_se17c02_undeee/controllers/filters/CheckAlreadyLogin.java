@@ -41,7 +41,7 @@ public class CheckAlreadyLogin implements Filter {
         }
         if (u.getEmail() != null) {
             if (u.getRole() == 1) {
-                res.sendRedirect("./view"); //customer page
+                res.sendRedirect("./AddToCartController");
             } else {
                 res.sendRedirect("./admin-page");
             }

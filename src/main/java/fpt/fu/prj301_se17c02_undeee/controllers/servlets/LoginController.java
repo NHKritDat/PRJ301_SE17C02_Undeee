@@ -85,13 +85,13 @@ public class LoginController extends HttpServlet {
         UsersServices userServices = new UsersServices();
         Users user = userServices.checkLogin(email, password);
         if (user != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("user_loged", user);
             int role = user.getRole();
             if (role == 2) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user_loged", user);
                 response.sendRedirect("./admin-page");
             } else {
-                response.sendRedirect("./AddToCartController");//thay đường dẫn đến customer page
+                response.sendRedirect("./AddToCartController");
             }
         } else {
             response.sendRedirect("./login");
