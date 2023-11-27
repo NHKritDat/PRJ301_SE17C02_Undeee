@@ -84,13 +84,13 @@ public class ViewProductsController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductsServices ps = new ProductsServices();
-         List<Products> list = new ArrayList<>();
+        List<Products> list = new ArrayList<>();
         String search = (String) request.getParameter("searchKeyword");
         String category = (String) request.getParameter("searchCategory");
-        if (category==null) {
-                   list = ps.searchProducts(search);
-        }else{
-             list= ps.searchProductsByCategory(category);
+        if (category == null) {
+            list = ps.searchProducts(search);
+        } else {
+            list = ps.searchProductsByCategory(category);
         }
         request.setAttribute("list", list);
         List<Categories> categoryList = ps.getCategories();

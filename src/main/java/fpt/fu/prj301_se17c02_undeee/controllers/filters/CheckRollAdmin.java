@@ -21,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebFilter(urlPatterns = {"/EditCartController", "/CreateOrderController", "/admin-page", "/view", "/create", "/view-orders", "/UpdateProductController", "/delete", "/update-orders", "/view-orderDetails", "/delete-orders"}) //Thêm đường dẫn
-public class CheckLogin implements Filter {
+@WebFilter(urlPatterns = {"/admin-page", "/view", "/create", "/view-orders", "/UpdateProductController", "/delete", "/update-orders", "/view-orderDetails", "/delete-orders"})
+public class CheckRollAdmin implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -34,13 +34,9 @@ public class CheckLogin implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession();
 
-        Users u = new Users();
-        Object status = session.getAttribute("user_loged");
-        if (status != null) {
-            u = (Users) status;
-        }
-        if (u.getEmail() == null) {
-            res.sendRedirect("./login");
+        Users u = (Users) session.getAttribute("user_loged");
+        if (u.getRole() == 1) {
+            res.sendRedirect("./");
         } else {
             chain.doFilter(request, response);
         }

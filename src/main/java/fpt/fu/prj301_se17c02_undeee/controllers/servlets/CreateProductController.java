@@ -95,7 +95,7 @@ public class CreateProductController extends HttpServlet {
         Part part = request.getPart("image");
 
         if (name == null || price == null || categoryID == null || status == null
-                || name.isEmpty() || price.isEmpty() || categoryID.isEmpty() || status.isEmpty()||part.getSize()==0){
+                || name.isEmpty() || price.isEmpty() || categoryID.isEmpty() || status.isEmpty() || part.getSize() == 0) {
             ProductsServices ps = new ProductsServices();
 
             List<Categories> categoryList = ps.getCategories();

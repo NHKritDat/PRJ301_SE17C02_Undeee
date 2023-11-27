@@ -26,8 +26,8 @@ import javax.servlet.http.Part;
  * @author Hp
  */
 @MultipartConfig
-@WebServlet(name = "UpdateProductController", urlPatterns = {"/UpdateProductController"})
-public class UpdateProductController extends HttpServlet {
+@WebServlet(name = "UpdateProductsController", urlPatterns = {"/UpdateProductsController"})
+public class UpdateProductsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
