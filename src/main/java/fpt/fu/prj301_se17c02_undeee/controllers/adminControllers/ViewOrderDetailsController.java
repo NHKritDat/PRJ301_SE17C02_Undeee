@@ -40,7 +40,7 @@ public class ViewOrderDetailsController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewOrderDetailsController</title>");            
+            out.println("<title>Servlet ViewOrderDetailsController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ViewOrderDetailsController at " + request.getContextPath() + "</h1>");

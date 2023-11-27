@@ -9,6 +9,7 @@ import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -83,8 +84,14 @@ public class ViewProductsController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductsServices ps = new ProductsServices();
+        List<Products> list = new ArrayList<>();
         String search = (String) request.getParameter("searchKeyword");
-        List<Products> list = ps.searchProducts(search);
+        String category = (String) request.getParameter("searchCategory");
+        if (category == null) {
+            list = ps.searchProducts(search);
+        } else {
+            list = ps.searchProductsByCategory(category);
+        }
         request.setAttribute("list", list);
         List<Categories> categoryList = ps.getCategories();
         request.setAttribute("categoryList", categoryList);
