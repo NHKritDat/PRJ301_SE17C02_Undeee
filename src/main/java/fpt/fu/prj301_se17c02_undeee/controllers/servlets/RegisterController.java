@@ -94,7 +94,7 @@ public class RegisterController extends HttpServlet {
             if (foundError = true) {
                 request.setAttribute("ERROR", errors);
             }
-
+            
             UsersServices sv = new UsersServices();
             boolean result = sv.registerAccount(email, fullname, phone, password, true, "/img/avataruser.jpeg");
             if (result) {
@@ -108,7 +108,7 @@ public class RegisterController extends HttpServlet {
             }
         }
     }
-
+        
     /**
      * Returns a short description of the servlet.
      *
