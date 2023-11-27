@@ -25,6 +25,29 @@ public class ProductsServices extends DBConnect {
     private ResultSet rs = null;
     private String sql = "";
 
+    public List<Products> getAllProductsAvailable() {
+        List<Products> list = new ArrayList<>();
+        sql = "select * from Products where status = 'Active'";
+        try {
+            pst = connection.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                Products p = new Products();
+                p.setId(rs.getInt(1));
+                p.setName(rs.getString(2));
+                p.setCategory_id(rs.getInt(3));
+                p.setImage(rs.getString(4));
+                p.setPrice(rs.getDouble(5));
+                p.setStatus(rs.getString(6));
+                p.setCreate_at(rs.getDate(7));
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+    
     public SizeProducts getSizeProductById(int product_id, int size_id) {
         SizeProducts sp = null;
         sql = "Select p.name, p.image, s.name, s.percent, p.price from Products p left join Sizes s on p.category_id = s.category_id where p.id = ? and s.id = ?";

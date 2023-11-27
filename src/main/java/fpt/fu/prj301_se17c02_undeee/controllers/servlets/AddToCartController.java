@@ -64,7 +64,7 @@ public class AddToCartController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductsServices ps = new ProductsServices();
-        List<Products> ProductList = ps.getAllProducts();
+        List<Products> ProductList = ps.getAllProductsAvailable();
         List<Categories> CategoryList = ps.getCategories();
         
         String search = request.getParameter("search");

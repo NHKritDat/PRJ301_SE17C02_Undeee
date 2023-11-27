@@ -101,7 +101,7 @@ public class UpdateOrdersController extends HttpServlet {
             response.sendRedirect("./update-orders?id=" + id);
             return;
         }
-        
+
     }
 
     /**

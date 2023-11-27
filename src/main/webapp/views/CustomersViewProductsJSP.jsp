@@ -22,6 +22,7 @@
     }
 %>
 <div class="container mt-3">
+    
     <div class="row mb-3">
         <div class="col-md-3">
             <form role="search" class="d-flex" action="AddToCartController" method="get" aria-label="Search">
@@ -43,6 +44,7 @@
             </form>
         </div>
     </div>
+                
     <div class="row">
         <%
             for (Products p : ProductList) {
@@ -53,11 +55,11 @@
                 <img src="views/Drinks/<%= p.getImage()%>" class="card-img-top" alt="<%= p.getName()%>" style="width: 100%; height: 250px">
                 <div class="card-body">
                     <h5 class="card-title"><%= p.getName()%></h5>
-                    <p class="card-text">Giá: <%= p.getPrice()%></p>
+                    <p class="card-text">Giá gốc: <%= p.getPrice()%></p>
                 </div>
                 <div class="card-footer">
                     <form method="post" action="./AddToCartController">
-                        <select name="size_id" class="form-control">
+                        <select name="size_id" class="form-control" style="float: left; width: 32%">
                             <%
                                 for (SizeProducts sp : l) {
                             %>
@@ -66,7 +68,7 @@
                                 }
                             %>
                         </select>
-                        <input type="number" name="quantity" placeholder="0" required="" class="form-control">
+                        <input type="number" name="quantity" placeholder="0" required="" class="form-control" style="float: left; width: 25%">
                         <button type="submit" class="btn btn-success" value="<%= p.getId()%>" name="product_id">Add to cart</button>
                     </form>
                 </div>
@@ -74,12 +76,14 @@
         </div>
         <%  }
         %>
-        <div class="overlay" id="overlay" onclick="closePopup()"></div>
+        
+<!--        <div class="overlay" id="overlay" onclick="closePopup()"></div>
         <div class="popup col-md-3" id="popup">
             <div class="card">
                 
             </div>
-        </div>
+        </div>-->
     </div>
+        
 </div>
 <%@include file="layout/footer.jsp" %>

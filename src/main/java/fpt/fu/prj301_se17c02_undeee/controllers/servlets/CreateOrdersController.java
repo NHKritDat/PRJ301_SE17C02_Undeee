@@ -81,7 +81,7 @@ public class CreateOrdersController extends HttpServlet {
         String address = request.getParameter("address");
         String total_price_String = request.getParameter("total_price");
         double total_price = 0;
-        
+
         if (total_price_String != null) {
             total_price = Double.parseDouble(total_price_String);
         }

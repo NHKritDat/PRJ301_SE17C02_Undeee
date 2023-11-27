@@ -129,7 +129,7 @@
         <!-- Body: Form tạo sản phẩm -->
         <div class="container mt-4">
             <h1>Update phẩm mới</h1>
-            <form action="./UpdateProductController?id=<%= product.getId()%>" method="POST" enctype="multipart/form-data">
+            <form action="./UpdateProductsController?id=<%= product.getId()%>" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="tenSanPham">Product's name</label>
                     <input type="text" value="<%= product.getName()%>" class="form-control" id="tenSanPham" name="name" placeholder="Nhập tên sản phẩm">
