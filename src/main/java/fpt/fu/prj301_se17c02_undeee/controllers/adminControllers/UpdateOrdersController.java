@@ -102,53 +102,20 @@ public class UpdateOrdersController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-//        String id = request.getParameter("id");
-//        
+            throws ServletException, IOException {   
         ProductsServices productService = new ProductsServices();
-////        Products p = productService.getProductById(Integer.parseInt(productId));
-////        double price = p.getPrice();
-////        String priceAsString = Double.toString(price);
-////        response.getWriter().write(priceAsString);
-////        OrderDto orderToUpdate = orderService.getOrdersById(Integer.parseInt(id));
+
         String category = request.getParameter("category");
-//        String productId = request.getParameter("productId");
-//        String sizeId = request.getParameter("sizeId");
-//        // Truy vấn CSDL để lấy danh sách sản phẩm theo Category
+
         List<Products> productList = productService.getProductsByCategoryId(Integer.parseInt(category));
         List<Sizes> sizeList = productService.getSizesByCategoryId(Integer.parseInt(category));
-//        Products product = productService.getProductById(Integer.parseInt(productId));
-//        Sizes size = productService.getSizeById(Integer.parseInt(sizeId));
-//        request.setAttribute("productList", productList);
-//         Gửi danh sách sản phẩm dưới dạng JSON về trang JSP
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//        response.getWriter().write(new Gson().toJson(productList));
-//        response.getWriter().write(new Gson().toJson(sizeList));
-//
+
         JsonObject jsonResponse = new JsonObject();
         jsonResponse.add("products", new Gson().toJsonTree(productList));
         jsonResponse.add("sizes", new Gson().toJsonTree(sizeList));
-//        jsonResponse.addProperty("product", product.getPrice());
-//        jsonResponse.addProperty("size", size.getPercent());
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());
-////        RequestDispatcher rd = request.getRequestDispatcher("/views/admin/updateOrders.jsp");
-////        rd.forward(request, response);
-////        if (orderToUpdate == null) {
-////            response.sendError(404);
-////        }
-////        String status = request.getParameter("status");
-////        if (status != null) {
-////            orderToUpdate.getOrder().setStatus(status);
-////            orderService.updateOrders(orderToUpdate.getOrder());
-////            response.sendRedirect("./view-orders");
-////            return;
-////        } else {
-////            response.sendRedirect("./update-orders?id=" + id);
-////            return;
-////        }
     }
 
     /**
