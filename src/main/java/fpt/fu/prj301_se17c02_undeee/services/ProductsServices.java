@@ -7,6 +7,7 @@ package fpt.fu.prj301_se17c02_undeee.services;
 import fpt.fu.prj301_se17c02_undeee.models.Categories;
 import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.models.SizeProducts;
+import fpt.fu.prj301_se17c02_undeee.models.Sizes;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -91,7 +92,7 @@ public class ProductsServices extends DBConnect {
                 product.setImage(res.getString(4));
                 product.setPrice(res.getDouble(5));
                 product.setStatus(res.getString(6));
-                product.setCreate_at(res.getDate(7));
+                product.setCreated_at(res.getDate(7));
                 list.add(product);
             }
         } catch (SQLException ex) {
@@ -102,17 +103,16 @@ public class ProductsServices extends DBConnect {
 
     public List<Categories> getCategories() {
         List<Categories> list = new ArrayList<>();
-        String query = "SELECT * FROM Categories ";
+        sql = "SELECT * FROM Categories ";
         Categories category = null;
-        PreparedStatement preparestatement;
         try {
-            preparestatement = connection.prepareStatement(query);
-            ResultSet res = preparestatement.executeQuery();
-            while (res.next()) {
+            pst = connection.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {
                 category = new Categories();
-                category.setCategory_id(res.getInt(1));
-                category.setName(res.getString(2));
-                category.setCreate_at(res.getDate(3));
+                category.setCategory_id(rs.getInt(1));
+                category.setName(rs.getString(2));
+                category.setCreated_at(rs.getTimestamp(3));
                 list.add(category);
             }
         } catch (SQLException ex) {
@@ -137,7 +137,7 @@ public class ProductsServices extends DBConnect {
                 product.setImage(res.getString(4));
                 product.setPrice(res.getDouble(5));
                 product.setStatus(res.getString(6));
-                product.setCreate_at(res.getDate(7));
+                product.setCreated_at(res.getDate(7));
                 list.add(product);
             }
         } catch (SQLException ex) {
@@ -185,22 +185,21 @@ public class ProductsServices extends DBConnect {
         return 0;
     }
 
-    public Products getProductById(String id) {
-        String query = "SELECT * FROM Products WHERE id =  " + id + " ";
+    public Products getProductById(int id) {
+        sql = "SELECT * FROM Products WHERE id =  " + id + " ";
         Products product = null;
-        PreparedStatement preparestatement;
         try {
-            preparestatement = connection.prepareStatement(query);
-            ResultSet res = preparestatement.executeQuery();
-            while (res.next()) {
+            pst = connection.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {
                 product = new Products();
-                product.setId(res.getInt(1));
-                product.setName(res.getString(2));
-                product.setCategory_id(res.getInt(3));
-                product.setImage(res.getString(4));
-                product.setPrice(res.getDouble(5));
-                product.setStatus(res.getString(6));
-                product.setCreate_at(res.getDate(7));
+                product.setId(rs.getInt(1));
+                product.setName(rs.getString(2));
+                product.setCategory_id(rs.getInt(3));
+                product.setImage(rs.getString(4));
+                product.setPrice(rs.getDouble(5));
+                product.setStatus(rs.getString(6));
+                product.setCreated_at(rs.getTimestamp(7));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -229,15 +228,15 @@ public class ProductsServices extends DBConnect {
         }
         return 0;
     }
-    
-    public List<Products> getProducts(){
+
+    public List<Products> getProducts() {
         List<Products> list = new ArrayList<>();
-        
+
         try {
             sql = "Select * from Products";
             PreparedStatement stm = connection.prepareCall(sql);
             rs = stm.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int product_id = rs.getInt("id");
                 String name = rs.getString("name");
                 int category_id = rs.getInt("category_id");
@@ -245,17 +244,85 @@ public class ProductsServices extends DBConnect {
                 double price = rs.getDouble("price");
                 String status = rs.getString("status");
                 Date created_at = rs.getDate("created_at");
-                
+
                 Products p = new Products(product_id, name, category_id, image, price, status, created_at);
                 list.add(p);
-                
+
             }
-            
-        }catch(SQLException ex){
+
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
         return list;
-        
+    }
+
+    public List<Products> getProductsByCategoryId(int categoryId) {
+        List<Products> productList = new ArrayList<>();
+        sql = "SELECT * FROM Products WHERE category_id = ?";
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setInt(1, categoryId);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                int product_id = rs.getInt("id");
+                String name = rs.getString("name");
+                int category_id = rs.getInt("category_id");
+                String image = rs.getString("image");
+                double price = rs.getDouble("price");
+                String status = rs.getString("status");
+                Date created_at = rs.getTimestamp("created_at");
+
+                Products product = new Products(product_id, name, category_id, image, price, status, created_at);
+                productList.add(product);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return productList;
+    }
+
+    public List<Sizes> getSizesByCategoryId(int categoryId) {
+        List<Sizes> sizeList = new ArrayList<>();
+        sql = "SELECT * FROM Sizes WHERE category_id = ?";
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setInt(1, categoryId);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                int size_id = rs.getInt("id");
+                int category_id = rs.getInt("category_id");
+                String name = rs.getString("name");
+                double percent = rs.getDouble("percent");
+                Date created_at = rs.getTimestamp("created_at");
+
+                Sizes size = new Sizes(size_id, category_id, name, percent, created_at);
+                sizeList.add(size);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return sizeList;
+    }
+
+    public Sizes getSizeById(int sizeId) {
+        sql = "SELECT * FROM Sizes WHERE id =  " + sizeId;
+        Sizes size = null;
+        try {
+            pst = connection.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                size = new Sizes();
+                size.setId(rs.getInt(1));
+                size.setCategory_id(rs.getInt(2));
+                size.setName(rs.getString(3));
+                size.setPercent(rs.getDouble(4));
+                size.setCreated_at(rs.getTimestamp(5));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return size;
     }
 }

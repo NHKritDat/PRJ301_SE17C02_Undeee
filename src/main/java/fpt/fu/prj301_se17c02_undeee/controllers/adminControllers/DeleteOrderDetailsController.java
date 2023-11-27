@@ -9,7 +9,6 @@ import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author dell
  */
-@WebServlet(name = "ViewOrderDetailsController", urlPatterns = {"/view-orderDetails"})
-public class ViewOrderDetailsController extends HttpServlet {
+@WebServlet(name = "DeleteOrderDetailsController", urlPatterns = {"/delete-orderDetails"})
+public class DeleteOrderDetailsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +39,10 @@ public class ViewOrderDetailsController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewOrderDetailsController</title>");            
+            out.println("<title>Servlet DeleteOrderDetailsController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewOrderDetailsController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteOrderDetailsController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,14 +60,7 @@ public class ViewOrderDetailsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        
-        OrdersServices orderService = new OrdersServices();
-        List<OrderDto> orderDetails = orderService.getOrderDetailsByOrderId(Integer.parseInt(id));
-        request.setAttribute("orderDetails", orderDetails);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/views/admin/viewOrderDetails.jsp");
-        rd.forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -82,7 +74,19 @@ public class ViewOrderDetailsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String id = request.getParameter("id");
+        String orderDetailId = request.getParameter("order_detail_id");
+        OrdersServices orderService = new OrdersServices();
+        double total_price = 0;
+        if (orderDetailId != null) {
+            orderService.deleteOrderDetails(Integer.parseInt(orderDetailId));
+            List<OrderDto> orderList = orderService.getOrderDetailsByOrderId(Integer.parseInt(id));
+            for (OrderDto order : orderList) {
+                total_price += order.getProduct().getPrice() * order.getSize().getPercent() * order.getOrderDetail().getQuantity();
+            }
+            orderService.updateTotalPrice(total_price, Integer.parseInt(id));
+        }
+        response.sendRedirect("./view-orderDetails?id=" + id);
     }
 
     /**

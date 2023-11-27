@@ -56,7 +56,7 @@
                 <tr>
                     <th scope="row"><%= No%></th>
                     <td><%= sp.getProduct_name()%></td>
-                    <td><img src=".<%= sp.getImage()%>" width="200px" height="200px" alt="<%= sp.getImage()%>" class="img-thumbnail"/></td>
+                    <td><img src=".<%= sp.getImage()%>" style="width:200px; height:200px" alt="<%= sp.getImage()%>" class="img-thumbnail"/></td>
                     <td>
                         <form action="./EditCartController" method="post">
                             <select class="form-control" id="sizeSanPham" name="edit" onchange="SubmitEventInit(this)">

@@ -69,7 +69,7 @@ public class UpdateProductController extends HttpServlet {
             throws ServletException, IOException {
         String id = (String) request.getParameter("id");
         ProductsServices ps = new ProductsServices();
-        Products product = ps.getProductById(id);
+        Products product = ps.getProductById(Integer.parseInt(id));
         if (product != null) {
             List<Categories> categoryList = ps.getCategories();
             request.setAttribute("categoryList", categoryList);
@@ -105,7 +105,7 @@ public class UpdateProductController extends HttpServlet {
         String id = request.getParameter("id");
 
         ProductsServices ps = new ProductsServices();
-        Products product = ps.getProductById(id);
+        Products product = ps.getProductById(Integer.parseInt(id));
         if (product == null) {
             response.sendError(404);
         }
