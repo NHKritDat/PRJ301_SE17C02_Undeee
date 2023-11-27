@@ -4,7 +4,7 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.services.RegisterError;
+import fpt.fu.prj301_se17c02_undeee.models.RegisterError;
 import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -98,7 +98,7 @@ public class RegisterController extends HttpServlet {
             }
             
             UsersServices sv = new UsersServices();
-            boolean result = sv.registerAccount(email, fullname, phone, password, true, "/img/avataruser.jpeg");
+            boolean result = sv.registerAccount(email, fullname, phone, password, 1, "/img/avataruser.jpeg");
             if (result) {
                 response.sendRedirect("./login");
             }
