@@ -7,6 +7,7 @@ package fpt.fu.prj301_se17c02_undeee.services;
 import fpt.fu.prj301_se17c02_undeee.models.Categories;
 import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.models.SizeProducts;
+import fpt.fu.prj301_se17c02_undeee.models.Sizes;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -95,6 +96,32 @@ public class ProductsServices extends DBConnect {
         return list;
     }
 
+    public List<Products> getTop8BestSellerProducts() {
+        List<Products> list = new ArrayList<>();
+        String query = "SELECT product_id , name, category_id, image, price, status, products.created_at, count\n"
+                + "FROM bestseller JOIN products ON product_id = id\n"
+                + "ORDER BY count DESC\n"
+                + "LIMIT 8; ";
+        try {
+            pst = connection.prepareStatement(query);
+            ResultSet res = pst.executeQuery();
+            while (res.next()) {
+                Products product = new Products();
+                product.setId(res.getInt(1));
+                product.setName(res.getString(2));
+                product.setCategory_id(res.getInt(3));
+                product.setImage(res.getString(4));
+                product.setPrice(res.getDouble(5));
+                product.setStatus(res.getString(6));
+                product.setCreate_at(res.getDate(7));
+                list.add(product);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return list;
+    }
+
     public List<Categories> getCategories() {
         List<Categories> list = new ArrayList<>();
         String query = "SELECT * FROM Categories ";
@@ -116,9 +143,70 @@ public class ProductsServices extends DBConnect {
         return list;
     }
 
+    public String getSizes(String id) {
+        List<Sizes> list = new ArrayList<>();
+        String query = "SELECT * FROM Sizes  where product_id = " + id + ";";
+        Sizes category = null;
+        PreparedStatement preparestatement;
+        try {
+            preparestatement = connection.prepareStatement(query);
+            ResultSet res = preparestatement.executeQuery();
+            while (res.next()) {
+                category = new Sizes();
+                category.setSize_id(res.getInt(1));
+                category.setCategory_id(res.getInt(2));
+                category.setName(res.getString(3));
+                category.setPercent(res.getDouble(4));
+                category.setCreate_at(res.getDate(5));
+                list.add(category);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        String size = "";
+
+        for (Sizes sizes : list) {
+            if (sizes.getName().equals("Small")) {
+                size = size + 1;
+            }
+            if (sizes.getName().equals("Regular")) {
+                size = size + 2;
+            }
+            if (sizes.getName().equals("Large")) {
+                size = size + 3;
+            }
+        }
+        return size;
+    }
+
     public List<Products> searchProducts(String search) {
         List<Products> list = new ArrayList<>();
-        String query = "SELECT * FROM Products WHERE name LIKE '%" + search + "%';";
+        String query = "SELECT * FROM Products WHERE status  ='" + search + "' OR  name LIKE '%" + search + "%';";
+        Products product = null;
+        PreparedStatement preparestatement;
+        try {
+            preparestatement = connection.prepareStatement(query);
+            ResultSet res = preparestatement.executeQuery();
+            while (res.next()) {
+                product = new Products();
+                product.setId(res.getInt(1));
+                product.setName(res.getString(2));
+                product.setCategory_id(res.getInt(3));
+                product.setImage(res.getString(4));
+                product.setPrice(res.getDouble(5));
+                product.setStatus(res.getString(6));
+                product.setCreate_at(res.getDate(7));
+                list.add(product);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return list;
+    }
+
+    public List<Products> searchProductsByCategory(String category) {
+        List<Products> list = new ArrayList<>();
+        String query = "SELECT * FROM Products WHERE category_id =" + category + ";";
         Products product = null;
         PreparedStatement preparestatement;
         try {

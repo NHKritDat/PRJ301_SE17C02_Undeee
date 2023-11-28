@@ -63,8 +63,11 @@ public class DeleteProductController extends HttpServlet {
         if (id != null) {
             int result = productService.deleteProducts(id);
             if (result > 0) {
-                System.out.println("delete succes");
+                System.out.println("delete success");
                         response.sendRedirect("view");
+
+            }else{
+                            response.sendRedirect("view");
 
             }
         }
