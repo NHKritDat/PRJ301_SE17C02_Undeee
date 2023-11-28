@@ -25,24 +25,46 @@ public class ProductsServices extends DBConnect {
     private ResultSet rs = null;
     private String sql = "";
 
+    public List<Products> getAllProductsAvailable() {
+        List<Products> list = new ArrayList<>();
+        sql = "select * from Products where status = 'Active'";
+        try {
+            pst = connection.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                Products p = new Products();
+                p.setId(rs.getInt(1));
+                p.setName(rs.getString(2));
+                p.setCategory_id(rs.getInt(3));
+                p.setImage(rs.getString(4));
+                p.setPrice(rs.getDouble(5));
+                p.setStatus(rs.getString(6));
+                p.setCreated_at(rs.getDate(7));
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
     public SizeProducts getSizeProductById(int product_id, int size_id) {
-        SizeProducts sp = new SizeProducts();
-        sql = "Select p.name, p.image, s.name, s.price from Products p"
-                + "left join Sizes s"
-                + "on p.id = s.product_id"
-                + "where p.id = ? and s.id = ?";
+        SizeProducts sp = null;
+        sql = "Select p.name, p.image, s.name, s.percent, p.price from Products p left join Sizes s on p.category_id = s.category_id where p.id = ? and s.id = ?";
         try {
             pst = connection.prepareStatement(sql);
             pst.setInt(1, product_id);
             pst.setInt(2, size_id);
             rs = pst.executeQuery();
             while (rs.next()) {
+                sp = new SizeProducts();
                 sp.setProduct_id(product_id);
                 sp.setSize_id(size_id);
                 sp.setProduct_name(rs.getString(1));
                 sp.setImage(rs.getString(2));
                 sp.setSize_name(rs.getString(3));
-                sp.setPrice(rs.getDouble(4));
+                sp.setPercent(rs.getDouble(4));
+                sp.setPrice(rs.getDouble(5));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -52,22 +74,20 @@ public class ProductsServices extends DBConnect {
 
     public List<SizeProducts> getSizeProductById(int product_id) {
         List<SizeProducts> list = new ArrayList<>();
-        SizeProducts sp = new SizeProducts();
-        sql = "Select p.id, s.id, p.name, p.image, s.name, s.price from Products p"
-                + "left join Sizes s"
-                + "on p.id = s.product_id"
-                + "where p.id = ?";
+        sql = "Select p.name, p.image, p.price, s.id, s.name, s.percent from Products p left join Sizes s on p.category_id = s.category_id where p.id = ?";
         try {
             pst = connection.prepareStatement(sql);
             pst.setInt(1, product_id);
             rs = pst.executeQuery();
             while (rs.next()) {
+                SizeProducts sp = new SizeProducts();
                 sp.setProduct_id(product_id);
-                sp.setSize_id(rs.getInt(2));
-                sp.setProduct_name(rs.getString(3));
-                sp.setImage(rs.getString(4));
+                sp.setProduct_name(rs.getString(1));
+                sp.setImage(rs.getString(2));
+                sp.setPrice(rs.getDouble(3));
+                sp.setSize_id(rs.getInt(4));
                 sp.setSize_name(rs.getString(5));
-                sp.setPrice(rs.getDouble(6));
+                sp.setPercent(rs.getDouble(6));
                 list.add(sp);
             }
         } catch (SQLException e) {
@@ -79,13 +99,11 @@ public class ProductsServices extends DBConnect {
     public List<Products> getAllProducts() {
         List<Products> list = new ArrayList<>();
         String query = "SELECT * FROM Products ";
-        Products product = null;
-        PreparedStatement preparestatement;
         try {
-            preparestatement = connection.prepareStatement(query);
-            ResultSet res = preparestatement.executeQuery();
+            pst = connection.prepareStatement(query);
+            ResultSet res = pst.executeQuery();
             while (res.next()) {
-                product = new Products();
+                Products product = new Products();
                 product.setId(res.getInt(1));
                 product.setName(res.getString(2));
                 product.setCategory_id(res.getInt(3));
@@ -121,9 +139,70 @@ public class ProductsServices extends DBConnect {
         return list;
     }
 
+    public String getSizes(String id) {
+        List<Sizes> list = new ArrayList<>();
+        String query = "SELECT * FROM Sizes  where product_id = " + id + ";";
+        Sizes category = null;
+        PreparedStatement preparestatement;
+        try {
+            preparestatement = connection.prepareStatement(query);
+            ResultSet res = preparestatement.executeQuery();
+            while (res.next()) {
+                category = new Sizes();
+                category.setId(res.getInt(1));
+                category.setCategory_id(res.getInt(2));
+                category.setName(res.getString(3));
+                category.setPercent(res.getDouble(4));
+                category.setCreated_at(res.getDate(5));
+                list.add(category);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        String size = "";
+
+        for (Sizes sizes : list) {
+            if (sizes.getName().equals("Small")) {
+                size = size + 1;
+            }
+            if (sizes.getName().equals("Regular")) {
+                size = size + 2;
+            }
+            if (sizes.getName().equals("Large")) {
+                size = size + 3;
+            }
+        }
+        return size;
+    }
+
     public List<Products> searchProducts(String search) {
         List<Products> list = new ArrayList<>();
-        String query = "SELECT * FROM Products WHERE name LIKE '%" + search + "%';";
+        String query = "SELECT * FROM Products WHERE status  ='" + search + "' OR  name LIKE '%" + search + "%';";
+        Products product = null;
+        PreparedStatement preparestatement;
+        try {
+            preparestatement = connection.prepareStatement(query);
+            ResultSet res = preparestatement.executeQuery();
+            while (res.next()) {
+                product = new Products();
+                product.setId(res.getInt(1));
+                product.setName(res.getString(2));
+                product.setCategory_id(res.getInt(3));
+                product.setImage(res.getString(4));
+                product.setPrice(res.getDouble(5));
+                product.setStatus(res.getString(6));
+                product.setCreated_at(res.getDate(7));
+                list.add(product);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return list;
+    }
+
+    public List<Products> searchProductsByCategory(String category) {
+        List<Products> list = new ArrayList<>();
+        String query = "SELECT * FROM Products WHERE category_id =" + category + ";";
         Products product = null;
         PreparedStatement preparestatement;
         try {
@@ -324,5 +403,6 @@ public class ProductsServices extends DBConnect {
             System.out.println(ex.getMessage());
         }
         return size;
+
     }
 }

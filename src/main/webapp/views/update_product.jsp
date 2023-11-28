@@ -9,6 +9,7 @@
 <%
     String name = (String) session.getAttribute("name");
     Products product = (Products) request.getAttribute("product");
+   
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -127,8 +128,8 @@
 
         <!-- Body: Form tạo sản phẩm -->
         <div class="container mt-4">
-            <h1>Tạo sản phẩm mới</h1>
-            <form action="./UpdateProductController?id=<%= product.getId()%>" method="POST" enctype="multipart/form-data">
+            <h1>Update phẩm mới</h1>
+            <form action="./UpdateProductsController?id=<%= product.getId()%>" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="tenSanPham">Product's name</label>
                     <input type="text" value="<%= product.getName()%>" class="form-control" id="tenSanPham" name="name" placeholder="Nhập tên sản phẩm">
@@ -157,30 +158,7 @@
                 </div>
 
                 --<!-- end category -->
-
-                <div class="size">
-
-                    <div class="menu-list_header">
-                        <p class="menu-list_header-first">Sizes of product</p>
-                    </div>
-
-                    <div class="menu-list_content">
-                        <div class="menu-list_item">
-                            <div>
-                                <input type="checkbox" name="size" value="S" >
-                                <label class="labelSize" for="small">Small</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="size" value="M" >
-                                <label class="labelSize" for="medium">Medium</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="size" value="L" >
-                                <label class="labelSize" for="large">Large</label>
-                            </div>
-                        </div>
-                    </div>                        
-                </div>
+             
 
                 <div class="form-group">
                     <label for="hinhAnh">Hình ảnh sản phẩm</label>
@@ -200,9 +178,6 @@
         </div>
 
 
-
-        <!-- Footer -->
-        <!-- Footer -->
 
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

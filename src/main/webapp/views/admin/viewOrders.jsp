@@ -14,6 +14,7 @@
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     int no = 0;
 %>    
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,6 +39,11 @@
         <%
             }
         %>
+=======
+<%@include file="../layout/header.jsp" %>
+<div class="container">
+    <div class="row">
+>>>>>>> origin/mergeTest
         <a href="view-orders"><h1>View Orders</h1></a>
         <h2>Order Lists</h2>
         <form action="view-orders">
@@ -50,7 +56,10 @@
             <input type="date" name="search" id="searchInput" placeholder="">
             <button type="submit">Search</button>
         </form>
-        <table border="1">
+    </div>
+
+    <div class="row">
+        <table class="table table-striped-columns align-middle table-bordered">
             <thead>
                 <tr>
                     <th>No.</th>
@@ -63,12 +72,17 @@
                     <th>Action</th>
                 </tr>
             </thead>
+<<<<<<< HEAD
             <tbody>
                 <% for (OrderDto orderDto : orders) {
                         Date created_at = orderDto.getOrder().getCreated_at();
                         String formattedDate = dateFormat.format(created_at);
                         no++;
                 %>
+=======
+            <tbody class="table-group-divider">
+                <% for (OrderDto orderDto : orders) {%>
+>>>>>>> origin/mergeTest
                 <tr>
                     <td><%= no%></td>
                     <td><%= orderDto.getOrder().getId()%></td>
@@ -91,6 +105,7 @@
                 <% }%>
             </tbody>
         </table>
+<<<<<<< HEAD
     </body>
 </html>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -111,3 +126,8 @@
                             }
 
 </script>
+=======
+    </div>
+</div>
+<%@include file="../layout/footer.jsp" %>
+>>>>>>> origin/mergeTest

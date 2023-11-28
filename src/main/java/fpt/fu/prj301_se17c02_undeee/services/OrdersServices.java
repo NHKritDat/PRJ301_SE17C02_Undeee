@@ -16,6 +16,7 @@ import fpt.fu.prj301_se17c02_undeee.models.Users;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +34,12 @@ public class OrdersServices extends DBConnect {
         int order_id = 0;
         sql = "insert into Orders (user_id, address_id, total_price, status) values (?, ?, ?, ?)";
         try {
-            pst = connection.prepareStatement(sql);
+            pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pst.setInt(1, user_id);
             pst.setInt(2, address_id);
             pst.setDouble(3, total_price);
             pst.setString(4, status);
-            pst.execute();
+            pst.executeUpdate();
             rs = pst.getGeneratedKeys();
             while (rs.next()) {
                 order_id = rs.getInt(1);

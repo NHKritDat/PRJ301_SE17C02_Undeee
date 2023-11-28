@@ -103,6 +103,7 @@ public class UpdateOrdersController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         ProductsServices productService = new ProductsServices();
 
         String category = request.getParameter("category");
@@ -116,6 +117,7 @@ public class UpdateOrdersController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());
+
 
     }
 

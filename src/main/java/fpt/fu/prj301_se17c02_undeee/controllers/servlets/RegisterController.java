@@ -4,9 +4,12 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
+import fpt.fu.prj301_se17c02_undeee.models.RegisterError;
 import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -58,7 +61,8 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/register.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -78,13 +82,35 @@ public class RegisterController extends HttpServlet {
         String phone = request.getParameter("txtPhone");
         String password = request.getParameter("txtPassword");
 
-        UsersServices sv = new UsersServices();
-        boolean result = sv.registerAccount(email, fullname, phone, password);
-        if (result) {
-            response.sendRedirect("./login");
+        RegisterError errors = new RegisterError();
+        boolean foundError = false;
+        try {
+            if (phone.length() < 0 || phone.length() > 11) {
+                foundError = true;
+                errors.setPhoneError("The phone number must have 11 digits!");
+            }
+            if (password.length() < 0 || password.length() > 10) {
+                foundError = true;
+                errors.setPasswordError("The password must have 10 characters!");
+            }
+            if (foundError = true) {
+                request.setAttribute("ERROR", errors);
+            }
+            
+            UsersServices sv = new UsersServices();
+            boolean result = sv.registerAccount(email, fullname, phone, password, 1, "/img/avataruser.jpeg");
+            if (result) {
+                response.sendRedirect("./login");
+            }
+
+        } catch (SQLException e) {
+            if (e.equals("duplicate")) { //khi nhập 1 giá trị đã có ==> sql sẽ báo lỗi duplicate
+                foundError = true;
+                errors.setEmailError("Email must be unique!");
+            }
         }
     }
-
+        
     /**
      * Returns a short description of the servlet.
      *

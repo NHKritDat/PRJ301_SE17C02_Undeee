@@ -18,15 +18,15 @@ public class Sizes {
     private double percent;
     private Date created_at;
 
-    public Sizes() {
-    }
-
-    public Sizes(int id, int category_id, String name, double percent, Date created_at) {
-        this.size_id = id;
+    public Sizes(int size_id, int category_id, String name, double percent, Date created_at) {
+        this.size_id = size_id;
         this.category_id = category_id;
         this.name = name;
         this.percent = percent;
         this.created_at = created_at;
+    }
+
+    public Sizes() {
     }
 
     public int getId() {
@@ -67,6 +67,7 @@ public class Sizes {
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
-    }
 
+
+    }
 }
