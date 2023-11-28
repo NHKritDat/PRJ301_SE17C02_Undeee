@@ -5,7 +5,7 @@
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
 import fpt.fu.prj301_se17c02_undeee.models.Users;
-import fpt.fu.prj301_se17c02_undeee.services.UserServices;
+import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -82,7 +82,7 @@ public class LoginController extends HttpServlet {
             response.sendRedirect("login");
             return;
         }
-        UserServices userServices = new UserServices();
+        UsersServices userServices = new UsersServices();
         Users user = userServices.checkLogin(email, password);
         if (user != null) {
             int role = user.getRole();

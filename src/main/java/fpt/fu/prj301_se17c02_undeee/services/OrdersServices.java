@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author dell
  */
-public class OrderServices {
+public class OrdersServices {
 
     DBConnect db = new DBConnect();
 
