@@ -23,60 +23,143 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-
+        <link rel="stylesheet" href="assets/themify-icons/themify-icons.css">
         <style>
+            .brand-name{
+                font-family: "Segoe UI", Arial, sans-serif;
+                font-size: 30px;
+
+            }
+
+            .navbar-brand img{
+                border-radius: 50px;
+                width: 50px;
+                height: 50px;
+            }
+            .nav-item{
+                margin-right: 50px;
+            }
+            .nav-link{
+                color: white;
+                font-weight: 500;
+                font-size: 20px;
+            }
+            #navbarNav{
+                margin-left: 120px;
+            }
+
+
             .card{
                 margin-bottom: 60px !important;
-                
+
+            }
+            .white{
+                color: white;
+            }
+            .font20{
+                font-size: 20px;
+            }
+            .card img{
+                height: 390px;
             }
             .center{
                 text-align: center !important;
             }
-             
+
             .blue{
                 color: #006bff
             }
             .footer-bottom{
                 background-color: black;
-                
+                text-align: center;
+                padding: 20px;
+                margin-top: 30px;
                 color: white;
-                font-size: 20px;
-                font-weight: 500;
+                font-size: 16px;
+                font-weight: 300;
             }
             .footer-main{
-                display: flex; 
-                justify-content: space-between
+                display: flex;
+                justify-content: space-between;
+                padding : 0;
             }
+            .content_2{
+                margin-left: 35px;
+            }
+            .logo-footer>img{
+                width: 150px ;
+                height: 150px ;
+                border-radius: 120px;
+            }
+            .logo-footer{
+                align-items: center;
+            }
+            @media (min-width: 768px){
+
+                .container{
+                    max-width: 1460px !important;
+                    padding: 0 !important;
+                }
+            }
+            .order-button{
+                background-color: rgb(0, 170, 255);
+            }
+            .order-button:hover{
+                border-color: rgb(0, 170, 255);
+                background-color: white;
+            }
+            .navbar{
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 100000;
+                overflow: hidden;
+                width: 100% !important;
+            }
+
+          
         </style>
     </head>
     <body >
 
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg " style="background-color: aqua ">
+        <nav id="nav" class="navbar navbar-expand-lg white font20" style="background-color: aqua ">
             <a class="navbar-brand" href="./">
-                <img src="views/layout/logo.jpg" alt="Logo" width="40" height="40" style="border-radius: 50px">
-                Ún đeee
+                <img src="views/layout/logo.jpg" alt="Logo" width="40" height="40" >
+                <p class="brand-name">Úndeee</p>
             </a>
-         
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                       <li class="nav-item">
-                        <a class="nav-link" href="home">Trang chủ</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="home">Trang chủ <i class="ti-home"></i></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="view">Sản phẩm <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="view">Sản phẩm <i class="ti-angle-down"></i> <span class="sr-only">(current)</span></a>
+                        <ul class="subnav">
+                            <li>
+                                <a href="#">Undeee Trà Sữa :)) </a>
+                            </li>
+                            <li>
+                                <a href="#">Undeee Kem Cafe :> </a>
+                            </li>
+                            <li>
+                                <a href="#">Undeee Milk Tea <3 </a>
+                            </li>
+                        </ul>                   
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Về chúng tôi</a>
+                        <a class="nav-link" href="#">Về chúng tôi <i class="ti-angle-down"></i></a>
                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="#">Tuyển dụng</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tuyển dụng <i class="ti-angle-down"></i></a>
                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="#">Nhượng quyền</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Nhượng quyền <i class="ti-angle-down"></i></a>
                     </li>
                 </ul>
             </div>
@@ -88,17 +171,17 @@
                     </div>
                 </div>
             </form>
-      
-        </nav>
 
+        </nav>
+        <div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
         <!-- Danh sách sản phẩm dạng card -->
         <div class="container mt-6">
-            <div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
+
 
             <div class="center blue">  <h1 >Undeee menu</h1></div>
             <div  class="center"> <h2>Best Seller</h2></div>
-          
-           
+            <div class="search   ti-mouse"> </div>
+
 
 
             <div class="row">
@@ -118,7 +201,7 @@
                         </div>
                         <div class="card-footer">
 
-                            <button style="background-color: rgb(0, 170, 255)"><a href="AddToCartController?id=<%= product.getId()%>" class="btn" role="button">Order Now</a></button>
+                            <button class="order-button" "><a href="AddToCartController?id=<%= product.getId()%>" class="btn" role="button">Order Now</a></button>
 
                         </div>
                     </div>
@@ -129,12 +212,14 @@
             </div>
         </div>
 
-     
+
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+        <%@include file="layout/footer.jsp" %>
     </body>
+
 </html>
 
 <script>
@@ -211,7 +296,7 @@
     setInterval(changeImage, 3000); // Thực hiện hàm changeImage sau mỗi 3000ms (3 giây)
 </script>
 
-<%@include file="layout/footer.jsp" %>
+
 
 
 

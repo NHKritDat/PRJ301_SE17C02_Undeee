@@ -65,7 +65,7 @@ public class HomePageController extends HttpServlet {
             throws ServletException, IOException {
         
               ProductsServices ps = new ProductsServices();
-        List<Products> list = ps.getAllProducts();
+        List<Products> list = ps.getTop8BestSellerProducts();
         List<Categories> categoryList = ps.getCategories();
         request.setAttribute("categoryList", categoryList);
         request.setAttribute("list", list);

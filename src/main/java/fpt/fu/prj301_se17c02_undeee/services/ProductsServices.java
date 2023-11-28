@@ -96,6 +96,32 @@ public class ProductsServices extends DBConnect {
         return list;
     }
 
+    public List<Products> getTop8BestSellerProducts() {
+        List<Products> list = new ArrayList<>();
+        String query = "SELECT product_id , name, category_id, image, price, status, products.created_at, count\n"
+                + "FROM bestseller JOIN products ON product_id = id\n"
+                + "ORDER BY count DESC\n"
+                + "LIMIT 8; ";
+        try {
+            pst = connection.prepareStatement(query);
+            ResultSet res = pst.executeQuery();
+            while (res.next()) {
+                Products product = new Products();
+                product.setId(res.getInt(1));
+                product.setName(res.getString(2));
+                product.setCategory_id(res.getInt(3));
+                product.setImage(res.getString(4));
+                product.setPrice(res.getDouble(5));
+                product.setStatus(res.getString(6));
+                product.setCreate_at(res.getDate(7));
+                list.add(product);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return list;
+    }
+
     public List<Categories> getCategories() {
         List<Categories> list = new ArrayList<>();
         String query = "SELECT * FROM Categories ";
@@ -117,9 +143,9 @@ public class ProductsServices extends DBConnect {
         return list;
     }
 
-        public String getSizes(String id) {
+    public String getSizes(String id) {
         List<Sizes> list = new ArrayList<>();
-        String query = "SELECT * FROM Sizes  where product_id = "+id+";";
+        String query = "SELECT * FROM Sizes  where product_id = " + id + ";";
         Sizes category = null;
         PreparedStatement preparestatement;
         try {
@@ -137,24 +163,25 @@ public class ProductsServices extends DBConnect {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        String size="";
-        
-            for (Sizes sizes : list) {
-                if (sizes.getName().equals("Small")) {
-                    size=size+1;
-                }
-                  if (sizes.getName().equals("Regular")) {
-                    size=size+2;
-                }
-                    if (sizes.getName().equals("Large")) {
-                    size=size+3;
-                }
+        String size = "";
+
+        for (Sizes sizes : list) {
+            if (sizes.getName().equals("Small")) {
+                size = size + 1;
             }
+            if (sizes.getName().equals("Regular")) {
+                size = size + 2;
+            }
+            if (sizes.getName().equals("Large")) {
+                size = size + 3;
+            }
+        }
         return size;
     }
+
     public List<Products> searchProducts(String search) {
         List<Products> list = new ArrayList<>();
-        String query = "SELECT * FROM Products WHERE status  ='"+search+"' OR  name LIKE '%" + search + "%';";
+        String query = "SELECT * FROM Products WHERE status  ='" + search + "' OR  name LIKE '%" + search + "%';";
         Products product = null;
         PreparedStatement preparestatement;
         try {
@@ -177,10 +204,9 @@ public class ProductsServices extends DBConnect {
         return list;
     }
 
-    
-      public List<Products> searchProductsByCategory(String category) {
+    public List<Products> searchProductsByCategory(String category) {
         List<Products> list = new ArrayList<>();
-        String query = "SELECT * FROM Products WHERE category_id ="+category+";";
+        String query = "SELECT * FROM Products WHERE category_id =" + category + ";";
         Products product = null;
         PreparedStatement preparestatement;
         try {
@@ -202,6 +228,7 @@ public class ProductsServices extends DBConnect {
         }
         return list;
     }
+
     public int insertProducts(String name, int categoryID, String image, double price, String status) {
         try {
             String insertQuery = "INSERT INTO Products (name, category_id, image, price, status) VALUES (?, ?, ?, ?,?)";

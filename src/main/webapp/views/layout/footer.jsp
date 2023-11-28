@@ -6,12 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <footer >
-    <div class="footer-wrap container " >
+    <div class="footer-wrap  " >
         <div class="footer-main col-md-12">
-            
-            <div class="footer-1 col-md-6">
-                <div class="col-md-3"><img style="width: 200px ; height: 200px" class="footer-logo img-responsive " src="views/layout/logo.jpg" /></div>
-                <div class="col-md-3">
+                      
+                <div class="col-md-2 logo-footer"><img  class="footer-logo img-responsive " src="views/layout/logo.jpg" /></div>
+                <div class="content_2 col-md-5">
                     <div class="footer-title">Công ty CP TM & Dv Taco Việt Nam</div>
                 <div class="footer-line">
                     <i class="fas fa-map-marker"></i>
@@ -40,12 +39,11 @@
                 </div>
                 </div>
                 
-                
-            </div>
-            <div class="footer-2 col-md-3">
+           
+            <div class="footer-2 col-md-2">
                 <div class="footer-title">Về chúng tôi</div>
                 <div class="footer-content">
-                    <div class="menu-footer-abous"><ul id="menu-footer-ve-chung-toi" class="menu"><li id="menu-item-1319" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1319"><a href="/history/">Giới thiệu về TocoToco</a></li>
+                    <div class="menu-footer-abous"><ul id="menu-footer-ve-chung-toi" class="menu"><li id="menu-item-1319" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1319"><a href="/history/">Giới thiệu về Undeee</a></li>
                             <li id="menu-item-1320" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1320"><a href="https://tocotocotea.com/nhuongquyen/">Nhượng quyền</a></li>
                             <li id="menu-item-2119" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2119"><a href="http://tocotocotea.com/tin-tuc-khuyen-mai/">Tin tức khuyến mại</a></li>
                             <li id="menu-item-1865" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1865"><a href="https://tocotocotea.com/quy-dinh-chung/">Quy định chung</a></li>
