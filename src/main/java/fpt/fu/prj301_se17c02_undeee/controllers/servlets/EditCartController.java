@@ -4,13 +4,12 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.models.Users;
-import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
+import fpt.fu.prj301_se17c02_undeee.models.Cart;
+import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,10 +17,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author dell
+ * @author Admin
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
-public class LoginController extends HttpServlet {
+public class EditCartController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +38,10 @@ public class LoginController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");
+            out.println("<title>Servlet EditCartController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditCartController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +59,19 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("CART");
+        if (cart == null) {
+            cart = new Cart();
+        }
+        
+        int total_quantity = 0;
+        for (OrderDetails orderDetails : cart.getAll()) {
+            total_quantity += orderDetails.getQuantity();
+        }
+        request.setAttribute("total_quantity", total_quantity);
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/views/viewCartJsp.jsp");
         rd.forward(request, response);
     }
 
@@ -76,26 +86,47 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        if (email == null || password == null) {
-            response.sendRedirect("login");
-            return;
+        String edit = request.getParameter("edit");
+        String[] info = edit.split("-");
+        String status = info[0];
+        String key = info[1];
+        String newKey = info[2];
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("CART");
+        OrderDetails ods = cart.getByKey(key);
+        int fix;
+        
+        switch (status) {
+            case "up":
+                fix = ods.getQuantity() + 1;
+                ods.setQuantity(fix);
+                cart.update(key, ods);
+                session.setAttribute("CART", cart);
+                break;
+            case "down":
+                fix = ods.getQuantity() - 1;
+                ods.setQuantity(fix);
+                cart.update(key, ods);
+                session.setAttribute("CART", cart);
+                break;
+            case "remove":
+                cart.remove(key);
+                session.setAttribute("CART", cart);
+                break;
+            case "size":
+                cart.update(newKey, ods);
+                session.setAttribute("CART", cart);
+                break;
         }
-        UsersServices userServices = new UsersServices();
-        Users user = userServices.checkLogin(email, password);
-        if (user != null) {
-            int role = user.getRole();
-            if (role == 2) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user_loged", user);
-                response.sendRedirect("./admin-page");
-            } else {
-                response.sendRedirect("./view");//thay đường dẫn đến customer page
-            }
-        } else {
-            response.sendRedirect("./login");
+        
+        int total_quantity = 0;
+        for (OrderDetails orderDetails : cart.getAll()) {
+            total_quantity += orderDetails.getQuantity();
         }
+        request.setAttribute("total_quantity", total_quantity);
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/views/viewCartJsp.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -106,6 +137,6 @@ public class LoginController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold> 
+    }// </editor-fold>
 
 }

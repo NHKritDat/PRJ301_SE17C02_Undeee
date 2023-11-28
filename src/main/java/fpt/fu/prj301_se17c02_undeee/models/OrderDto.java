@@ -2,25 +2,37 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package fpt.fu.prj301_se17c02_undeee.services;
+package fpt.fu.prj301_se17c02_undeee.models;
 
-import fpt.fu.prj301_se17c02_undeee.models.Orders;
-import fpt.fu.prj301_se17c02_undeee.models.Users;
+import java.util.List;
 
 /**
  *
  * @author dell
  */
 public class OrderDto {
+
     private Orders order;
+    private OrderDetails orderDetail;
     private Users user;
+    private Addresses address;
+    private Categories category;
+    private Products product;
+    private Sizes size;
+    private List<OrderDetails> orderDetailList;
 
     public OrderDto() {
     }
 
-    public OrderDto(Orders order, Users user) {
+    public OrderDto(Orders order, OrderDetails orderDetail, Users user, Addresses address, Categories category, Products product, Sizes size, List<OrderDetails> orderDetailList) {
         this.order = order;
+        this.orderDetail = orderDetail;
         this.user = user;
+        this.address = address;
+        this.category = category;
+        this.product = product;
+        this.size = size;
+        this.orderDetailList = orderDetailList;
     }
 
     public Orders getOrder() {
@@ -31,6 +43,14 @@ public class OrderDto {
         this.order = order;
     }
 
+    public OrderDetails getOrderDetail() {
+        return orderDetail;
+    }
+
+    public void setOrderDetail(OrderDetails orderDetail) {
+        this.orderDetail = orderDetail;
+    }
+
     public Users getUser() {
         return user;
     }
@@ -38,5 +58,45 @@ public class OrderDto {
     public void setUser(Users user) {
         this.user = user;
     }
-    
+
+    public Addresses getAddress() {
+        return address;
+    }
+
+    public void setAddress(Addresses address) {
+        this.address = address;
+    }
+
+    public Categories getCategory() {
+        return category;
+    }
+
+    public void setCategory(Categories category) {
+        this.category = category;
+    }
+
+    public Products getProduct() {
+        return product;
+    }
+
+    public void setProduct(Products product) {
+        this.product = product;
+    }
+
+    public Sizes getSize() {
+        return size;
+    }
+
+    public void setSize(Sizes size) {
+        this.size = size;
+    }
+
+    public List<OrderDetails> getOrderDetailList() {
+        return orderDetailList;
+    }
+
+    public void setOrderDetailList(List<OrderDetails> orderDetailList) {
+        this.orderDetailList = orderDetailList;
+    }
+
 }

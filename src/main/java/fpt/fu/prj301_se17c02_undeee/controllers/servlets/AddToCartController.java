@@ -4,13 +4,12 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.models.Users;
-import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
+import fpt.fu.prj301_se17c02_undeee.models.Cart;
+import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,10 +17,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author dell
+ * @author Admin
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
-public class LoginController extends HttpServlet {
+public class AddToCartController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +38,10 @@ public class LoginController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");
+            out.println("<title>Servlet AddToCartController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddToCartController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,8 +59,19 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
-        rd.forward(request, response);
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("CART");
+        if (cart == null) {
+            cart = new Cart();
+        }
+        
+        int total_quantity = 0;
+        for (OrderDetails orderDetails : cart.getAll()) {
+            total_quantity += orderDetails.getQuantity();
+        }
+        request.setAttribute("total_quantity", total_quantity);
+        
+        response.sendRedirect("./view"); //Sửa lại link
     }
 
     /**
@@ -76,26 +85,34 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        if (email == null || password == null) {
-            response.sendRedirect("login");
-            return;
+        String product_id_string = request.getParameter("product_id");
+        String size_id_string = request.getParameter("size_id");
+        String quantity_string = request.getParameter("quantity");
+
+        int product_id = Integer.parseInt(product_id_string);
+        int size_id = Integer.parseInt(size_id_string);
+        int quantity = Integer.parseInt(quantity_string);
+        
+        OrderDetails ods = new OrderDetails();
+        ods.setProduct_id(product_id);
+        ods.setSize_id(size_id);
+        ods.setQuantity(quantity);
+
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("CART");
+        if (cart == null) {
+            cart = new Cart();
         }
-        UsersServices userServices = new UsersServices();
-        Users user = userServices.checkLogin(email, password);
-        if (user != null) {
-            int role = user.getRole();
-            if (role == 2) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user_loged", user);
-                response.sendRedirect("./admin-page");
-            } else {
-                response.sendRedirect("./view");//thay đường dẫn đến customer page
-            }
-        } else {
-            response.sendRedirect("./login");
+        cart.add(ods);
+        session.setAttribute("CART", cart);
+
+        int total_quantity = 0;
+        for (OrderDetails orderDetails : cart.getAll()) {
+            total_quantity += orderDetails.getQuantity();
         }
+        request.setAttribute("total_quantity", total_quantity);
+        
+        response.sendRedirect("./view"); //Sửa lại link
     }
 
     /**
@@ -106,6 +123,6 @@ public class LoginController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold> 
+    }// </editor-fold>
 
 }

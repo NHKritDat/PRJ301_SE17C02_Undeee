@@ -93,7 +93,7 @@
                         <div class="card-footer">
                             <button style="background-color: red"><a href="delete?id=<%= product.getId()%>" class="btn" role="button">Delete</a></button>
                             <button style="background-color: yellow"><a href="UpdateProductController?id=<%= product.getId()%>" class="btn" role="button">Update</a></button>
-
+                            
                         </div>
                     </div>
                 </div>

@@ -13,36 +13,36 @@ import java.util.Date;
 public class Sizes {
 
     private int size_id;
-    private int product_id;
+    private int category_id;
     private String name;
-    private double price;
-    private Date create_at;
-
-    public Sizes(int size_id, int product_id, String name, double price, Date create_at) {
-        this.size_id = size_id;
-        this.product_id = product_id;
-        this.name = name;
-        this.price = price;
-        this.create_at = create_at;
-    }
+    private double percent;
+    private Date created_at;
 
     public Sizes() {
     }
 
-    public int getSize_id() {
+    public Sizes(int id, int category_id, String name, double percent, Date created_at) {
+        this.size_id = id;
+        this.category_id = category_id;
+        this.name = name;
+        this.percent = percent;
+        this.created_at = created_at;
+    }
+
+    public int getId() {
         return size_id;
     }
 
-    public void setSize_id(int size_id) {
-        this.size_id = size_id;
+    public void setId(int id) {
+        this.size_id = id;
     }
 
-    public int getProduct_id() {
-        return product_id;
+    public int getCategory_id() {
+        return category_id;
     }
 
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
     }
 
     public String getName() {
@@ -53,25 +53,20 @@ public class Sizes {
         this.name = name;
     }
 
-    public double getPrice() {
-        return price;
+    public double getPercent() {
+        return percent;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPercent(double percent) {
+        this.percent = percent;
     }
 
-    public Date getCreate_at() {
-        return create_at;
+    public Date getCreated_at() {
+        return created_at;
     }
 
-    public void setCreate_at(Date create_at) {
-        this.create_at = create_at;
-    }
-
-    @Override
-    public String toString() {
-        return "Sizes{" + "size_id=" + size_id + ", product_id=" + product_id + ", price=" + price + ", create_at=" + create_at + '}';
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
     }
 
 }

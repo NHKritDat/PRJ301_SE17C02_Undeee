@@ -4,7 +4,7 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.services.ProductService;
+import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -59,7 +59,7 @@ public class DeleteProductController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
           String id = request.getParameter("id");
-        ProductService productService = new ProductService();
+        ProductsServices productService = new ProductsServices();
         if (id != null) {
             int result = productService.deleteProducts(id);
             if (result > 0) {

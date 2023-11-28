@@ -4,7 +4,9 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
 
-import fpt.fu.prj301_se17c02_undeee.services.OrderDto;
+
+import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
+
 import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -62,9 +64,13 @@ public class ViewOrdersController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String search = request.getParameter("search");
+        String searchBy = request.getParameter("searchBy");
+
         OrdersServices orderService = new OrdersServices();
-        List<OrderDto> orders = orderService.getOrders(search);
+        List<OrderDto> orders = orderService.getOrders(search, searchBy);
+
         request.setAttribute("orders", orders);
+        
         RequestDispatcher rd = request.getRequestDispatcher("/views/admin/viewOrders.jsp");
         rd.forward(request, response);
     }

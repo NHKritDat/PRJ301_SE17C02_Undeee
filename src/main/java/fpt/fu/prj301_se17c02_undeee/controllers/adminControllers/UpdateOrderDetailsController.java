@@ -2,26 +2,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
+package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
 
-import fpt.fu.prj301_se17c02_undeee.models.Users;
-import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
+import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
+import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
+import fpt.fu.prj301_se17c02_undeee.models.Products;
+import fpt.fu.prj301_se17c02_undeee.models.Sizes;
+import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
+import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "UpdateOrderDetailsController", urlPatterns = {"/update-orderDetails"})
+public class UpdateOrderDetailsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +44,10 @@ public class LoginController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");
+            out.println("<title>Servlet UpdateOrderDetailsController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateOrderDetailsController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,8 +65,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
-        rd.forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -76,26 +79,32 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        if (email == null || password == null) {
-            response.sendRedirect("login");
-            return;
+        String id = request.getParameter("id");
+        String orderDetailsId = request.getParameter("orderDetailsId");
+
+        OrdersServices orderService = new OrdersServices();
+
+        double total_price = 0;
+
+        String product_id = request.getParameter("product_" + orderDetailsId);
+        String size_id = request.getParameter("size_" + orderDetailsId);
+        String quantity = request.getParameter("quantity_" + orderDetailsId);
+
+        orderService.updateOrderDetails(Integer.parseInt(product_id), Integer.parseInt(size_id), Integer.parseInt(quantity), Integer.parseInt(orderDetailsId));
+
+        List<OrderDto> orderList = orderService.getOrderDetailsByOrderId(Integer.parseInt(id));
+        for (OrderDto order : orderList) {
+            total_price += order.getProduct().getPrice() * order.getSize().getPercent() * Integer.parseInt(quantity);
         }
-        UsersServices userServices = new UsersServices();
-        Users user = userServices.checkLogin(email, password);
-        if (user != null) {
-            int role = user.getRole();
-            if (role == 2) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user_loged", user);
-                response.sendRedirect("./admin-page");
-            } else {
-                response.sendRedirect("./view");//thay đường dẫn đến customer page
-            }
+
+        String status = request.getParameter("status");
+        if (status != null) {
+            orderService.updateOrders(status, total_price, Integer.parseInt(id));
+            response.sendRedirect("./view-orders?updateSuccess=true");
         } else {
-            response.sendRedirect("./login");
+            response.sendRedirect("./view-orders?updateSuccess=false");
         }
+
     }
 
     /**
@@ -106,6 +115,6 @@ public class LoginController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold> 
+    }// </editor-fold>
 
 }

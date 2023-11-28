@@ -14,12 +14,12 @@ public class Categories {
 
     private int category_id;
     private String name;
-    private Date create_at;
+    private Date created_at;
 
-    public Categories(int id, String name, Date create_at) {
+    public Categories(int id, String name, Date created_at) {
         this.category_id = id;
         this.name = name;
-        this.create_at = create_at;
+        this.created_at = created_at;
     }
 
     public Categories() {
@@ -41,17 +41,17 @@ public class Categories {
         this.name = name;
     }
 
-    public Date getCreate_at() {
-        return create_at;
+    public Date getCreated_at() {
+        return created_at;
     }
 
-    public void setCreate_at(Date create_at) {
-        this.create_at = create_at;
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
     }
 
     @Override
     public String toString() {
-        return "Categories{" + "id=" + category_id + ", name=" + name + ", create_at=" + create_at + '}';
+        return "Categories{" + "id=" + category_id + ", name=" + name + ", created_at=" + created_at + '}';
     }
 
 }

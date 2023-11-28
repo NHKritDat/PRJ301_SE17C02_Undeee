@@ -17,9 +17,9 @@
         <title>Website của bạn</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
         <style>
-      
+
             .labelSize{
-                    margin-right: 30px;
+                margin-right: 30px;
             }
             .menu-list {
                 margin: 0 40px;
@@ -64,7 +64,7 @@
             .menu-list_content {
                 background-color: #E9E3E3;
                 padding: 10px 10px;
-                  display: flex;
+                display: flex;
                 justify-content: space-between; /* Adjust as needed */
                 align-items: center; /* Adjust as needed */
             }

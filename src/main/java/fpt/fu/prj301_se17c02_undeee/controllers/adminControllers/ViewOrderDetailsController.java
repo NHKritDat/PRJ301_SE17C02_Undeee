@@ -4,7 +4,8 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
 
-import fpt.fu.prj301_se17c02_undeee.services.OrderDetailDto;
+import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
+
 import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,7 +41,7 @@ public class ViewOrderDetailsController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewOrderDetailsController</title>");            
+            out.println("<title>Servlet ViewOrderDetailsController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ViewOrderDetailsController at " + request.getContextPath() + "</h1>");
@@ -62,9 +63,11 @@ public class ViewOrderDetailsController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
+        
         OrdersServices orderService = new OrdersServices();
-        List<OrderDetailDto> orderDetails = orderService.getOrderDetails(Integer.parseInt(id));
+        List<OrderDto> orderDetails = orderService.getOrderDetailsByOrderId(Integer.parseInt(id));
         request.setAttribute("orderDetails", orderDetails);
+
         RequestDispatcher rd = request.getRequestDispatcher("/views/admin/viewOrderDetails.jsp");
         rd.forward(request, response);
     }
