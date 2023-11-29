@@ -129,4 +129,10 @@
             </div>
         </div>
         <%@include file="../layout/footer.jsp" %>
-
+<script>
+    window.onpageshow = function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+</script>

@@ -94,13 +94,14 @@ public class UpdateOrderDetailsController extends HttpServlet {
 
         List<OrderDto> orderList = orderService.getOrderDetailsByOrderId(Integer.parseInt(id));
         for (OrderDto order : orderList) {
-            total_price += order.getProduct().getPrice() * order.getSize().getPercent() * Integer.parseInt(quantity);
+            total_price += order.getProduct().getPrice() * order.getSize().getPercent() * order.getOrderDetail().getQuantity();
         }
 
         String status = request.getParameter("status");
         if (status != null) {
             orderService.updateOrders(status, total_price, Integer.parseInt(id));
-            response.sendRedirect("./view-orders?updateSuccess=true");
+            response.sendRedirect("./view-orderDetails?id=" + id);
+//            response.sendRedirect("./view-orders?updateSuccess=true");
         } else {
             response.sendRedirect("./view-orders?updateSuccess=false");
         }

@@ -67,11 +67,19 @@
                         <% }%>
                     </tbody>
                 </table>
+                <button type="submit" class="btn btn-primary">Apply Changes</button>
             </div>
         </div>
         <%@include file="../layout/footer.jsp" %>
     </body>
 </html>
+<script>
+    window.onpageshow = function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+</script>
 
 
 

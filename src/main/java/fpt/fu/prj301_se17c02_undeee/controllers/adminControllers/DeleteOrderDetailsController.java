@@ -86,7 +86,8 @@ public class DeleteOrderDetailsController extends HttpServlet {
             }
             orderService.updateTotalPrice(total_price, Integer.parseInt(id));
         }
-        response.sendRedirect("./view-orderDetails?id=" + id);
+//        response.sendRedirect("./view-orderDetails?id=" + id);
+        response.sendRedirect("./view-orderDetails?id=" + id + "&refresh=" + System.currentTimeMillis());
     }
 
     /**

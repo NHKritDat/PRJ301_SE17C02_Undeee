@@ -32,39 +32,48 @@
     </head>
     <body>
         <%@include file="../layout/header.jsp" %>
-        <div class="container">
-            <h1>Update Orders</h1>
+        <div class="container mt-4">
+            <h1 class="mb-4">Update OrderDetails</h1>
             <form action="update-orderDetails" method="POST">
 
                 <input type="hidden" name="id" value="<%= orderDetail.getOrder().getId()%>">
 
-                <label>Id:</label>
-                <input type="text" name="orderId" value="<%= orderDetail.getOrder().getId()%>" readonly><br>
+                <div class="mb-3">
+                    <label>Id:</label>
+                    <input type="text" name="orderId" value="<%= orderDetail.getOrder().getId()%>" readonly><br>
+                </div>
 
-                <label>Customer Name:</label>
-                <input type="text" name="fullname" value="<%= orderDetail.getUser().getFullname()%>" readonly><br>
+                <div class="mb-3">
+                    <label>Customer Name:</label>
+                    <input type="text" name="fullname" value="<%= orderDetail.getUser().getFullname()%>" readonly><br>
+                </div>
 
-                <label>Address:</label>
-                <input type="text" name="address" value="<%= orderDetail.getAddress().getAddress_detail()%>" readonly><br>
+                <div class="mb-3">
+                    <label>Address:</label>
+                    <input type="text" name="address" value="<%= orderDetail.getAddress().getAddress_detail()%>" readonly><br>
+                </div>
 
-                <label>Status:</label>
-                <select name="status">
-                    <option value="success" <%= orderDetail.getOrder().getStatus().equals("success") ? "selected" : ""%>>Success</option>
-                    <option value="pending" <%= orderDetail.getOrder().getStatus().equals("pending") ? "selected" : ""%>>Pending</option>
-                </select>
+                <div class="mb-3">
+                    <label>Status:</label>
+                    <select name="status">
+                        <option value="success" <%= orderDetail.getOrder().getStatus().equals("success") ? "selected" : ""%>>Success</option>
+                        <option value="pending" <%= orderDetail.getOrder().getStatus().equals("pending") ? "selected" : ""%>>Pending</option>
+                    </select>
+                </div>
 
                 <% Date created_at = orderDetail.getOrder().getCreated_at();
                     String formattedDate = dateFormat.format(created_at);
                 %>
-                <label>Created at:</label>
-                <input type="text" name="id" value="<%= formattedDate%>" readonly><br>
-
+                <div class="mb-3">
+                    <label>Created at:</label>
+                    <input type="text" name="id" value="<%= formattedDate%>" readonly><br>
+                </div>
                 <hr>
                 <label>Order Details:</label>
                 <br>
 
                 <input type="hidden" name="orderDetailsId" value="<%= orderDetail.getOrderDetail().getOrder_detail_id()%>">
-                <%= orderDetail.getOrderDetail().getOrder_detail_id()%>
+
                 <label>Category:</label>
                 <select name="category_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="category_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" onchange="updateProductList(<%=orderDetail.getOrderDetail().getOrder_detail_id()%>)">
                     <% for (Categories category : allCategories) {%>
@@ -75,7 +84,7 @@
                 </select>
 
                 <label>Product:</label>
-                <select name="product_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="product_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" onchange="updateTotal(<%=orderDetail.getOrderDetail().getOrder_detail_id()%>)">
+                <select name="product_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="product_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>">
                     <% for (Products product : productList) {%>
                     <option value="<%= product.getId()%>" <%=product.getId() == orderDetail.getProduct().getId() ? "selected" : ""%>>
                         <%= product.getName()%>  
@@ -84,7 +93,7 @@
                 </select>
 
                 <label>Size:</label>
-                <select name="size_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="size_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" onchange="updateTotal(<%=orderDetail.getOrderDetail().getOrder_detail_id()%>)">
+                <select name="size_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="size_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>">
                     <% for (Sizes size : sizeList) {%>
                     <option value="<%= size.getId()%>" <%=size.getId() == orderDetail.getSize().getId() ? "selected" : ""%>>
                         <%= size.getName()%>  
@@ -92,12 +101,11 @@
                     <% }%>
                 </select>
 
-
                 <label>Quantity:</label>
-                <input type="number" name="quantity_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="quantity_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" value="<%=orderDetail.getOrderDetail().getQuantity()%>" onchange="updateTotal(<%=orderDetail.getOrderDetail().getOrder_detail_id()%>)">       
+                <input type="number" min="1" name="quantity_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="quantity_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" value="<%=orderDetail.getOrderDetail().getQuantity()%>">       
                 <br>
 
-                <input type="submit" value="Update Order">
+                <input type="submit" class="btn btn-primary" value="Update Order">
             </form>
         </div>
         <%@include file="../layout/footer.jsp" %>
@@ -160,5 +168,13 @@
         });
     });
 
+    window.onpageshow = function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+    
 </script>
+
+
 
