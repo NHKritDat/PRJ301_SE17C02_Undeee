@@ -123,11 +123,12 @@ public class OrdersServices extends DBConnect {
         }
         return orders;
     }
+    
 
     public OrderDto getOrdersById(int id) {
         OrderDto orderDto = null;
         try {
-            sql = "SELECT o.*, u.fullname, a.address_detail FROM Orders o "
+            sql = "SELECT * FROM Orders o "
                     + "JOIN Users u ON o.user_id = u.id "
                     + "JOIN Addresses a ON o.address_id = a.id "
                     + "WHERE o.id = " + id;
@@ -140,15 +141,26 @@ public class OrdersServices extends DBConnect {
                 Orders order = new Orders();
                 order.setId(rs.getInt("id"));
                 order.setUser_id(rs.getInt("user_id"));
+                order.setAddress_id(rs.getInt("address_id"));
                 order.setTotal_price(rs.getDouble("total_price"));
                 order.setStatus(rs.getString("status"));
                 order.setCreated_at(rs.getTimestamp("created_at"));
 
                 Users user = new Users();
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
+                user.setPhone(rs.getString("phone"));
+                user.setAvatar(rs.getString("avatar"));
+                user.setRole(rs.getInt("role"));
+                user.setCreated_at(rs.getTimestamp("created_at"));
 
                 Addresses address = new Addresses();
+                address.setId(rs.getInt("id"));
+                address.setUser_id(rs.getInt("user_id"));
                 address.setAddress_detail(rs.getString("address_detail"));
+                address.setCreated_at(rs.getTimestamp("created_at"));
 
                 orderDto.setOrder(order);
                 orderDto.setUser(user);
