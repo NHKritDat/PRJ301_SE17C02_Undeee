@@ -36,6 +36,7 @@ public class CheckLogin implements Filter {
 
         Users u = new Users();
         Object status = session.getAttribute("user_loged");
+               
         if (status != null) {
             u = (Users) status;
         }

@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -78,6 +79,11 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String remember = request.getParameter("RememberMe");
+
+        Cookie cEmail = new Cookie("cEmail", email);
+        Cookie cPassword = new Cookie("cPassword", password);
+        Cookie cRemember = new Cookie("cRemember", remember);
         if (email == null || password == null) {
             response.sendRedirect("login");
             return;
@@ -93,9 +99,24 @@ public class LoginController extends HttpServlet {
             } else {
                 response.sendRedirect("./AddToCartController");
             }
+            if (remember != null && remember.equals("ON")) {
+                cEmail.setMaxAge(60 * 60 * 24 * 7); //7 ngày
+                cPassword.setMaxAge(60 * 60 * 24 * 7);
+                cRemember.setMaxAge(60 * 60 * 24 * 7);
+            } else {
+                cEmail.setMaxAge(0);
+                cPassword.setMaxAge(0);
+                cRemember.setMaxAge(0);
+            }
+
+            response.addCookie(cEmail);
+            response.addCookie(cPassword);
+            response.addCookie(cRemember);
+
         } else {
             response.sendRedirect("./login");
         }
+
     }
 
     /**

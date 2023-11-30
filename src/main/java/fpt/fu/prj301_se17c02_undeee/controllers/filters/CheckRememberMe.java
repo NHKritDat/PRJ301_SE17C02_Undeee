@@ -34,13 +34,13 @@ public class CheckRememberMe implements Filter {
         
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        String remember = req.getParameter("Remember me");
+        String remember = req.getParameter("RememberMe");
 
         Cookie cEmail = new Cookie("cEmail", email);
         Cookie cPassword = new Cookie("cPassword", password);
         Cookie cRemember = new Cookie("cRemember", remember);
 
-        if (remember != null) {
+        if (remember != null && remember.equals("ON")) {
             cEmail.setMaxAge(60 * 60 * 24 * 7); //7 ngày
             cPassword.setMaxAge(60 * 60 * 24 * 7);
             cRemember.setMaxAge(60 * 60 * 24 * 7);
