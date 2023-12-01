@@ -1,0 +1,43 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : Dec 1, 2023, 11:57:36 AM
+    Author     : Admin
+*/
+
+.brand-name{
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 30px;
+}
+
+.navbar-brand img{
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+}
+.nav-item{
+    margin-right: 50px;
+}
+.nav-link{
+    color: white;
+    font-weight: 500;
+    font-size: 20px;
+}
+#navbarNav{
+    margin-left: 120px;
+}
+
+.navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100% !important;
+}
+
+.padding-top-100{
+    padding-top: 100px;
+}

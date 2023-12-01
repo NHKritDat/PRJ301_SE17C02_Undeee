@@ -225,7 +225,7 @@
        
 
         <!-- Body: Form tạo sản phẩm -->
-        <div class="container mt-4">
+        <div class="container padding-top-100">
             <h1>Tạo sản phẩm mới</h1>
             <form action="create" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
