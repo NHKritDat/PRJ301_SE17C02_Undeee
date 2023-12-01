@@ -67,7 +67,7 @@
                         <a class="nav-link" href="">Trang chủ</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="AddToCartController">Sản phẩm <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="customer-product">Sản phẩm <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Về chúng tôi</a>

@@ -4,25 +4,25 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.models.Users;
-import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
+import fpt.fu.prj301_se17c02_undeee.models.Categories;
+import fpt.fu.prj301_se17c02_undeee.models.Paging;
+import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author dell
+ * @author Admin
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "CustomerViewProductsController", urlPatterns = {"/customer-product"})
+public class CustomerViewProductsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +41,10 @@ public class LoginController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");
+            out.println("<title>Servlet CustomerViewProductsController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CustomerViewProductsController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,7 +62,23 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
+        String search = request.getParameter("search");
+        String category_id = request.getParameter("category");
+        String page_String = request.getParameter("page");
+
+        int page = page_String != null ? Integer.parseInt(page_String) : 1;
+        int perPage = 12;
+
+        ProductsServices ps = new ProductsServices();
+        Paging paging = ps.getAllProductsAvailable(search, category_id, page, perPage);
+        List<Categories> l = ps.getCategories();
+
+        request.setAttribute("paging", paging);
+        request.setAttribute("search", search);
+        request.setAttribute("category", category_id);
+        request.setAttribute("CategoryList", l);
+
+        RequestDispatcher rd = request.getRequestDispatcher("/views/CustomerViewProductsJSP.jsp");
         rd.forward(request, response);
     }
 
@@ -77,48 +93,6 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String remember = request.getParameter("RememberMe");
-        System.out.println(remember);
-
-        Cookie cEmail = new Cookie("cEmail", email);
-        Cookie cPassword = new Cookie("cPassword", password);
-        Cookie cRemember = new Cookie("cRemember", remember);
-        if (email == null || password == null) {
-            response.sendRedirect("login");
-            return;
-        }
-        UsersServices userServices = new UsersServices();
-        Users user = userServices.checkLogin(email, password);
-        if (user != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("user_loged", user);          
-            int role = user.getRole();
-
-            if (remember != null && remember.equals("ON")) {
-                cEmail.setMaxAge(60 * 60 * 24 * 7); //7 ngày
-                cPassword.setMaxAge(60 * 60 * 24 * 7);
-                cRemember.setMaxAge(60 * 60 * 24 * 7);
-            } else {
-                cEmail.setMaxAge(0);
-                cPassword.setMaxAge(0);
-                cRemember.setMaxAge(0);
-            }
-
-            response.addCookie(cEmail);
-            response.addCookie(cPassword);
-            response.addCookie(cRemember);
-
-            if (role == 2) {
-                response.sendRedirect("./admin-page");
-            } else {
-                response.sendRedirect("./customer-product");
-            }
-
-        } else {
-            response.sendRedirect("./login");
-        }
 
     }
 
@@ -130,6 +104,6 @@ public class LoginController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold> 
+    }// </editor-fold>
 
 }

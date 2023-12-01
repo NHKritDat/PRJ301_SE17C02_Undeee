@@ -26,7 +26,7 @@ import javax.servlet.http.Part;
  * @author Hp
  */
 @MultipartConfig
-@WebServlet(name = "UpdateProductsController", urlPatterns = {"/UpdateProductsController"})
+@WebServlet(name = "UpdateProductsController", urlPatterns = {"/update-product"})
 public class UpdateProductsController extends HttpServlet {
 
     /**
@@ -69,8 +69,10 @@ public class UpdateProductsController extends HttpServlet {
             throws ServletException, IOException {
         String id = (String) request.getParameter("id");
         ProductsServices ps = new ProductsServices();
-        Products product = ps.getProductById(id);
+
+        Products product = ps.getProductById(Integer.parseInt(id));
         String sizeCode = ps.getSizes(id);
+
         if (product != null) {
             List<Categories> categoryList = ps.getCategories();
             request.setAttribute("categoryList", categoryList);
@@ -108,7 +110,7 @@ public class UpdateProductsController extends HttpServlet {
         String id = request.getParameter("id");
 
         ProductsServices ps = new ProductsServices();
-        Products product = ps.getProductById(id);
+        Products product = ps.getProductById(Integer.parseInt(id));
         if (product == null) {
             response.sendError(404);
         }
