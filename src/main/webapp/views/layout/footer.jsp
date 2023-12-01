@@ -5,44 +5,45 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<footer >
-    <div class="footer-wrap container " >
+<footer>
+    <div class="footer-wrap" >
         <div class="footer-main col-md-12">
-            <div class="footer-1 col-md-6">
-                <div class="col-md-3"><img style="width: 200px ; height: 200px" class="footer-logo img-responsive " src="views/layout/logo.jpg" /></div>
-                <div class="col-md-3">
-                    <div class="footer-title">Công ty CP TM & Dv Taco Việt Nam</div>
-                    <div class="footer-line">
-                        <i class="fas fa-map-marker"></i>
-                        Tầng 2 tòa nhà T10, Times City Vĩnh Tuy, Hai Bà Trưng, Hà Nội.
-                    </div>
-                    <div class="footer-line">
-                        <i class="fas fa-phone"></i>
-                        1900.63.69.36
-                    </div>
-                    <div class="footer-line">
-                        <i class="fas fa-envelope"></i>
-                        info@tocotocotea.com
-                    </div>
-                    <div class="footer-line">
-                        Số ĐKKD: 0106341306. Ngày cấp: 16/03/2017.
-                    </div>
-                    <div class="footer-line">
-                        Nơi cấp: Sở kế hoạch và Đầu tư Thành phố Hà Nội.
-                    </div>
-                    <div class="footer-line social">
-                        <a target="_blank" href="https://www.facebook.com/tocotocobubbletea/"><i class="fab fa-facebook-square"></i></a>
-                        <a target="_blank" href="https://www.instagram.com/tocotoco_bubble_tea/"><i class="fab fa-instagram"></i></a>
-                        <a target="_blank" href="https://www.youtube.com/c/ToCoToCoBubbleTea"><i class="fab fa-youtube"></i></a>
-                        <a target="_blank" href="https://www.tiktok.com/@tocotocobubbletea/"><i class="fab fa-twitter"></i></a>
-                        <a target="_blank" href="https://zalo.me/2268915497539367639"><i class="fab fa-google-plus"></i></a>
-                    </div>
+
+            <div class="col-md-3 logo-footer"><img  class="footer-logo img-responsive " src="views/layout/logo.jpg" /></div>
+            <div class="content_2 col-md-4">
+
+                <div class="footer-title">Công ty CP TM & Dv Taco Việt Nam</div>
+                <div class="footer-line">
+                    <i class="fas fa-map-marker"></i>
+                    Tầng 2 tòa nhà T10, Times City Vĩnh Tuy, Hai Bà Trưng, Hà Nội.
+                </div>
+                <div class="footer-line">
+                    <i class="fas fa-phone"></i>
+                    1900.63.69.36
+                </div>
+                <div class="footer-line">
+                    <i class="fas fa-envelope"></i>
+                    info@tocotocotea.com
+                </div>
+                <div class="footer-line">
+                    Số ĐKKD: 0106341306. Ngày cấp: 16/03/2017.
+                </div>
+                <div class="footer-line">
+                    Nơi cấp: Sở kế hoạch và Đầu tư Thành phố Hà Nội.
+                </div>
+                <div class="footer-line social">
+                    <a target="_blank" href="https://www.facebook.com/tocotocobubbletea/"><i class="fab fa-facebook-square"></i></a>
+                    <a target="_blank" href="https://www.instagram.com/tocotoco_bubble_tea/"><i class="fab fa-instagram"></i></a>
+                    <a target="_blank" href="https://www.youtube.com/c/ToCoToCoBubbleTea"><i class="fab fa-youtube"></i></a>
+                    <a target="_blank" href="https://www.tiktok.com/@tocotocobubbletea/"><i class="fab fa-twitter"></i></a>
+                    <a target="_blank" href="https://zalo.me/2268915497539367639"><i class="fab fa-google-plus"></i></a>
                 </div>
             </div>
-            <div class="footer-2 col-md-3">
+
+            <div style="  padding :0px !important;" class="footer-2 col-md-2 padding0">
                 <div class="footer-title">Về chúng tôi</div>
                 <div class="footer-content">
-                    <div class="menu-footer-abous"><ul id="menu-footer-ve-chung-toi" class="menu"><li id="menu-item-1319" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1319"><a href="/history/">Giới thiệu về TocoToco</a></li>
+                    <div class="menu-footer-abous"><ul id="menu-footer-ve-chung-toi" class="menu"><li id="menu-item-1319" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1319"><a href="/history/">Giới thiệu về Undeee</a></li>
                             <li id="menu-item-1320" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1320"><a href="https://tocotocotea.com/nhuongquyen/">Nhượng quyền</a></li>
                             <li id="menu-item-2119" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2119"><a href="http://tocotocotea.com/tin-tuc-khuyen-mai/">Tin tức khuyến mại</a></li>
                             <li id="menu-item-1865" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1865"><a href="https://tocotocotea.com/quy-dinh-chung/">Quy định chung</a></li>
@@ -75,7 +76,13 @@
 
 <script src="./assets/js/popupCard.js"></script>
 <script src="./assets/js/submitOrder.js"></script>
+<script src="./assets/js/homePage.js"></script>
+<script src="./assets/js/admin_view_product.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 </body>
 </html>

@@ -93,7 +93,7 @@ public class UpdateUserController extends HttpServlet {
         
         Part part = request.getPart("image");
         if (part.getSize() > 0) {
-            String folderSaveFile = "/users_avatar";
+            String folderSaveFile = "/views/users_avatar";
             String pathUpload = request.getServletContext().getRealPath(folderSaveFile);
             String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
@@ -101,7 +101,6 @@ public class UpdateUserController extends HttpServlet {
                 Files.createDirectories(Paths.get(pathUpload));
             }
             part.write(pathUpload + "/" + fileName);
-            
             imageSave = fileName;
         }
 

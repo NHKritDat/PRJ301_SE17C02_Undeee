@@ -26,7 +26,7 @@ import javax.servlet.http.Part;
  * @author Hp
  */
 @MultipartConfig
-@WebServlet(name = "UpdateProductsController", urlPatterns = {"/update-product"})
+@WebServlet(name = "UpdateProductsController", urlPatterns = {"/update-products"})
 public class UpdateProductsController extends HttpServlet {
 
     /**

@@ -145,6 +145,32 @@ public class ProductsServices extends DBConnect {
         return list;
     }
 
+    public List<Products> getTop8BestSellerProducts() {
+        List<Products> list = new ArrayList<>();
+        String query = "SELECT product_id , name, category_id, image, price, status, products.created_at, count\n"
+                + "FROM bestseller JOIN products ON product_id = id\n"
+                + "ORDER BY count DESC\n"
+                + "LIMIT 8; ";
+        try {
+            pst = connection.prepareStatement(query);
+            ResultSet res = pst.executeQuery();
+            while (res.next()) {
+                Products product = new Products();
+                product.setId(res.getInt(1));
+                product.setName(res.getString(2));
+                product.setCategory_id(res.getInt(3));
+                product.setImage(res.getString(4));
+                product.setPrice(res.getDouble(5));
+                product.setStatus(res.getString(6));
+                product.setCreated_at(res.getDate(7));
+                list.add(product);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return list;
+    }
+
     public List<Categories> getCategories() {
         List<Categories> list = new ArrayList<>();
         sql = "SELECT * FROM Categories ";
@@ -430,5 +456,55 @@ public class ProductsServices extends DBConnect {
         }
         return size;
 
+    }
+
+    public Paging getPetsPage(String search, int page, int perPage) {
+        Paging newspaging = new Paging();
+        List<Products> list = new ArrayList<>();
+        int limit = perPage;
+        int offset = (page - 1) * perPage;
+        String query = "SELECT* FROM Products ";
+        String countQuery = "SELECT COUNT(*)AS NUMBERPET FROM Products ";
+        if (search != null) {
+            query += "WHERE  category_id ='" + search + "' or status  ='" + search + "' OR  name LIKE '%" + search + "%'";
+            countQuery += "WHERE category_id ='" + search + "' or status  ='" + search + "' OR  name LIKE '%" + search + "%'";
+
+        }
+
+        query += "ORDER BY id\n"
+                + " LIMIT " + limit
+                + " OFFSET " + offset + ";";
+
+        try {
+
+            Statement stm;
+            stm = connection.createStatement();
+            ResultSet res = stm.executeQuery(query);
+            while (res.next()) {
+                int product_id = res.getInt("id");
+                String name = res.getString("name");
+                int category_id = res.getInt("category_id");
+                String image = res.getString("image");
+                double price = res.getDouble("price");
+                String status = res.getString("status");
+                Date created_at = res.getTimestamp("created_at");
+
+                Products product = new Products(product_id, name, category_id, image, price, status, created_at);
+                list.add(product);
+            }
+            newspaging.setP(list);
+            newspaging.setPage(page);
+            newspaging.setPerPage(perPage);
+            rs = stm.executeQuery(countQuery);
+            int total = 0;
+            while (rs.next()) {
+                total = rs.getInt(1);
+            }
+            newspaging.setTotal(total);
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return newspaging;
     }
 }
