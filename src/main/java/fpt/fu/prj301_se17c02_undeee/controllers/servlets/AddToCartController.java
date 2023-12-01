@@ -63,26 +63,6 @@ public class AddToCartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductsServices ps = new ProductsServices();
-        List<Products> ProductList = ps.getAllProductsAvailable();
-        List<Categories> CategoryList = ps.getCategories();
-        
-        String search = request.getParameter("search");
-        String category = request.getParameter("category");
-        
-        if (search != null || category != null) {
-            if (category != null) {
-                ProductList = ps.searchProductsByCategory(category);
-            } else {
-                ProductList = ps.searchProducts(search);
-            }
-        }
-        
-        request.setAttribute("CategoryList", CategoryList);
-        request.setAttribute("ProductList", ProductList);
-
-        RequestDispatcher rd = request.getRequestDispatcher("/views/CustomersViewProductsJSP.jsp");
-        rd.forward(request, response);
     }
 
     /**
@@ -119,7 +99,7 @@ public class AddToCartController extends HttpServlet {
             session.setAttribute("CART", cart);
         }
 
-        doGet(request, response);
+        response.sendRedirect("./customer-product");
     }
 
     /**

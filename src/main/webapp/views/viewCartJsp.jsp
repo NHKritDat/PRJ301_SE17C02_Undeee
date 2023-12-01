@@ -23,7 +23,7 @@
     int No = 0;
     double total_price = 0;
 %>
-<div class="container">
+<div class="container padding-top-100">
     <div class="row">
         <h2>Here is your cart!</h2>
         <% if (check.equals("DON'T HAVE PRODUCTS")) {%>
