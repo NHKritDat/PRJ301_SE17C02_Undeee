@@ -16,25 +16,25 @@ public class Sizes {
     private int category_id;
     private String name;
     private double percent;
-    private Date create_at;
+    private Date created_at;
 
-    public Sizes(int size_id, int category_id, String name, double percent, Date create_at) {
+    public Sizes(int size_id, int category_id, String name, double percent, Date created_at) {
         this.size_id = size_id;
         this.category_id = category_id;
         this.name = name;
         this.percent = percent;
-        this.create_at = create_at;
+        this.created_at = created_at;
     }
 
     public Sizes() {
     }
 
-    public int getSize_id() {
+    public int getId() {
         return size_id;
     }
 
-    public void setSize_id(int size_id) {
-        this.size_id = size_id;
+    public void setId(int id) {
+        this.size_id = id;
     }
 
     public int getCategory_id() {
@@ -61,17 +61,13 @@ public class Sizes {
         this.percent = percent;
     }
 
-    public Date getCreate_at() {
-        return create_at;
+    public Date getCreated_at() {
+        return created_at;
     }
 
-    public void setCreate_at(Date create_at) {
-        this.create_at = create_at;
-    }
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
 
-    @Override
-    public String toString() {
-        return "Sizes{" + "size_id=" + size_id + ", category_id=" + category_id + ", percent=" + percent + ", create_at=" + create_at + '}';
-    }
 
+    }
 }

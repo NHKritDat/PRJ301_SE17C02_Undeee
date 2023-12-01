@@ -4,10 +4,21 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import fpt.fu.prj301_se17c02_undeee.models.Categories;
 import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
+import fpt.fu.prj301_se17c02_undeee.models.Products;
+import fpt.fu.prj301_se17c02_undeee.models.Sizes;
+
 import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
+import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -60,16 +71,35 @@ public class UpdateOrdersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
+        String[] allCategoriesId = request.getParameterValues("all_categories");
+        String order_id = request.getParameter("order_id");
+
         OrdersServices orderService = new OrdersServices();
-        OrderDto orderToUpdate = orderService.getOrdersById(id);
-        if (orderToUpdate != null) {
-            request.setAttribute("orderToUpdate", orderToUpdate);
-            RequestDispatcher rd = request.getRequestDispatcher("/views/admin/updateOrders.jsp");
-            rd.forward(request, response);
-        } else {
-            response.sendError(404);
+        ProductsServices productService = new ProductsServices();
+
+        List<OrderDto> orderDetailList = orderService.getOrderDetailsByOrderId(Integer.parseInt(order_id));
+        OrderDto order = orderService.getOrdersById(Integer.parseInt(order_id));
+        Map<String, List<Categories>> categoryMap = new HashMap<>();
+        Map<String, List<Products>> productMap = new HashMap<>();
+        Map<String, List<Sizes>> sizeMap = new HashMap<>();
+
+        if (allCategoriesId != null) {
+            for (String category_id : allCategoriesId) {
+                List<Categories> allCategories = productService.getCategories();
+                List<Products> productList = productService.getProductsByCategoryId(Integer.parseInt(category_id));
+                List<Sizes> sizeList = productService.getSizesByCategoryId(Integer.parseInt(category_id));
+                categoryMap.put(category_id, allCategories);
+                productMap.put(category_id, productList);
+                sizeMap.put(category_id, sizeList);
+            }
         }
+        request.setAttribute("order", order);
+        request.setAttribute("orderDetailList", orderDetailList);
+        request.setAttribute("categoryMap", categoryMap);
+        request.setAttribute("productMap", productMap);
+        request.setAttribute("sizeMap", sizeMap);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/admin/updateOrders.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -83,24 +113,20 @@ public class UpdateOrdersController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        OrdersServices orderService = new OrdersServices();
-        OrderDto orderToUpdate = orderService.getOrdersById(id);
-        if (orderToUpdate == null) {
-            response.sendError(404);
-        }
-        double total_price = Double.parseDouble(request.getParameter("total_price"));
-        String status = request.getParameter("status");
-        if (total_price != 0 && status != null && !status.isEmpty()) {
-            orderToUpdate.getOrder().setTotal_price(total_price);
-            orderToUpdate.getOrder().setStatus(status);
-            orderService.updateOrders(orderToUpdate.getOrder());
-            response.sendRedirect("./view-orders");
-            return;
-        } else {
-            response.sendRedirect("./update-orders?id=" + id);
-            return;
-        }
+
+        ProductsServices productService = new ProductsServices();
+
+        String category = request.getParameter("category");
+
+        List<Products> productList = productService.getProductsByCategoryId(Integer.parseInt(category));
+        List<Sizes> sizeList = productService.getSizesByCategoryId(Integer.parseInt(category));
+
+        JsonObject jsonResponse = new JsonObject();
+        jsonResponse.add("products", new Gson().toJsonTree(productList));
+        jsonResponse.add("sizes", new Gson().toJsonTree(sizeList));
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse.toString());
 
     }
 

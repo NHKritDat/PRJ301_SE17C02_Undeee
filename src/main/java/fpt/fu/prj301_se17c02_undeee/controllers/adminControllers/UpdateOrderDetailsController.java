@@ -2,13 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
+package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
 
-import fpt.fu.prj301_se17c02_undeee.models.RegisterError;
-import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
+import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
+import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
+import fpt.fu.prj301_se17c02_undeee.models.Products;
+import fpt.fu.prj301_se17c02_undeee.models.Sizes;
+import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
+import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +22,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Phong
+ * @author dell
  */
-@WebServlet(name = "RegisterController", urlPatterns = {"/register"})
-public class RegisterController extends HttpServlet {
+@WebServlet(name = "UpdateOrderDetailsController", urlPatterns = {"/update-orderDetails"})
+public class UpdateOrderDetailsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +44,10 @@ public class RegisterController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegisterController</title>");
+            out.println("<title>Servlet UpdateOrderDetailsController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegisterController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateOrderDetailsController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,8 +65,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/views/register.jsp");
-        rd.forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -76,41 +79,34 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String id = request.getParameter("id");
+        String[] AllOrderDetailsId = request.getParameterValues("AllOrderDetailsId");
 
-        String fullname = request.getParameter("txtFullName");
-        String email = request.getParameter("txtEmail");
-        String phone = request.getParameter("txtPhone");
-        String password = request.getParameter("txtPassword");
+        OrdersServices orderService = new OrdersServices();
 
-        RegisterError errors = new RegisterError();
-        boolean foundError = false;
-        try {
-            if (phone.length() < 0 || phone.length() > 11) {
-                foundError = true;
-                errors.setPhoneError("The phone number must have 11 digits!");
-            }
-            if (password.length() < 0 || password.length() > 10) {
-                foundError = true;
-                errors.setPasswordError("The password must have 10 characters!");
-            }
-            if (foundError = true) {
-                request.setAttribute("ERROR", errors);
-            }
-            
-            UsersServices sv = new UsersServices();
-            boolean result = sv.registerAccount(email, fullname, phone, password, 1, "/img/avataruser.jpeg");
-            if (result) {
-                response.sendRedirect("./login");
-            }
+        double total_price = 0;
 
-        } catch (SQLException e) {
-            if (e.equals("duplicate")) { //khi nhập 1 giá trị đã có ==> sql sẽ báo lỗi duplicate
-                foundError = true;
-                errors.setEmailError("Email must be unique!");
-            }
+        for (String orderDetailsId : AllOrderDetailsId) {
+            String product_id = request.getParameter("product_" + orderDetailsId);
+            String size_id = request.getParameter("size_" + orderDetailsId);
+            String quantity = request.getParameter("quantity_" + orderDetailsId);
+
+            orderService.updateOrderDetails(Integer.parseInt(product_id), Integer.parseInt(size_id), Integer.parseInt(quantity), Integer.parseInt(orderDetailsId));
         }
+        List<OrderDto> orderList = orderService.getOrderDetailsByOrderId(Integer.parseInt(id));
+        for (OrderDto order : orderList) {
+            total_price += order.getProduct().getPrice() * order.getSize().getPercent() * order.getOrderDetail().getQuantity();
+        }
+        String status = request.getParameter("status");
+        if (status != null) {
+            orderService.updateOrders(status, total_price, Integer.parseInt(id));
+            response.sendRedirect("./view-orders?updateSuccess=true");
+        } else {
+            response.sendRedirect("./view-orders?updateSuccess=false");
+        }
+
     }
-        
+
     /**
      * Returns a short description of the servlet.
      *
