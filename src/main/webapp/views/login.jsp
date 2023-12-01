@@ -7,7 +7,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
-<div class="container">
+<div class="container padding-top-100">
     <h1>Login</h1>
     <form action="login" method="POST">
         <div class="form-group">

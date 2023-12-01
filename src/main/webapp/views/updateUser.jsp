@@ -8,7 +8,7 @@
 <%@page import="fpt.fu.prj301_se17c02_undeee.models.Products"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
-<div class="container">
+<div class="container padding-top-100">
     <h1 class="mytop">Update <%= u.getFullname()%>'s profile </h1>
     <div class="image-container">
         <div style="align-items: center">
