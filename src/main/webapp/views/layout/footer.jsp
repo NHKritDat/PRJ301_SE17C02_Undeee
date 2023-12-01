@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <footer>
-    <div class="footer-wrap  " >
+    <div class="footer-wrap" >
         <div class="footer-main col-md-12">
 
             <div class="col-md-3 logo-footer"><img  class="footer-logo img-responsive " src="views/layout/logo.jpg" /></div>
@@ -39,8 +39,6 @@
                     <a target="_blank" href="https://zalo.me/2268915497539367639"><i class="fab fa-google-plus"></i></a>
                 </div>
             </div>
-
-
 
             <div style="  padding :0px !important;" class="footer-2 col-md-2 padding0">
                 <div class="footer-title">Về chúng tôi</div>

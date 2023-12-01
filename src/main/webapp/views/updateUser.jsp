@@ -31,7 +31,7 @@
                 <label for="password" class="form-label">New Password</label>
                 <input class="form-control" value="<%= u.getPassword()%>" name="password" placeholder="Enter new password"/>
             </div>
-            
+
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone</label>
                 <input class="form-control" value="<%= u.getPhone()%>" name="phone" placeholder="Enter new phone number"/>

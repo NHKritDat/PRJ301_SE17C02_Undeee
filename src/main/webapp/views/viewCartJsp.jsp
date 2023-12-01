@@ -23,40 +23,7 @@
     int No = 0;
     double total_price = 0;
 %>
-<style>
-                .footer-bottom{
-                background-color: black;
-                text-align: center;
-                padding: 20px;
-                margin-top: 30px;
-
-
-
-                color: white;
-                font-size: 16px;
-                font-weight: 300;
-            }
-            .footer-main{
-                display: flex;
-
-                justify-content: space-between;
-                padding : 0;
-
-            }
-            .content_2{
-                margin-left: 35px;
-            }
-            .logo-footer>img{
-                width: 150px ;
-                height: 150px ;
-                border-radius: 120px;
-            }
-            .logo-footer{
-                align-items: center;
-            }
-    
-</style>
-<div class="container">
+<div class="container padding-top-100">
     <div class="row">
         <h2>Here is your cart!</h2>
         <% if (check.equals("DON'T HAVE PRODUCTS")) {%>

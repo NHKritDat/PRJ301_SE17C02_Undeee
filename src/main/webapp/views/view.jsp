@@ -33,7 +33,7 @@
 <%@include file="layout/header.jsp" %>
 <div class="container mt-4 myflex">
 
-    <h1 class="padding-top100">Danh Sách Sản Phẩm</h1>
+    <h1 class="padding-top-100">Danh Sách Sản Phẩm</h1>
 
     <div class="row mb-3">
         <div class="col-md-3">

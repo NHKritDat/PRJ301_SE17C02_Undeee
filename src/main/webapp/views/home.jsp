@@ -107,23 +107,22 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="">Trang chủ</a>
+                        <a class="nav-link" href="./">Trang chủ</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="customer-product">Sản phẩm <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Về chúng tôi</a>
+                        <a class="nav-link" href="">Về chúng tôi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Tuyển dụng</a>
+                        <a class="nav-link" href="">Tuyển dụng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Nhượng quyền</a>
+                        <a class="nav-link" href="">Nhượng quyền</a>
                     </li>
                 </ul>
             </div>
-
 
         </nav>
         <div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
@@ -173,8 +172,6 @@
                 %>         
             </div>
         </div>
-
-
         <%@include file="layout/footer.jsp" %>
 
 
