@@ -8,39 +8,41 @@
 <footer >
     <div class="footer-wrap  " >
         <div class="footer-main col-md-12">
-                      
-                <div class="col-md-2 logo-footer"><img  class="footer-logo img-responsive " src="views/layout/logo.jpg" /></div>
-                <div class="content_2 col-md-5">
+     
+                <div class="col-md-3 logo-footer"><img  class="footer-logo img-responsive " src="views/layout/logo.jpg" /></div>
+                <div class="content_2 col-md-4">
+
                     <div class="footer-title">Công ty CP TM & Dv Taco Việt Nam</div>
-                <div class="footer-line">
-                    <i class="fas fa-map-marker"></i>
-                    Tầng 2 tòa nhà T10, Times City Vĩnh Tuy, Hai Bà Trưng, Hà Nội.
+                    <div class="footer-line">
+                        <i class="fas fa-map-marker"></i>
+                        Tầng 2 tòa nhà T10, Times City Vĩnh Tuy, Hai Bà Trưng, Hà Nội.
+                    </div>
+                    <div class="footer-line">
+                        <i class="fas fa-phone"></i>
+                        1900.63.69.36
+                    </div>
+                    <div class="footer-line">
+                        <i class="fas fa-envelope"></i>
+                        info@tocotocotea.com
+                    </div>
+                    <div class="footer-line">
+                        Số ĐKKD: 0106341306. Ngày cấp: 16/03/2017.
+                    </div>
+                    <div class="footer-line">
+                        Nơi cấp: Sở kế hoạch và Đầu tư Thành phố Hà Nội.
+                    </div>
+                    <div class="footer-line social">
+                        <a target="_blank" href="https://www.facebook.com/tocotocobubbletea/"><i class="fab fa-facebook-square"></i></a>
+                        <a target="_blank" href="https://www.instagram.com/tocotoco_bubble_tea/"><i class="fab fa-instagram"></i></a>
+                        <a target="_blank" href="https://www.youtube.com/c/ToCoToCoBubbleTea"><i class="fab fa-youtube"></i></a>
+                        <a target="_blank" href="https://www.tiktok.com/@tocotocobubbletea/"><i class="fab fa-twitter"></i></a>
+                        <a target="_blank" href="https://zalo.me/2268915497539367639"><i class="fab fa-google-plus"></i></a>
+                    </div>
                 </div>
-                <div class="footer-line">
-                    <i class="fas fa-phone"></i>
-                    1900.63.69.36
-                </div>
-                <div class="footer-line">
-                    <i class="fas fa-envelope"></i>
-                    info@tocotocotea.com
-                </div>
-                <div class="footer-line">
-                    Số ĐKKD: 0106341306. Ngày cấp: 16/03/2017.
-                </div>
-                <div class="footer-line">
-                    Nơi cấp: Sở kế hoạch và Đầu tư Thành phố Hà Nội.
-                </div>
-                <div class="footer-line social">
-                    <a target="_blank" href="https://www.facebook.com/tocotocobubbletea/"><i class="fab fa-facebook-square"></i></a>
-                    <a target="_blank" href="https://www.instagram.com/tocotoco_bubble_tea/"><i class="fab fa-instagram"></i></a>
-                    <a target="_blank" href="https://www.youtube.com/c/ToCoToCoBubbleTea"><i class="fab fa-youtube"></i></a>
-                    <a target="_blank" href="https://www.tiktok.com/@tocotocobubbletea/"><i class="fab fa-twitter"></i></a>
-                    <a target="_blank" href="https://zalo.me/2268915497539367639"><i class="fab fa-google-plus"></i></a>
-                </div>
-                </div>
+
                 
            
-            <div class="footer-2 col-md-2">
+                <div style="  padding :0px !important;" class="footer-2 col-md-2 padding0">
                 <div class="footer-title">Về chúng tôi</div>
                 <div class="footer-content">
                     <div class="menu-footer-abous"><ul id="menu-footer-ve-chung-toi" class="menu"><li id="menu-item-1319" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1319"><a href="/history/">Giới thiệu về Undeee</a></li>
@@ -74,7 +76,8 @@
     <div class="footer-cover"></div>
 </footer>
 
-<script src="./JavaScript/submitOrder.js"></script>
+<script src="./assets/js/popupCard.js"></script>
+<script src="./assets/js/submitOrder.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>

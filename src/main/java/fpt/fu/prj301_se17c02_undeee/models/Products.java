@@ -18,16 +18,16 @@ public class Products {
     private String image;
     private double price;
     private String status;
-    private Date create_at;
+    private Date created_at;
 
-    public Products(int id, String name, int category_id, String image, double price, String status, Date create_at) {
+    public Products(int id, String name, int category_id, String image, double price, String status, Date created_at) {
         this.product_id = id;
         this.name = name;
         this.category_id = category_id;
         this.image = image;
         this.price = price;
         this.status = status;
-        this.create_at = create_at;
+        this.created_at = created_at;
     }
 
     public Products() {
@@ -81,17 +81,17 @@ public class Products {
         this.status = status;
     }
 
-    public Date getCreate_at() {
-        return create_at;
+    public Date getCreated_at() {
+        return created_at;
     }
 
-    public void setCreate_at(Date create_at) {
-        this.create_at = create_at;
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
     }
 
     @Override
     public String toString() {
-        return "Products{" + "id=" + product_id + ", name=" + name + ", category_id=" + category_id + ", image=" + image + ", price=" + price + ", status=" + status + ", create_at=" + create_at + '}';
+        return "Products{" + "id=" + product_id + ", name=" + name + ", category_id=" + category_id + ", image=" + image + ", price=" + price + ", status=" + status + ", created_at=" + created_at + '}';
     }
 
 }

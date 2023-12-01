@@ -18,6 +18,7 @@ import java.util.List;
  *
  * @author Admin
  */
+
 public class UsersServices extends DBConnect {
 
     private PreparedStatement pst = null;
@@ -173,24 +174,26 @@ public class UsersServices extends DBConnect {
         return 0;
     }
 
-    public boolean registerAccount(String email, String fullname, String phone, String password) {
+    public boolean registerAccount(String email, String fullname, String phone, String password, int role, String avatar) throws SQLException {
         boolean result = false;
         try {
-            sql = "Insert Into Users(email,fullname,phone,password) Values(?,?,?,?)";
+            sql = "Insert Into Users(email,fullname,phone,password,role,avatar) Values(?,?,?,?,?,?)";
             PreparedStatement stm = connection.prepareCall(sql);
             stm.setString(1, email);
             stm.setString(2, fullname);
             stm.setString(3, phone);
             stm.setString(4, password);
+            stm.setInt(5, role);
+            stm.setString(6, avatar);
 
             int rowAffectecs = stm.executeUpdate();
             if (rowAffectecs > 0) {
                 result = true;
             }
 
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        } finally {
+            return result;
         }
-        return result;
+
     }
 }

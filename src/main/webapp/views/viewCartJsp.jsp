@@ -23,6 +23,39 @@
     int No = 0;
     double total_price = 0;
 %>
+<style>
+                .footer-bottom{
+                background-color: black;
+                text-align: center;
+                padding: 20px;
+                margin-top: 30px;
+
+
+
+                color: white;
+                font-size: 16px;
+                font-weight: 300;
+            }
+            .footer-main{
+                display: flex;
+
+                justify-content: space-between;
+                padding : 0;
+
+            }
+            .content_2{
+                margin-left: 35px;
+            }
+            .logo-footer>img{
+                width: 150px ;
+                height: 150px ;
+                border-radius: 120px;
+            }
+            .logo-footer{
+                align-items: center;
+            }
+    
+</style>
 <div class="container">
     <div class="row">
         <h2>Here is your cart!</h2>
@@ -51,7 +84,11 @@
                 <tr>
                     <th scope="row"><%= No%></th>
                     <td><%= sp.getProduct_name()%></td>
+<<<<<<< HEAD
+                    <td><img src=".<%= sp.getImage()%>" style="width:200px; height:200px" alt="<%= sp.getImage()%>" class="img-thumbnail"/></td>
+=======
                     <td><img src="./views/Drinks/<%= sp.getImage()%>" width="100px" height="100px" alt="<%= sp.getImage()%>" class="img-thumbnail"/></td>
+>>>>>>> origin/mergeTest
                     <td>
                         <form action="./EditCartController" method="post">
                             <select class="form-control" id="sizeSanPham" name="edit" onchange="this.form.submit()">

@@ -58,7 +58,14 @@ public class DeleteOrdersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
+        String id = request.getParameter("id");
+        OrdersServices orderToDelete = new OrdersServices();
+        if (id != null) {
+            orderToDelete.deleteOrders(Integer.parseInt(id));
+        }
+        response.sendRedirect("./view-orders");
+
     }
 
     /**
@@ -72,12 +79,6 @@ public class DeleteOrdersController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        OrdersServices orderToDelete = new OrdersServices();
-        if (id != null) {
-            orderToDelete.deleteOrders(Integer.parseInt(id));
-        }
-        response.sendRedirect("./view-orders");
     }
 
     /**

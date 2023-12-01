@@ -42,7 +42,7 @@ public class HomePageController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomePageController</title>");            
+            out.println("<title>Servlet HomePageController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet HomePageController at " + request.getContextPath() + "</h1>");
@@ -63,9 +63,11 @@ public class HomePageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         
               ProductsServices ps = new ProductsServices();
         List<Products> list = ps.getTop8BestSellerProducts();
+
         List<Categories> categoryList = ps.getCategories();
         request.setAttribute("categoryList", categoryList);
         request.setAttribute("list", list);
@@ -84,20 +86,21 @@ public class HomePageController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
- ProductsServices ps = new ProductsServices();
-         List<Products> list = new ArrayList<>();
+        ProductsServices ps = new ProductsServices();
+        List<Products> list = new ArrayList<>();
         String search = (String) request.getParameter("searchKeyword");
         String category = (String) request.getParameter("searchCategory");
-        if (category==null) {
-                   list = ps.searchProducts(search);
-        }else{
-             list= ps.searchProductsByCategory(category);
+        if (category == null) {
+            list = ps.searchProducts(search);
+        } else {
+            list = ps.searchProductsByCategory(category);
         }
         request.setAttribute("list", list);
         List<Categories> categoryList = ps.getCategories();
         request.setAttribute("categoryList", categoryList);
         RequestDispatcher rd = request.getRequestDispatcher("/views/home.jsp");
-        rd.forward(request, response);    }
+        rd.forward(request, response);
+    }
 
     /**
      * Returns a short description of the servlet.
