@@ -76,7 +76,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
         String fullname = request.getParameter("txtFullName");
         String email = request.getParameter("txtEmail");
         String phone = request.getParameter("txtPhone");
@@ -99,19 +99,16 @@ public class RegisterController extends HttpServlet {
             }
 
             UsersServices sv = new UsersServices();
-            boolean result = sv.registerAccount(email, fullname, phone, password, 1, "/img/avataruser.jpeg");
+            boolean result = sv.registerAccount(email, fullname, phone, password, 1, "avataruser.jpg");
             if (result) {
                 url = "login";
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-//            if (e.getErrorCode() == 1062) {            
-//                errors.setEmailError(email + "" + "Already Existed!");
-//            }
+            System.out.println(e.getMessage());
             request.setAttribute("ERROR", errors);
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
-            
+
             rd.forward(request, response);
 
         }

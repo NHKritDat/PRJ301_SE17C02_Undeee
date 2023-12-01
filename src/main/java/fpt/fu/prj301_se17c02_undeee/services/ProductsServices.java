@@ -24,10 +24,10 @@ import java.util.List;
 public class ProductsServices extends DBConnect {
 
     private PreparedStatement pst = null;
-    private ResultSet res = null;
+    private ResultSet rs = null;
     private String sql = "";
 
-    public Paging (String seargetAllProductsAvailablech, String category_id, int page, int perPage) {
+    public Paging getAllProductsAvailable(String search, String category_id, int page, int perPage) {
         Paging paging = new Paging();
         List<Products> list = new ArrayList<>();
         try {
@@ -49,13 +49,13 @@ public class ProductsServices extends DBConnect {
             rs = st.executeQuery(sql);
             while (rs.next()) {
                 Products p = new Products();
-                p.setId(res.getInt(1));
-                p.setName(res.getString(2));
-                p.setCategory_id(res.getInt(3));
-                p.setImage(res.getString(4));
-                p.setPrice(res.getDouble(5));
-                p.setStatus(res.getString(6));
-                p.setCreated_at(res.getDate(7));
+                p.setId(rs.getInt(1));
+                p.setName(rs.getString(2));
+                p.setCategory_id(rs.getInt(3));
+                p.setImage(rs.getString(4));
+                p.setPrice(rs.getDouble(5));
+                p.setStatus(rs.getString(6));
+                p.setCreated_at(rs.getDate(7));
                 list.add(p);
             }
             paging.setP(list);
@@ -81,16 +81,16 @@ public class ProductsServices extends DBConnect {
             pst = connection.prepareStatement(sql);
             pst.setInt(1, product_id);
             pst.setInt(2, size_id);
-            res = pst.executeQuery();
-            while (res.next()) {
+            rs = pst.executeQuery();
+            while (rs.next()) {
                 sp = new SizeProducts();
                 sp.setProduct_id(product_id);
                 sp.setSize_id(size_id);
-                sp.setProduct_name(res.getString(1));
-                sp.setImage(res.getString(2));
-                sp.setSize_name(res.getString(3));
-                sp.setPercent(res.getDouble(4));
-                sp.setPrice(res.getDouble(5));
+                sp.setProduct_name(rs.getString(1));
+                sp.setImage(rs.getString(2));
+                sp.setSize_name(rs.getString(3));
+                sp.setPercent(rs.getDouble(4));
+                sp.setPrice(rs.getDouble(5));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -104,16 +104,16 @@ public class ProductsServices extends DBConnect {
         try {
             pst = connection.prepareStatement(sql);
             pst.setInt(1, product_id);
-            res = pst.executeQuery();
-            while (res.next()) {
+            rs = pst.executeQuery();
+            while (rs.next()) {
                 SizeProducts sp = new SizeProducts();
                 sp.setProduct_id(product_id);
-                sp.setProduct_name(res.getString(1));
-                sp.setImage(res.getString(2));
-                sp.setPrice(res.getDouble(3));
-                sp.setSize_id(res.getInt(4));
-                sp.setSize_name(res.getString(5));
-                sp.setPercent(res.getDouble(6));
+                sp.setProduct_name(rs.getString(1));
+                sp.setImage(rs.getString(2));
+                sp.setPrice(rs.getDouble(3));
+                sp.setSize_id(rs.getInt(4));
+                sp.setSize_name(rs.getString(5));
+                sp.setPercent(rs.getDouble(6));
                 list.add(sp);
             }
         } catch (SQLException e) {
@@ -177,12 +177,12 @@ public class ProductsServices extends DBConnect {
         Categories category = null;
         try {
             pst = connection.prepareStatement(sql);
-            res = pst.executeQuery();
-            while (res.next()) {
+            rs = pst.executeQuery();
+            while (rs.next()) {
                 category = new Categories();
-                category.setCategory_id(res.getInt(1));
-                category.setName(res.getString(2));
-                category.setCreated_at(res.getTimestamp(3));
+                category.setCategory_id(rs.getInt(1));
+                category.setName(rs.getString(2));
+                category.setCreated_at(rs.getTimestamp(3));
                 list.add(category);
             }
         } catch (SQLException ex) {
@@ -321,16 +321,16 @@ public class ProductsServices extends DBConnect {
         Products product = null;
         try {
             pst = connection.prepareStatement(sql);
-            res = pst.executeQuery();
-            while (res.next()) {
+            rs = pst.executeQuery();
+            while (rs.next()) {
                 product = new Products();
-                product.setId(res.getInt(1));
-                product.setName(res.getString(2));
-                product.setCategory_id(res.getInt(3));
-                product.setImage(res.getString(4));
-                product.setPrice(res.getDouble(5));
-                product.setStatus(res.getString(6));
-                product.setCreated_at(res.getTimestamp(7));
+                product.setId(rs.getInt(1));
+                product.setName(rs.getString(2));
+                product.setCategory_id(rs.getInt(3));
+                product.setImage(rs.getString(4));
+                product.setPrice(rs.getDouble(5));
+                product.setStatus(rs.getString(6));
+                product.setCreated_at(rs.getTimestamp(7));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -366,15 +366,15 @@ public class ProductsServices extends DBConnect {
         try {
             sql = "Select * from Products";
             PreparedStatement stm = connection.prepareCall(sql);
-            res = stm.executeQuery();
-            while (res.next()) {
-                int product_id = res.getInt("id");
-                String name = res.getString("name");
-                int category_id = res.getInt("category_id");
-                String image = res.getString("image");
-                double price = res.getDouble("price");
-                String status = res.getString("status");
-                Date created_at = res.getDate("created_at");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int product_id = rs.getInt("id");
+                String name = rs.getString("name");
+                int category_id = rs.getInt("category_id");
+                String image = rs.getString("image");
+                double price = rs.getDouble("price");
+                String status = rs.getString("status");
+                Date created_at = rs.getDate("created_at");
 
                 Products p = new Products(product_id, name, category_id, image, price, status, created_at);
                 list.add(p);
@@ -393,15 +393,15 @@ public class ProductsServices extends DBConnect {
         try {
             pst = connection.prepareStatement(sql);
             pst.setInt(1, categoryId);
-            res = pst.executeQuery();
-            while (res.next()) {
-                int product_id = res.getInt("id");
-                String name = res.getString("name");
-                int category_id = res.getInt("category_id");
-                String image = res.getString("image");
-                double price = res.getDouble("price");
-                String status = res.getString("status");
-                Date created_at = res.getTimestamp("created_at");
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                int product_id = rs.getInt("id");
+                String name = rs.getString("name");
+                int category_id = rs.getInt("category_id");
+                String image = rs.getString("image");
+                double price = rs.getDouble("price");
+                String status = rs.getString("status");
+                Date created_at = rs.getTimestamp("created_at");
 
                 Products product = new Products(product_id, name, category_id, image, price, status, created_at);
                 productList.add(product);
@@ -419,13 +419,13 @@ public class ProductsServices extends DBConnect {
         try {
             pst = connection.prepareStatement(sql);
             pst.setInt(1, categoryId);
-            res = pst.executeQuery();
-            while (res.next()) {
-                int size_id = res.getInt("id");
-                int category_id = res.getInt("category_id");
-                String name = res.getString("name");
-                double percent = res.getDouble("percent");
-                Date created_at = res.getTimestamp("created_at");
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                int size_id = rs.getInt("id");
+                int category_id = rs.getInt("category_id");
+                String name = rs.getString("name");
+                double percent = rs.getDouble("percent");
+                Date created_at = rs.getTimestamp("created_at");
 
                 Sizes size = new Sizes(size_id, category_id, name, percent, created_at);
                 sizeList.add(size);
@@ -442,14 +442,14 @@ public class ProductsServices extends DBConnect {
         Sizes size = null;
         try {
             pst = connection.prepareStatement(sql);
-            res = pst.executeQuery();
-            while (res.next()) {
+            rs = pst.executeQuery();
+            while (rs.next()) {
                 size = new Sizes();
-                size.setId(res.getInt(1));
-                size.setCategory_id(res.getInt(2));
-                size.setName(res.getString(3));
-                size.setPercent(res.getDouble(4));
-                size.setCreated_at(res.getTimestamp(5));
+                size.setId(rs.getInt(1));
+                size.setCategory_id(rs.getInt(2));
+                size.setName(rs.getString(3));
+                size.setPercent(rs.getDouble(4));
+                size.setCreated_at(rs.getTimestamp(5));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -495,7 +495,7 @@ public class ProductsServices extends DBConnect {
             newspaging.setP(list);
             newspaging.setPage(page);
             newspaging.setPerPage(perPage);
-            ResultSet rs = stm.executeQuery(countQuery);
+            rs = stm.executeQuery(countQuery);
             int total = 0;
             while (rs.next()) {
                 total = rs.getInt(1);
