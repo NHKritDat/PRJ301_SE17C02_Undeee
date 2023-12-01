@@ -31,7 +31,7 @@
     List<Products> ProductList = paging.getP();
     List<Categories> CategoryList = (List<Categories>) request.getAttribute("CategoryList");
     double numPage = Math.ceil((double) paging.getTotal() / (double) paging.getPerPage());
-    String pageInstant = (String) request.getAttribute("page");
+    String pageInstant = request.getParameter("page");
     int numPageInstant = 1;
     if (pageInstant != null) {
         numPageInstant = Integer.parseInt(pageInstant);
