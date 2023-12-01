@@ -45,7 +45,7 @@
                                 if (u.getRole() == 1) {
                         %>
                         <li class="nav-item">
-                            <a class="nav-link" href="./AddToCartController">View products</a>
+                            <a class="nav-link" href="./customer-product">View products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./EditCartController">Cart</a>
@@ -73,7 +73,7 @@
                         } else {
                         %>
                         <li class="nav-item">
-                            <a class="nav-link" href="./AddToCartController">View products</a>
+                            <a class="nav-link" href="./customer-product">View products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./EditCartController">Cart</a>
@@ -102,6 +102,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="./updateUser">View profile</a></li>
+
                             <li><a class="dropdown-item" href="./logout">Logout</a></li>
                         </ul>
                     </li>

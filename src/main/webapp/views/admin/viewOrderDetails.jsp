@@ -20,39 +20,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Undeee</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-        <style>
-                .footer-bottom{
-                background-color: black;
-                text-align: center;
-                padding: 20px;
-                margin-top: 30px;
-
-
-
-                color: white;
-                font-size: 16px;
-                font-weight: 300;
-            }
-            .footer-main{
-                display: flex;
-
-                justify-content: space-between;
-                padding : 0;
-
-            }
-            .content_2{
-                margin-left: 35px;
-            }
-            .logo-footer>img{
-                width: 150px ;
-                height: 150px ;
-                border-radius: 120px;
-            }
-            .logo-footer{
-                align-items: center;
-            }
-    
-</style>
     </head>
     <body>
         <%@include file="../layout/header.jsp" %>
@@ -85,11 +52,6 @@
                             <td><%= orderDetail.getOrderDetail().getQuantity()%></td>
                             <td><%= formattedDate%></td>
                             <td>
-                                <form action="update-orders">
-                                    <input type="hidden" name="order_detail_id" value="<%= orderDetail.getOrderDetail().getOrder_detail_id()%>">
-                                    <input type="hidden" name="category_id" value="<%= orderDetail.getCategory().getCategory_id()%>">
-                                    <input type="submit" value="Update">
-                                </form>
                                 <form action="delete-orderDetails" method="POST" onsubmit="return confirm('Are you sure you want to delete this orderDetail?');">
                                     <input type="hidden" name="id" value="<%= orderDetail.getOrderDetail().getOrder_id()%>">
                                     <input type="hidden" name="order_detail_id" value="<%= orderDetail.getOrderDetail().getOrder_detail_id()%>">
@@ -100,8 +62,27 @@
                         <% }%>
                     </tbody>
                 </table>
+                <form action="update-orders">
+                    <%
+                        for (OrderDto orderDetail : orderDetails) {
+                    %>
+                    <input type="hidden" name="order_id" value="<%= orderDetail.getOrderDetail().getOrder_id()%>">
+                    <input type="hidden" name="all_categories" value="<%= orderDetail.getCategory().getCategory_id()%>">
+                    <%
+                        }
+                    %>
+                    <input type="submit" value="Update">
+                </form>
             </div>
         </div>
         <%@include file="../layout/footer.jsp" %>
     </body>
+
+    <script>
+        window.onpageshow = function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        };
+    </script>
 </html>

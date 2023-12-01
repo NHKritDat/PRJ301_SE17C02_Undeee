@@ -80,23 +80,23 @@ public class UpdateOrderDetailsController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
-        String orderDetailsId = request.getParameter("orderDetailsId");
+        String[] AllOrderDetailsId = request.getParameterValues("AllOrderDetailsId");
 
         OrdersServices orderService = new OrdersServices();
 
         double total_price = 0;
 
-        String product_id = request.getParameter("product_" + orderDetailsId);
-        String size_id = request.getParameter("size_" + orderDetailsId);
-        String quantity = request.getParameter("quantity_" + orderDetailsId);
+        for (String orderDetailsId : AllOrderDetailsId) {
+            String product_id = request.getParameter("product_" + orderDetailsId);
+            String size_id = request.getParameter("size_" + orderDetailsId);
+            String quantity = request.getParameter("quantity_" + orderDetailsId);
 
-        orderService.updateOrderDetails(Integer.parseInt(product_id), Integer.parseInt(size_id), Integer.parseInt(quantity), Integer.parseInt(orderDetailsId));
-
+            orderService.updateOrderDetails(Integer.parseInt(product_id), Integer.parseInt(size_id), Integer.parseInt(quantity), Integer.parseInt(orderDetailsId));
+        }
         List<OrderDto> orderList = orderService.getOrderDetailsByOrderId(Integer.parseInt(id));
         for (OrderDto order : orderList) {
-            total_price += order.getProduct().getPrice() * order.getSize().getPercent() * Integer.parseInt(quantity);
+            total_price += order.getProduct().getPrice() * order.getSize().getPercent() * order.getOrderDetail().getQuantity();
         }
-
         String status = request.getParameter("status");
         if (status != null) {
             orderService.updateOrders(status, total_price, Integer.parseInt(id));

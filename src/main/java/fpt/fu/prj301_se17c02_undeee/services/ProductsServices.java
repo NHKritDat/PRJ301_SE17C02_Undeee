@@ -27,13 +27,27 @@ public class ProductsServices extends DBConnect {
     private ResultSet res = null;
     private String sql = "";
 
-    public List<Products> getAllProductsAvailable() {
+    public Paging (String seargetAllProductsAvailablech, String category_id, int page, int perPage) {
+        Paging paging = new Paging();
         List<Products> list = new ArrayList<>();
-        sql = "select * from Products where status = 'Active'";
         try {
-            pst = connection.prepareStatement(sql);
-            res = pst.executeQuery();
-            while (res.next()) {
+            int limit = perPage;
+            int offset = (page - 1) * perPage;
+            sql = "select * from Products where status = 'Active'";
+            String sqlCount = "select count(*) as numberItem from Products where status = 'Active'";
+            if (search != null) {
+                sql += "and name like '%" + search + "%'";
+                sqlCount += "and name like '%" + search + "%'";
+            }
+            if (category_id != null && !category_id.equals("")) {
+                sql += "and category_id = " + category_id;
+                sqlCount += "and category_id = " + category_id;
+            }
+            
+            Statement st = connection.createStatement();
+            sql += " limit " + limit + " offset " + offset;
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
                 Products p = new Products();
                 p.setId(res.getInt(1));
                 p.setName(res.getString(2));
@@ -44,10 +58,20 @@ public class ProductsServices extends DBConnect {
                 p.setCreated_at(res.getDate(7));
                 list.add(p);
             }
+            paging.setP(list);
+            paging.setPage(page);
+            paging.setPerPage(perPage);
+            
+            ResultSet rsTotal = st.executeQuery(sqlCount);
+            int total = 0;
+            while (rsTotal.next()) {
+                total += rsTotal.getInt(1);
+            }
+            paging.setTotal(total);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return list;
+        return paging;
     }
 
     public SizeProducts getSizeProductById(int product_id, int size_id) {

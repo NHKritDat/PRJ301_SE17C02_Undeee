@@ -4,6 +4,7 @@
     Author     : dell
 --%>
 
+<%@page import="java.util.Map"%>
 <%@page import="java.util.stream.Collectors"%>
 <%@page import="fpt.fu.prj301_se17c02_undeee.services.ProductsServices"%>
 <%@page import="java.util.Date"%>
@@ -16,12 +17,12 @@
 <%@page import="fpt.fu.prj301_se17c02_undeee.models.OrderDto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    OrderDto orderDetail = (OrderDto) request.getAttribute("orderDetail");
-    List<Categories> allCategories = (List<Categories>) request.getAttribute("allCategories");
-    List<Products> productList = (List<Products>) request.getAttribute("productList");
-    List<Sizes> sizeList = (List<Sizes>) request.getAttribute("sizeList");
+    OrderDto order = (OrderDto) request.getAttribute("order");
+    List<OrderDto> orderDetailList = (List<OrderDto>) request.getAttribute("orderDetailList");
+    Map<String, List<Categories>> categoryMap = (Map<String, List<Categories>>) request.getAttribute("categoryMap");
+    Map<String, List<Products>> productMap = (Map<String, List<Products>>) request.getAttribute("productMap");
+    Map<String, List<Sizes>> sizeMap = (Map<String, List<Sizes>>) request.getAttribute("sizeMap");
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
 %>
 
 <!DOCTYPE html>
@@ -65,72 +66,112 @@
     </head>
     <body>
         <%@include file="../layout/header.jsp" %>
-        <div class="container">
-            <h1>Update Orders</h1>
+        <div class="container mt-4">
+            <h1 class="mb-4">Update OrderDetails</h1>
             <form action="update-orderDetails" method="POST">
+                
+                <input type="hidden" name="id" value="<%= order.getOrder().getId()%>">
 
-                <input type="hidden" name="id" value="<%= orderDetail.getOrder().getId()%>">
+                <div class="mb-3">
+                    <label>Id:</label>
+                    <input type="text" name="orderId" value="<%= order.getOrder().getId()%>" readonly><br>
+                </div>
 
-                <label>Id:</label>
-                <input type="text" name="orderId" value="<%= orderDetail.getOrder().getId()%>" readonly><br>
+                <div class="mb-3">
+                    <label>Customer Name:</label>
+                    <input type="text" name="fullname" value="<%= order.getUser().getFullname()%>" readonly><br>
+                </div>
 
-                <label>Customer Name:</label>
-                <input type="text" name="fullname" value="<%= orderDetail.getUser().getFullname()%>" readonly><br>
+                <div class="mb-3">
+                    <label>Address:</label>
+                    <input type="text" name="address" value="<%= order.getAddress().getAddress_detail()%>" readonly><br>
+                </div>      
 
-                <label>Address:</label>
-                <input type="text" name="address" value="<%= orderDetail.getAddress().getAddress_detail()%>" readonly><br>
-
-                <label>Status:</label>
-                <select name="status">
-                    <option value="success" <%= orderDetail.getOrder().getStatus().equals("success") ? "selected" : ""%>>Success</option>
-                    <option value="pending" <%= orderDetail.getOrder().getStatus().equals("pending") ? "selected" : ""%>>Pending</option>
-                </select>
-
-                <% Date created_at = orderDetail.getOrder().getCreated_at();
+                <% Date created_at = order.getOrder().getCreated_at();
                     String formattedDate = dateFormat.format(created_at);
                 %>
-                <label>Created at:</label>
-                <input type="text" name="id" value="<%= formattedDate%>" readonly><br>
-
+                <div class="mb-3">
+                    <label>Created at:</label>
+                    <input type="text" name="id" value="<%= formattedDate%>" readonly><br>
+                </div>
+                
+                <div class="mb-3">
+                    <label>Status:</label>
+                    <select name="status">
+                        <option value="success" <%= order.getOrder().getStatus().equals("success") ? "selected" : ""%>>Success</option>
+                        <option value="pending" <%= order.getOrder().getStatus().equals("pending") ? "selected" : ""%>>Pending</option>
+                    </select>
+                </div>
                 <hr>
+                <%                    
+                    for (OrderDto orderDetail : orderDetailList) {
+                %>
                 <label>Order Details:</label>
                 <br>
 
-                <input type="hidden" name="orderDetailsId" value="<%= orderDetail.getOrderDetail().getOrder_detail_id()%>">
-                <%= orderDetail.getOrderDetail().getOrder_detail_id()%>
+                <input type="hidden" name="AllOrderDetailsId" value="<%= orderDetail.getOrderDetail().getOrder_detail_id()%>">
+                <%
+                    String categoryKey = String.valueOf(orderDetail.getCategory().getCategory_id());
+                %>
                 <label>Category:</label>
-                <select name="category_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="category_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" onchange="updateProductList(<%=orderDetail.getOrderDetail().getOrder_detail_id()%>)">
-                    <% for (Categories category : allCategories) {%>
-                    <option value="<%= category.getCategory_id()%>" <%=category.getCategory_id() == orderDetail.getCategory().getCategory_id() ? "selected" : ""%>>
+                <select name="category_<%= orderDetail.getOrderDetail().getOrder_detail_id()%>" id="category_<%= orderDetail.getOrderDetail().getOrder_detail_id()%>" onchange="updateProductList(<%= orderDetail.getOrderDetail().getOrder_detail_id()%>)">
+                    <%
+                        List<Categories> categoriesList = categoryMap.get(categoryKey);
+                        if (categoriesList != null) {
+                            for (Categories category : categoriesList) {
+                    %>
+                    <option value="<%= category.getCategory_id()%>" <%= category.getCategory_id() == orderDetail.getCategory().getCategory_id() ? "selected" : ""%>>
                         <%= category.getName()%>
                     </option>
-                    <% }%>
+                    <%
+                            }
+                        }
+                    %>
                 </select>
 
+
                 <label>Product:</label>
-                <select name="product_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="product_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" onchange="updateTotal(<%=orderDetail.getOrderDetail().getOrder_detail_id()%>)">
-                    <% for (Products product : productList) {%>
+                <select name="product_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="product_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>">
+                    <%
+                        List<Products> productsList = productMap.get(categoryKey);
+                        if (productsList != null) {
+                            for (Products product : productsList) {
+                    %>
                     <option value="<%= product.getId()%>" <%=product.getId() == orderDetail.getProduct().getId() ? "selected" : ""%>>
                         <%= product.getName()%>  
                     </option>   
-                    <% }%>
+                    <%
+                            }
+                        }
+                    %>
                 </select>
 
+
                 <label>Size:</label>
-                <select name="size_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="size_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" onchange="updateTotal(<%=orderDetail.getOrderDetail().getOrder_detail_id()%>)">
-                    <% for (Sizes size : sizeList) {%>
+                <select name="size_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="size_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>">
+                    <%
+                        List<Sizes> sizesList = sizeMap.get(categoryKey);
+                        if (sizesList != null) {
+                            for (Sizes size : sizesList) {
+                    %>
                     <option value="<%= size.getId()%>" <%=size.getId() == orderDetail.getSize().getId() ? "selected" : ""%>>
                         <%= size.getName()%>  
                     </option> 
-                    <% }%>
+                    <%
+                            }
+                        }
+                    %>
                 </select>
 
-
                 <label>Quantity:</label>
-                <input type="number" name="quantity_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="quantity_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" value="<%=orderDetail.getOrderDetail().getQuantity()%>" onchange="updateTotal(<%=orderDetail.getOrderDetail().getOrder_detail_id()%>)">       
+                <input type="number" min="1" name="quantity_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" id="quantity_<%=orderDetail.getOrderDetail().getOrder_detail_id()%>" value="<%=orderDetail.getOrderDetail().getQuantity()%>">       
+
+                <%
+                    }
+                %>
                 <br>
 
-                <input type="submit" value="Update Order">
+                <input type="submit" class="btn btn-primary" value="Update Order">
             </form>
         </div>
         <%@include file="../layout/footer.jsp" %>
@@ -192,5 +233,10 @@
 
         });
     });
+    window.onpageshow = function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
 
 </script>
