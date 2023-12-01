@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebFilter(urlPatterns = {"/EditCartController", "/CreateOrderController", "/admin-page", "/view", "/create", "/view-orders", "/UpdateProductController", "/delete", "/update-orders", "/view-orderDetails", "/delete-orders"}) //Thêm đường dẫn
+@WebFilter(urlPatterns = {"/updateUser", "/EditCartController", "/CreateOrderController", "/admin-page", "/view", "/create", "/view-orders", "/UpdateProductController", "/delete", "/update-orders", "/view-orderDetails", "/delete-orders"}) //Thêm đường dẫn
 public class CheckLogin implements Filter {
 
     @Override
@@ -36,6 +36,7 @@ public class CheckLogin implements Filter {
 
         Users u = new Users();
         Object status = session.getAttribute("user_loged");
+               
         if (status != null) {
             u = (Users) status;
         }

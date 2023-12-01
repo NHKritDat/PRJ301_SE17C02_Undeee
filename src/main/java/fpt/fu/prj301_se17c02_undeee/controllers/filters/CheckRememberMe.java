@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-@WebFilter(urlPatterns = {}) //Thêm trang filter này cần kiểm tra trước khi cho phép vào trang. Ví dụ: "/Login"
+@WebFilter(urlPatterns = {}) 
 public class CheckRememberMe implements Filter {
 
     @Override
@@ -31,16 +31,16 @@ public class CheckRememberMe implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        
+
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        String remember = req.getParameter("Remember me");
+        String remember = req.getParameter("RememberMe");
 
         Cookie cEmail = new Cookie("cEmail", email);
         Cookie cPassword = new Cookie("cPassword", password);
         Cookie cRemember = new Cookie("cRemember", remember);
 
-        if (remember != null) {
+        if (remember != null && remember.equals("ON")) {
             cEmail.setMaxAge(60 * 60 * 24 * 7); //7 ngày
             cPassword.setMaxAge(60 * 60 * 24 * 7);
             cRemember.setMaxAge(60 * 60 * 24 * 7);
@@ -54,7 +54,7 @@ public class CheckRememberMe implements Filter {
         res.addCookie(cPassword);
         res.addCookie(cRemember);
 
-        chain.doFilter(request, response); //Tiếp tục đi vào trang mà filter này đang kiểm tra
+        chain.doFilter(request, response); 
     }
 
     @Override
