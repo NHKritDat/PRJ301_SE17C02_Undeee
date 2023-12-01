@@ -26,8 +26,8 @@ import javax.servlet.http.Part;
  * @author Hp
  */
 @MultipartConfig
-@WebServlet(name = "UpdateProductController", urlPatterns = {"/UpdateProductController"})
-public class UpdateProductController extends HttpServlet {
+@WebServlet(name = "UpdateProductsController", urlPatterns = {"/update-products"})
+public class UpdateProductsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -69,8 +69,10 @@ public class UpdateProductController extends HttpServlet {
             throws ServletException, IOException {
         String id = (String) request.getParameter("id");
         ProductsServices ps = new ProductsServices();
-        Products product = ps.getProductById(id);
+
+        Products product = ps.getProductById(Integer.parseInt(id));
         String sizeCode = ps.getSizes(id);
+
         if (product != null) {
             List<Categories> categoryList = ps.getCategories();
             request.setAttribute("categoryList", categoryList);
@@ -108,7 +110,7 @@ public class UpdateProductController extends HttpServlet {
         String id = request.getParameter("id");
 
         ProductsServices ps = new ProductsServices();
-        Products product = ps.getProductById(id);
+        Products product = ps.getProductById(Integer.parseInt(id));
         if (product == null) {
             response.sendError(404);
         }

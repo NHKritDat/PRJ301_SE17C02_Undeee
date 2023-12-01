@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 /**
@@ -65,17 +66,8 @@ public class UpdateUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String id = (String) request.getParameter("id");//lấy session
-        UsersServices us = new UsersServices();//lấy session
-        Users user = us.getUserbyID("3");//lấy session
-        if (user != null) {
-            request.setAttribute("user", user);
-            RequestDispatcher rd = request.getRequestDispatcher("/views/updateUser.jsp");
-            rd.forward(request, response);
-
-            //  response.sendRedirect("views/admin_update.jsp");
-        }
+        RequestDispatcher rd = request.getRequestDispatcher("/views/updateUser.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -89,56 +81,42 @@ public class UpdateUserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
+        Users u = (Users) session.getAttribute("user_loged");
+        UsersServices us = new UsersServices();
 
-        //validate news update
-        String id = request.getParameter("id");//lấy session
-
-        UsersServices us = new UsersServices();//lấy session
-        Users user = us.getUserbyID("3"); //lấy session
-        if (user == null) {
-            response.sendError(404);
-        }
-
-        // get value form
-        //  double price = Double.parseDouble((String)request.getParameter("price"));
         String fullname = request.getParameter("fullname");
         String password = request.getParameter("password");
         String phone = request.getParameter("phone");
-        String imageSave = user.getAvatar();
-        // xu ly image
-        Part part = request.getPart("imageNews");
+        String imageSave = u.getAvatar();
+        
+        Part part = request.getPart("image");
         if (part.getSize() > 0) {
-            // path folder chua anh
-            String folderSaveFile = "/images";
+            String folderSaveFile = "/views/users_avatar";
             String pathUpload = request.getServletContext().getRealPath(folderSaveFile);
-            // file name user upload
             String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
             if (!Files.exists(Paths.get(pathUpload))) {
                 Files.createDirectories(Paths.get(pathUpload));
             }
-            System.out.println(pathUpload);
-            part.write(pathUpload + "/" + fileName);//
-
-            //.io.FileNotFoundException: 
-            //E:\New Folder (2)\MyPetShop\target\MyPetShop-1.0-SNAPSHOT\images (Access is denied)
+            part.write(pathUpload + "/" + fileName);
             imageSave = fileName;
         }
 
-        int uerID = Integer.parseInt(id);
         if (fullname != null && phone != null && password != null) {
-            int result = us.updateUsers(fullname, password, phone, imageSave, uerID);
+            int result = us.updateUsers(fullname, password, phone, imageSave, u.getId());
             if (result > 0) {
-                //   sesstion.setAttribute("name", name);
-                response.sendRedirect("./views/test.jsp");
-            }  // chỗ này đổi lun nha đồng chí :)))
-
-            //        response.sendRedirect("./NewController");  // Hello ban oi đổi đường dẫn ở đây nha (I'm Hiển)
-            return;
+                System.out.println("Update successfully!");
+                Users new_user = us.getUserbyID(String.valueOf(u.getId()));
+                session.setAttribute("user_loged", new_user);
+                doGet(request, response);
+            } else {
+                System.out.println("Update failed!");
+            }
         }
     }
 
-// Khuc nay se dua ra trang home.jsp nha 
     //  response.sendRedirect("./home"); 
     /**
      * Returns a short description of the servlet.

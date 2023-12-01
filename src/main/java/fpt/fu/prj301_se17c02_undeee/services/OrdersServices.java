@@ -4,7 +4,9 @@
  */
 package fpt.fu.prj301_se17c02_undeee.services;
 
-
+import fpt.fu.prj301_se17c02_undeee.models.Addresses;
+import fpt.fu.prj301_se17c02_undeee.models.Categories;
+import fpt.fu.prj301_se17c02_undeee.models.OrderDetailDto;
 import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
 import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
 import fpt.fu.prj301_se17c02_undeee.models.Orders;
@@ -22,7 +24,6 @@ import java.util.List;
  *
  * @author Admin
  */
-
 public class OrdersServices extends DBConnect {
 
     private PreparedStatement pst = null;
@@ -48,7 +49,7 @@ public class OrdersServices extends DBConnect {
         }
         return order_id;
     }
-    
+
     public void insertOrderDetails(int order_id, int product_id, int size_id, int quantity) {
         sql = "insert into OrderDetails (order_id, product_id, size_id, quantity) values (?, ?, ?, ?)";
         try {
@@ -62,43 +63,75 @@ public class OrdersServices extends DBConnect {
             System.out.println(e.getMessage());
         }
     }
-    
-    public List<OrderDto> getOrders(String search) {
+
+    public List<OrderDto> getOrders(String search, String searchBy) {
         List<OrderDto> orders = new ArrayList<>();
         try {
-            sql = "select o.*, u.fullname from Orders o join Users u on o.user_id = u.id";
-            if (search != null) {
-                sql += " WHERE o.status like '%" + search + "%'";
+            sql = "SELECT * FROM Orders o "
+                    + "JOIN Users u ON o.user_id = u.id "
+                    + "JOIN Addresses a ON o.address_id = a.id ";
+            if (search != null && !search.isEmpty() && searchBy != null && !searchBy.isEmpty()) {
+                sql += " WHERE ";
+                switch (searchBy) {
+                    case "status":
+                        sql += "o.status LIKE '%" + search + "%'";
+                        break;
+                    case "customerName":
+                        sql += "u.fullname LIKE '%" + search + "%'";
+                        break;
+                    case "createdAt":
+                        sql += "o.created_at LIKE '%" + search + "%'";
+                        break;
+                }
             }
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            rs = preparedStatement.executeQuery();
+            pst = connection.prepareStatement(sql);
+            rs = pst.executeQuery();
             while (rs.next()) {
                 OrderDto orderDto = new OrderDto();
 
                 Orders order = new Orders();
                 order.setId(rs.getInt("id"));
                 order.setUser_id(rs.getInt("user_id"));
+                order.setAddress_id(rs.getInt("address_id"));
                 order.setTotal_price(rs.getDouble("total_price"));
                 order.setStatus(rs.getString("status"));
-                order.setCreated_at(rs.getDate("created_at"));
+                order.setCreated_at(rs.getTimestamp("created_at"));
 
                 Users user = new Users();
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
+                user.setPhone(rs.getString("phone"));
+                user.setAvatar(rs.getString("avatar"));
+                user.setRole(rs.getInt("role"));
+                user.setCreated_at(rs.getTimestamp("created_at"));
+
+                Addresses address = new Addresses();
+                address.setId(rs.getInt("id"));
+                address.setUser_id(rs.getInt("user_id"));
+                address.setAddress_detail(rs.getString("address_detail"));
+                address.setCreated_at(rs.getTimestamp("created_at"));
 
                 orderDto.setOrder(order);
                 orderDto.setUser(user);
+                orderDto.setAddress(address);
                 orders.add(orderDto);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return orders;
     }
     
-    public OrderDto getOrdersById(String id) {
+
+    public OrderDto getOrdersById(int id) {
         OrderDto orderDto = null;
         try {
-            sql = "SELECT o.*, u.fullname FROM Orders o JOIN Users u ON o.user_id = u.id WHERE o.id = " + id;
+            sql = "SELECT * FROM Orders o "
+                    + "JOIN Users u ON o.user_id = u.id "
+                    + "JOIN Addresses a ON o.address_id = a.id "
+                    + "WHERE o.id = " + id;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             rs = preparedStatement.executeQuery();
 
@@ -108,54 +141,278 @@ public class OrdersServices extends DBConnect {
                 Orders order = new Orders();
                 order.setId(rs.getInt("id"));
                 order.setUser_id(rs.getInt("user_id"));
+                order.setAddress_id(rs.getInt("address_id"));
                 order.setTotal_price(rs.getDouble("total_price"));
                 order.setStatus(rs.getString("status"));
-                order.setCreated_at(rs.getDate("created_at"));
+                order.setCreated_at(rs.getTimestamp("created_at"));
 
                 Users user = new Users();
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
+                user.setPhone(rs.getString("phone"));
+                user.setAvatar(rs.getString("avatar"));
+                user.setRole(rs.getInt("role"));
+                user.setCreated_at(rs.getTimestamp("created_at"));
+
+                Addresses address = new Addresses();
+                address.setId(rs.getInt("id"));
+                address.setUser_id(rs.getInt("user_id"));
+                address.setAddress_detail(rs.getString("address_detail"));
+                address.setCreated_at(rs.getTimestamp("created_at"));
 
                 orderDto.setOrder(order);
                 orderDto.setUser(user);
+                orderDto.setAddress(address);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return orderDto;
     }
-    
-    public void updateOrders(Orders order) {
+
+    public OrderDto getOrderDetailsByOrderDetailId(int order_detail_id) {
+        OrderDto orderDetailsDto = null;
+
+        sql = "SELECT o.*, od.*, p.*, s.*, c.*, u.*, a.*, "
+                + "o.id AS order_id, "
+                + "od.id AS order_detail_id, "
+                + "p.id AS product_id, p.name AS product_name, "
+                + "s.id AS size_id, s.name AS size_name, "
+                + "c.id AS category_id, c.name AS category_name, "
+                + "u.id AS user_id, a.id AS address_id "
+                + "FROM Orders o "
+                + "JOIN Users u ON o.user_id = u.id "
+                + "JOIN Addresses a ON o.address_id = a.id "
+                + "JOIN OrderDetails od ON o.id = od.order_id "
+                + "JOIN Products p ON od.product_id = p.id "
+                + "JOIN Sizes s ON od.size_id = s.id "
+                + "JOIN Categories c ON p.category_id = c.id "
+                + "WHERE od.id = ?";
+
         try {
-            sql = "UPDATE Orders SET total_price=?, status=? WHERE id=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setDouble(1, order.getTotal_price());
-            preparedStatement.setString(2, order.getStatus());
-            preparedStatement.setInt(3, order.getId());
-            preparedStatement.executeUpdate();
+            pst = connection.prepareStatement(sql);
+            pst.setInt(1, order_detail_id);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                orderDetailsDto = new OrderDto();
+
+                Orders order = new Orders();
+                order.setId(rs.getInt("order_id"));
+                order.setUser_id(rs.getInt("user_id"));
+                order.setAddress_id(rs.getInt("address_id"));
+                order.setTotal_price(rs.getDouble("total_price"));
+                order.setStatus(rs.getString("status"));
+                order.setCreated_at(rs.getTimestamp("created_at"));
+
+                Users user = new Users();
+                user.setId(rs.getInt("user_id"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setFullname(rs.getString("fullname"));
+                user.setPhone(rs.getString("phone"));
+                user.setAvatar(rs.getString("avatar"));
+                user.setRole(rs.getInt("role"));
+                user.setCreated_at(rs.getTimestamp("created_at"));
+
+                Addresses address = new Addresses();
+                address.setId(rs.getInt("address_id"));
+                address.setUser_id(rs.getInt("user_id"));
+                address.setAddress_detail(rs.getString("address_detail"));
+                address.setCreated_at(rs.getTimestamp("created_at"));
+
+                OrderDetails orderDetail = new OrderDetails();
+                orderDetail.setOrder_detail_id(rs.getInt("order_detail_id"));
+                orderDetail.setOrder_id(rs.getInt("order_id"));
+                orderDetail.setProduct_id(rs.getInt("product_id"));
+                orderDetail.setSize_id(rs.getInt("size_id"));
+                orderDetail.setQuantity(rs.getInt("quantity"));
+                orderDetail.setCreated_at(rs.getTimestamp("created_at"));
+
+                Products product = new Products();
+                product.setId(rs.getInt("product_id"));
+                product.setName(rs.getString("product_name"));
+                product.setCategory_id(rs.getInt("category_id"));
+                product.setImage(rs.getString("image"));
+                product.setPrice(rs.getDouble("price"));
+                product.setStatus(rs.getString("status"));
+                product.setCreated_at(rs.getTimestamp("created_at"));
+
+                Sizes size = new Sizes();
+                size.setId(rs.getInt("size_id"));
+                size.setCategory_id(rs.getInt("category_id"));
+                size.setName(rs.getString("size_name"));
+                size.setPercent(rs.getDouble("percent"));
+                size.setCreated_at(rs.getTimestamp("created_at"));
+
+                Categories category = new Categories();
+                category.setCategory_id(rs.getInt("category_id"));
+                category.setName(rs.getString("category_name"));
+                category.setCreated_at(rs.getTimestamp("created_at"));
+
+                orderDetailsDto.setOrder(order);
+                orderDetailsDto.setUser(user);
+                orderDetailsDto.setAddress(address);
+                orderDetailsDto.setOrderDetail(orderDetail);
+                orderDetailsDto.setProduct(product);
+                orderDetailsDto.setSize(size);
+                orderDetailsDto.setCategory(category);
+
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return orderDetailsDto;
+    }
+
+    public List<OrderDto> getOrderDetailsByOrderId(int order_id) {
+        List<OrderDto> orderDetailsList = new ArrayList<>();
+
+        sql = "SELECT o.*, od.*, p.*, s.*, c.*, u.*, a.*, "
+                + "o.id AS order_id, "
+                + "od.id AS order_detail_id, "
+                + "p.id AS product_id, p.name AS product_name, "
+                + "s.id AS size_id, s.name AS size_name, "
+                + "c.id AS category_id, c.name AS category_name, "
+                + "u.id AS user_id, a.id AS address_id "
+                + "FROM Orders o "
+                + "JOIN Users u ON o.user_id = u.id "
+                + "JOIN Addresses a ON o.address_id = a.id "
+                + "JOIN OrderDetails od ON o.id = od.order_id "
+                + "JOIN Products p ON od.product_id = p.id "
+                + "JOIN Sizes s ON od.size_id = s.id "
+                + "JOIN Categories c ON p.category_id = c.id "
+                + "WHERE o.id = ?";
+
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setInt(1, order_id);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                OrderDto orderDetailsDto = new OrderDto();
+
+                Orders order = new Orders();
+                order.setId(rs.getInt("order_id"));
+                order.setUser_id(rs.getInt("user_id"));
+                order.setAddress_id(rs.getInt("address_id"));
+                order.setTotal_price(rs.getDouble("total_price"));
+                order.setStatus(rs.getString("status"));
+                order.setCreated_at(rs.getTimestamp("created_at"));
+
+                Users user = new Users();
+                user.setId(rs.getInt("user_id"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setFullname(rs.getString("fullname"));
+                user.setPhone(rs.getString("phone"));
+                user.setAvatar(rs.getString("avatar"));
+                user.setRole(rs.getInt("role"));
+                user.setCreated_at(rs.getTimestamp("created_at"));
+
+                Addresses address = new Addresses();
+                address.setId(rs.getInt("address_id"));
+                address.setUser_id(rs.getInt("user_id"));
+                address.setAddress_detail(rs.getString("address_detail"));
+                address.setCreated_at(rs.getTimestamp("created_at"));
+
+                OrderDetails orderDetail = new OrderDetails();
+                orderDetail.setOrder_detail_id(rs.getInt("order_detail_id"));
+                orderDetail.setOrder_id(rs.getInt("order_id"));
+                orderDetail.setProduct_id(rs.getInt("product_id"));
+                orderDetail.setSize_id(rs.getInt("size_id"));
+                orderDetail.setQuantity(rs.getInt("quantity"));
+                orderDetail.setCreated_at(rs.getTimestamp("created_at"));
+
+                Products product = new Products();
+                product.setId(rs.getInt("product_id"));
+                product.setName(rs.getString("product_name"));
+                product.setCategory_id(rs.getInt("category_id"));
+                product.setImage(rs.getString("image"));
+                product.setPrice(rs.getDouble("price"));
+                product.setStatus(rs.getString("status"));
+                product.setCreated_at(rs.getTimestamp("created_at"));
+
+                Sizes size = new Sizes();
+                size.setId(rs.getInt("size_id"));
+                size.setCategory_id(rs.getInt("category_id"));
+                size.setName(rs.getString("size_name"));
+                size.setPercent(rs.getDouble("percent"));
+                size.setCreated_at(rs.getTimestamp("created_at"));
+
+                Categories category = new Categories();
+                category.setCategory_id(rs.getInt("category_id"));
+                category.setName(rs.getString("category_name"));
+                category.setCreated_at(rs.getTimestamp("created_at"));
+
+                orderDetailsDto.setOrder(order);
+                orderDetailsDto.setUser(user);
+                orderDetailsDto.setAddress(address);
+                orderDetailsDto.setOrderDetail(orderDetail);
+                orderDetailsDto.setProduct(product);
+                orderDetailsDto.setSize(size);
+                orderDetailsDto.setCategory(category);
+                orderDetailsList.add(orderDetailsDto);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return orderDetailsList;
+    }
+
+    public void updateOrders(String status, double total_price, int id) {
+        try {
+            sql = "UPDATE Orders SET status=?, total_price=? WHERE id= " + id;
+            pst = connection.prepareStatement(sql);
+            pst.setString(1, status);
+            pst.setDouble(2, total_price);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
-    
+
+    public void updateTotalPrice(double total_price, int id) {
+        try {
+            sql = "UPDATE Orders SET total_price=? WHERE id= " + id;
+            pst = connection.prepareStatement(sql);
+            pst.setDouble(1, total_price);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void updateOrderDetails(int product_id, int size_id, int quantity, int order_detail_id) {
+        try {
+            sql = "UPDATE OrderDetails SET product_id=?, size_id=?, quantity=? WHERE id= " + order_detail_id;
+            pst = connection.prepareStatement(sql);
+            pst.setInt(1, product_id);
+            pst.setInt(2, size_id);
+            pst.setInt(3, quantity);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void deleteOrders(int orderId) {
         String deleteOrderDetailsSql = "DELETE FROM OrderDetails WHERE order_id = ?";
         String deleteOrderSql = "DELETE FROM Orders WHERE id = ?";
-
         try {
             connection.setAutoCommit(false);
-
             // Xóa từ bảng OrderDetails trước
             try (PreparedStatement preparedStatementOrderDetails = connection.prepareStatement(deleteOrderDetailsSql)) {
                 preparedStatementOrderDetails.setInt(1, orderId);
                 preparedStatementOrderDetails.executeUpdate();
             }
-
             // Sau đó xóa từ bảng Orders
             try (PreparedStatement preparedStatementOrders = connection.prepareStatement(deleteOrderSql)) {
                 preparedStatementOrders.setInt(1, orderId);
                 preparedStatementOrders.executeUpdate();
             }
-
             // Commit transaction
             connection.commit();
         } catch (SQLException e) {
@@ -163,58 +420,26 @@ public class OrdersServices extends DBConnect {
                 // Rollback nếu có lỗi
                 connection.rollback();
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                System.out.println(e.getMessage());
             }
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             try {
                 // Set lại AutoCommit về true
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
-    
-    
-    public List<OrderDetailDto> getOrderDetails(int orderId) {
-        List<OrderDetailDto> orderDetailsList = new ArrayList<>();
 
-        sql = "SELECT od.order_id, od.product_id, od.size_id, p.name AS product_name, s.name AS size_name, od.quantity, od.created_at "
-            + "FROM Orders o "
-            + "JOIN OrderDetails od ON o.id = od.order_id "
-            + "JOIN Products p ON od.product_id = p.id "
-            + "JOIN Sizes s ON od.size_id = s.id "
-            + "WHERE od.order_id = ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, orderId);
-            rs = preparedStatement.executeQuery();
-
-            while (rs.next()) {
-                OrderDetailDto orderDetailsDto = new OrderDetailDto();
-                
-                OrderDetails orderDetail = new OrderDetails();
-                orderDetail.setOrder_id(rs.getInt("order_id"));
-                orderDetail.setProduct_id(rs.getInt("product_id"));
-                orderDetail.setSize_id(rs.getInt("size_id"));
-                orderDetail.setQuantity(rs.getInt("quantity"));
-                orderDetail.setCreated_at(rs.getDate("created_at"));
-                
-                Products product = new Products();
-                product.setName(rs.getString("product_name"));
-                
-                Sizes size = new Sizes();
-                size.setName(rs.getString("size_name"));
-                
-                orderDetailsDto.setOrderDetail(orderDetail);
-                orderDetailsDto.setProduct(product);
-                orderDetailsDto.setSize(size);
-                orderDetailsList.add(orderDetailsDto);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public void deleteOrderDetails(int id) {
+        sql = "DELETE FROM OrderDetails WHERE id = " + id;
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
-        return orderDetailsList;
     }
 }

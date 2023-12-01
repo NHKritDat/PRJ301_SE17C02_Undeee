@@ -5,6 +5,7 @@
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
 import fpt.fu.prj301_se17c02_undeee.models.Cart;
+import fpt.fu.prj301_se17c02_undeee.models.Categories;
 import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
 import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
@@ -62,18 +63,6 @@ public class AddToCartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductsServices ps = new ProductsServices();
-        List<Products> list = ps.getAllProducts();
-        HttpSession session = request.getSession();
-        Cart cart = (Cart) session.getAttribute("CART");
-        if (cart == null) {
-            cart = new Cart();
-        }
-
-        request.setAttribute("list", list);
-
-        RequestDispatcher rd = request.getRequestDispatcher("/views/viewProductDetailForCustomerJsp.jsp");
-        rd.forward(request, response);
     }
 
     /**
@@ -110,12 +99,7 @@ public class AddToCartController extends HttpServlet {
             session.setAttribute("CART", cart);
         }
 
-        ProductsServices ps = new ProductsServices();
-        List<Products> list = ps.getAllProducts();
-        request.setAttribute("list", list);
-
-        RequestDispatcher rd = request.getRequestDispatcher("/views/viewProductDetailForCustomerJsp.jsp");
-        rd.forward(request, response);
+        response.sendRedirect("./customer-product");
     }
 
     /**

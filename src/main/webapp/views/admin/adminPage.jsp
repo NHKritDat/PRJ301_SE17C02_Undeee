@@ -5,11 +5,12 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <%@include file="../layout/header.jsp" %>
-<h1>Admin Page</h1>
-<h1>Hi, <%= u.getFullname()%></h1>
-<form action="view-orders">
-    <input type="submit" value="View Order">
-</form>
+<div class="container padding-top-100">
+    <h1>Admin Page</h1>
+    <h1>Hi, <%= u.getFullname()%></h1>
+    <form action="view-orders">
+        <input type="submit" value="View Order">
+    </form>
+</div>
 <%@include file="../layout/footer.jsp" %>

@@ -37,7 +37,7 @@ public class DeleteProductController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteProductController</title>");            
+            out.println("<title>Servlet DeleteProductController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet DeleteProductController at " + request.getContextPath() + "</h1>");
@@ -58,16 +58,16 @@ public class DeleteProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          String id = request.getParameter("id");
+        String id = request.getParameter("id");
         ProductsServices productService = new ProductsServices();
         if (id != null) {
             int result = productService.deleteProducts(id);
             if (result > 0) {
                 System.out.println("delete success");
-                        response.sendRedirect("view");
+                response.sendRedirect("view");
 
-            }else{
-                            response.sendRedirect("view");
+            } else {
+                response.sendRedirect("view");
 
             }
         }
