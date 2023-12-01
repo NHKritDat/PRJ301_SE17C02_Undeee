@@ -93,7 +93,7 @@ public class LoginController extends HttpServlet {
         Users user = userServices.checkLogin(email, password);
         if (user != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("user_loged", user);          
+            session.setAttribute("user_loged", user);
             int role = user.getRole();
 
             if (remember != null && remember.equals("ON")) {

@@ -6,7 +6,6 @@ package fpt.fu.prj301_se17c02_undeee.services;
 
 import fpt.fu.prj301_se17c02_undeee.models.Addresses;
 import fpt.fu.prj301_se17c02_undeee.models.Categories;
-import fpt.fu.prj301_se17c02_undeee.models.OrderDetailDto;
 import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
 import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
 import fpt.fu.prj301_se17c02_undeee.models.Orders;
