@@ -39,7 +39,7 @@ public class ProductsServices extends DBConnect {
                 sql += "and name like '%" + search + "%'";
                 sqlCount += "and name like '%" + search + "%'";
             }
-            if (category_id != null) {
+            if (category_id != null && !category_id.equals("")) {
                 sql += "and category_id = " + category_id;
                 sqlCount += "and category_id = " + category_id;
             }

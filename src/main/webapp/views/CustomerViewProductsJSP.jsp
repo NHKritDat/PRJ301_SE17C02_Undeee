@@ -20,7 +20,10 @@
     if (search == null) {
         search = "";
     }
-    if (category == null) {
+    int category_id = 0;
+    if (category != null && !category.equals("")) {
+        category_id = Integer.parseInt(category);
+    } else {
         category = "";
     }
 
@@ -49,7 +52,7 @@
                     <option hidden="">Categories</option>
                     <%  for (Categories categories : CategoryList) {
                     %>
-                    <option value="<%= categories.getCategory_id()%>" <%if (category.equals(categories.getCategory_id())) {%>selected=""<%}%>><%= categories.getName()%></option>
+                    <option value="<%= categories.getCategory_id()%>" <%if (category_id == categories.getCategory_id()) {%>selected=""<%}%>><%= categories.getName()%></option>
                     <%
                         }
                     %>
