@@ -31,7 +31,16 @@
                 <label for="password" class="form-label">New Password</label>
                 <input class="form-control" value="<%= u.getPassword()%>" name="password" placeholder="Enter new password"/>
             </div>
-
+            <div class="information">
+                <form action="./updateUser?id=<%= news.getId()%>" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="fullname" class="form-label">New Name</label>
+                        <input type="text" value="<%= news.getFullname()%>" name="fullname" class="form-control"  placeholder="Enter new fullname">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">New Password</label>
+                        <input class="form-control"  value="<%= news.getPassword()%>"  name="password"  placeholder="Enter new password"/>
+                    </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone</label>
                 <input class="form-control" value="<%= u.getPhone()%>" name="phone" placeholder="Enter new phone number"/>

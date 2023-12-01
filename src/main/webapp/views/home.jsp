@@ -23,8 +23,93 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-
+        <link rel="stylesheet" href="assets/themify-icons/themify-icons.css">
         <style>
+            .brand-name{
+                font-family: "Segoe UI", Arial, sans-serif;
+                font-size: 30px;
+
+            }
+
+            .navbar-brand img{
+                border-radius: 50px;
+                width: 50px;
+                height: 50px;
+            }
+            .nav-item{
+                margin-right: 50px;
+            }
+            .nav-link{
+                color: white;
+                font-weight: 500;
+                font-size: 20px;
+            }
+            #navbarNav{
+                margin-left: 120px;
+            }
+
+
+            .card{
+                margin-bottom: 60px !important;
+
+            }
+            .center{
+                text-align: center !important;
+            }
+
+            .blue{
+                color: #006bff
+            }
+            .footer-bottom{
+                background-color: black;
+                text-align: center;
+                padding: 20px;
+                margin-top: 30px;
+
+
+
+                color: white;
+                font-size: 16px;
+                font-weight: 300;
+            }
+            .footer-main{
+                display: flex;
+
+                justify-content: space-between;
+                padding : 0;
+
+            }
+            .content_2{
+                margin-left: 35px;
+            }
+            .logo-footer>img{
+                width: 150px ;
+                height: 150px ;
+                border-radius: 120px;
+            }
+            .logo-footer{
+                align-items: center;
+                    margin-right: -130px;
+                     margin-left: 70px;
+}
+            }
+            .padding0{
+                padding :0px !important;
+            }
+           
+
+            .order-button{
+                background-color: rgb(0, 170, 255);
+            }
+            .order-button:hover{
+                border-color: rgb(0, 170, 255);
+                background-color: white;
+            }
+  
+
+
+        </style>
+           <style>
             .card{
                 margin-bottom: 60px !important;
 
@@ -80,7 +165,20 @@
                     </li>
                 </ul>
             </div>
-            <form id="searchForm" action="view" method="Post">
+            
+
+        </nav>
+        <div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
+        <!-- Danh sách sản phẩm dạng card -->
+        <div class="container mt-6">
+
+
+            <div class="center blue">  <h1 >Undeee menu</h1></div>
+            <div  class="center"> <h2>Best Seller</h2></div>
+
+           
+
+<form id="searchForm" action="view" method="Post">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm" id="searchInput" name="searchKeyword">
                     <div class="input-group-append">
@@ -88,18 +186,6 @@
                     </div>
                 </div>
             </form>
-
-        </nav>
-
-        <!-- Danh sách sản phẩm dạng card -->
-        <div class="container mt-6">
-            <div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
-
-            <div class="center blue">  <h1 >Undeee menu</h1></div>
-            <div  class="center"> <h2>Best Seller</h2></div>
-
-
-
 
             <div class="row">
                 <%
@@ -111,14 +197,15 @@
                 <div class="col-md-3">
                     <div class="card">
 
-                        <img src="views/Drinks/<%= product.getImage()%>" class="card-img-top" alt="Sản phẩm 1" style="width: 100%; height: 250px">
+                        <img src="views/Drinks/<%= product.getImage()%>" class="card-img-top" alt="Sản phẩm 1" style="width: 100%;
+                             height: 250px">
                         <div class="card-body" style="align-items: center !important">
                             <h5 class="card-title"><%= product.getName()%></h5>
                             <p class="card-text"><%= product.getPrice()%> $</p>
                         </div>
                         <div class="card-footer">
 
-                            <button style="background-color: rgb(0, 170, 255)"><a href="AddToCartController?id=<%= product.getId()%>" class="btn" role="button">Order Now</a></button>
+                            <button class="order-button" "><a href="AddToCartController?id=<%= product.getId()%>" class="btn" role="button">Order Now</a></button>
 
                         </div>
                     </div>
@@ -134,7 +221,9 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+        <%@include file="layout/footer.jsp" %>
     </body>
+
 </html>
 
 <script>
@@ -211,7 +300,7 @@
     setInterval(changeImage, 3000); // Thực hiện hàm changeImage sau mỗi 3000ms (3 giây)
 </script>
 
-<%@include file="layout/footer.jsp" %>
+
 
 
 

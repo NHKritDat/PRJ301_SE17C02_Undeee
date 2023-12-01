@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebFilter(urlPatterns = {"/admin-page", "/view", "/create", "/view-orders", "/update-product", "/delete", "/update-orders", "/view-orderDetails", "/delete-orders"})
+@WebFilter(urlPatterns = {"/admin-page", "/view", "/create", "/view-orders", "/update-products", "/delete", "/update-orders", "/view-orderDetails", "/delete-orders"})
 public class CheckRollAdmin implements Filter {
 
     @Override
@@ -39,8 +39,7 @@ public class CheckRollAdmin implements Filter {
             res.sendRedirect("./");
         } else {
             chain.doFilter(request, response);
-        }
-    }
+        }    }
 
     @Override
     public void destroy() {

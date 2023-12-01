@@ -12,6 +12,7 @@
    
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="layout/header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -96,40 +97,51 @@
                 font-size: 18px;
                 display: none;
             }
+            
 
         </style>
+<style>
+                .footer-bottom{
+                background-color: black;
+                text-align: center;
+                padding: 20px;
+                margin-top: 30px;
 
+
+
+                color: white;
+                font-size: 16px;
+                font-weight: 300;
+            }
+            .footer-main{
+                display: flex;
+
+                justify-content: space-between;
+                padding : 0;
+
+            }
+            .content_2{
+                margin-left: 35px;
+            }
+            .logo-footer>img{
+                width: 150px ;
+                height: 150px ;
+                border-radius: 120px;
+            }
+            .logo-footer{
+                align-items: center;
+            }
+    
+</style>
     </head>
     <body>
 
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Trang chủ</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="view">Sản phẩm</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="add">Tạo mới sản phẩm</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login">Đăng xuất</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="ml-auto">
-                <span class="navbar-text">Xin chào, <strong id="userName"><%= name%></strong></span>
-            </div>
-        </nav>
+
 
         <!-- Body: Form tạo sản phẩm -->
         <div class="container mt-4">
             <h1>Update phẩm mới</h1>
-            <form action="./UpdateProductsController?id=<%= product.getId()%>" method="POST" enctype="multipart/form-data">
+            <form action="./update-products?id=<%= product.getId()%>" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="tenSanPham">Product's name</label>
                     <input type="text" value="<%= product.getName()%>" class="form-control" id="tenSanPham" name="name" placeholder="Nhập tên sản phẩm">
@@ -185,3 +197,4 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
     </body>
 </html>
+<%@include file="layout/footer.jsp" %>

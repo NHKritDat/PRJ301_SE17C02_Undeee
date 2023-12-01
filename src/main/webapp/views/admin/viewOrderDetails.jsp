@@ -58,7 +58,6 @@
                                     <input type="submit" value="Delete">
                                 </form>
                             </td>
-
                         </tr>
                         <% }%>
                     </tbody>
@@ -87,7 +86,3 @@
         };
     </script>
 </html>
-
-
-
-
