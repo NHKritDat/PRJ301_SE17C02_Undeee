@@ -9,8 +9,7 @@
 <%@include file="layout/header.jsp" %>
 <%@page import="fpt.fu.prj301_se17c02_undeee.models.RegisterError"%>
 
-<%
-    RegisterError errors = (RegisterError) request.getAttribute("ERROR");
+<%    RegisterError errors = (RegisterError) request.getAttribute("ERROR");
 %>
 
 <center>
@@ -24,9 +23,9 @@
             <%
                 if (errors != null && errors.getEmailError() != null) {
             %>
-                    <font style="color:red">
-                        <%= errors.getEmailError() %>
-                    </font>
+            <font style="color:red">
+            <%= errors.getEmailError()%>
+            </font>
             <%
                 }
             %>
@@ -35,9 +34,9 @@
             <%
                 if (errors != null && errors.getPhoneError() != null) {
             %>
-                    <font style="color:red">
-                        <%= errors.getPhoneError() %>
-                    </font>
+            <font style="color:red">
+            <%= errors.getPhoneError()%>
+            </font>
             <%
                 }
             %>
@@ -46,9 +45,9 @@
             <%
                 if (errors != null && errors.getPasswordError() != null) {
             %>
-                    <font style="color:red">
-                        <%= errors.getPasswordError() %>
-                    </font>
+            <font style="color:red">
+            <%= errors.getPasswordError()%>
+            </font>
             <%
                 }
             %>

@@ -80,6 +80,7 @@ public class LoginController extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String remember = request.getParameter("RememberMe");
+        System.out.println(remember);
 
         Cookie cEmail = new Cookie("cEmail", email);
         Cookie cPassword = new Cookie("cPassword", password);
@@ -92,13 +93,9 @@ public class LoginController extends HttpServlet {
         Users user = userServices.checkLogin(email, password);
         if (user != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("user_loged", user);
+            session.setAttribute("user_loged", user);          
             int role = user.getRole();
-            if (role == 2) {
-                response.sendRedirect("./admin-page");
-            } else {
-                response.sendRedirect("./AddToCartController");
-            }
+
             if (remember != null && remember.equals("ON")) {
                 cEmail.setMaxAge(60 * 60 * 24 * 7); //7 ngày
                 cPassword.setMaxAge(60 * 60 * 24 * 7);
@@ -112,6 +109,12 @@ public class LoginController extends HttpServlet {
             response.addCookie(cEmail);
             response.addCookie(cPassword);
             response.addCookie(cRemember);
+
+            if (role == 2) {
+                response.sendRedirect("./admin-page");
+            } else {
+                response.sendRedirect("./AddToCartController");
+            }
 
         } else {
             response.sendRedirect("./login");

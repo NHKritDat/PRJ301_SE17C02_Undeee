@@ -83,20 +83,20 @@ public class RegisterController extends HttpServlet {
         String password = request.getParameter("txtPassword");
         String url = "register";
 
-//        RegisterError errors = new RegisterError();
-        //boolean foundError = false;
+        RegisterError errors = new RegisterError();
+        boolean foundError = false;
         try {
-//            if (phone.length() < 0 || phone.length() > 11) {
-//                foundError = true;
-//                errors.setPhoneError("The phone number must have 11 digits!");
-//            }
-//            if (password.length() < 0 || password.length() > 10) {
-//                foundError = true;
-//                errors.setPasswordError("The password must have 10 characters!");
-//            }
-//            if (foundError) {
-//                request.setAttribute("ERROR", errors);
-//            }
+            if (phone.length() < 0 || phone.length() > 11) {
+                foundError = true;
+                errors.setPhoneError("The phone number must have 10 digits!");
+            }
+            if (password.length() < 0 || password.length() > 10) {
+                foundError = true;
+                errors.setPasswordError("Password must be between 0 and 10 characters!");
+            }
+            if (foundError) {
+                request.setAttribute("ERROR", errors);
+            }
 
             UsersServices sv = new UsersServices();
             boolean result = sv.registerAccount(email, fullname, phone, password, 1, "/img/avataruser.jpeg");
@@ -105,15 +105,15 @@ public class RegisterController extends HttpServlet {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-//            if (e.getErrorCode() == 1062) { //khi nhập 1 giá trị đã có ==> sql sẽ báo lỗi duplicate             
+//            if (e.getErrorCode() == 1062) {            
 //                errors.setEmailError(email + "" + "Already Existed!");
 //            }
-//            request.setAttribute("ERROR", errors);
+            request.setAttribute("ERROR", errors);
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
-           
-               rd.forward(request, response);
             
+            rd.forward(request, response);
+
         }
     }
 
