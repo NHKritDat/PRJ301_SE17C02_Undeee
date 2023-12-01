@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 /**
@@ -66,9 +67,12 @@ public class UpdateUserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String id = (String) request.getParameter("id");//lấy session
+//        String id = (String) request.getParameter("id");//lấy session
+        HttpSession session = request.getSession();
+        Users u = (Users) session.getAttribute("user_loged");
+
         UsersServices us = new UsersServices();//lấy session
-        Users user = us.getUserbyID(id);//lấy session
+        Users user = us.getUserbyID(u.getEmail());//lấy session
         if (user != null) {
             request.setAttribute("user", user);
             RequestDispatcher rd = request.getRequestDispatcher("/views/updateUser.jsp");
@@ -76,6 +80,7 @@ public class UpdateUserController extends HttpServlet {
 
             //  response.sendRedirect("views/admin_update.jsp");
         }
+
     }
 
     /**
@@ -91,10 +96,12 @@ public class UpdateUserController extends HttpServlet {
             throws ServletException, IOException {
 
         //validate news update
-        String id = request.getParameter("id");//lấy session
+//        String id = request.getParameter("id");
+        HttpSession session = request.getSession();
+        Users u = (Users) session.getAttribute("user_loged");
 
-        UsersServices us = new UsersServices();//lấy session
-        Users user = us.getUserbyID(id); //lấy session
+        UsersServices us = new UsersServices();
+        Users user = us.getUserbyID(u.getEmail());
         if (user == null) {
             response.sendError(404);
         }
@@ -125,11 +132,16 @@ public class UpdateUserController extends HttpServlet {
             imageSave = fileName;
         }
 
-        int userID = Integer.parseInt(id);
+        int userID = Integer.parseInt(u.getEmail());
         if (fullname != null && phone != null && password != null) {
             int result = us.updateUsers(fullname, password, phone, imageSave, userID);
             if (result > 0) {
-                String urlRewriting = "./updateUser?id=" + userID;
+//                String urlRewriting = "./updateUser"
+//                        + "?fullname="+fullname
+//                        + "&password="+password
+//                        + "&phone="+phone;
+                String urlRewriting = "./updateUser.jsp"
+                        + "?id=" + userID;
                 RequestDispatcher rd = request.getRequestDispatcher(urlRewriting);
                 rd.forward(request, response);
                 System.out.println("Update successfully!");

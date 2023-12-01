@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -78,6 +79,12 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String remember = request.getParameter("RememberMe");
+        System.out.println(remember);
+
+        Cookie cEmail = new Cookie("cEmail", email);
+        Cookie cPassword = new Cookie("cPassword", password);
+        Cookie cRemember = new Cookie("cRemember", remember);
         if (email == null || password == null) {
             response.sendRedirect("login");
             return;
@@ -86,16 +93,33 @@ public class LoginController extends HttpServlet {
         Users user = userServices.checkLogin(email, password);
         if (user != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("user_loged", user);
+            session.setAttribute("user_loged", user);          
             int role = user.getRole();
+
+            if (remember != null && remember.equals("ON")) {
+                cEmail.setMaxAge(60 * 60 * 24 * 7); //7 ngày
+                cPassword.setMaxAge(60 * 60 * 24 * 7);
+                cRemember.setMaxAge(60 * 60 * 24 * 7);
+            } else {
+                cEmail.setMaxAge(0);
+                cPassword.setMaxAge(0);
+                cRemember.setMaxAge(0);
+            }
+
+            response.addCookie(cEmail);
+            response.addCookie(cPassword);
+            response.addCookie(cRemember);
+
             if (role == 2) {
                 response.sendRedirect("./admin-page");
             } else {
                 response.sendRedirect("./customer-product");
             }
+
         } else {
             response.sendRedirect("./login");
         }
+
     }
 
     /**

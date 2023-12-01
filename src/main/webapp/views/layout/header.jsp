@@ -101,7 +101,8 @@
                             <%= u.getFullname()%>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="./updateUser">View profile</a></li>
+                            <li><a class="dropdown-item" href="./views/updateUser.jsp">View profile</a></li>
+
                             <li><a class="dropdown-item" href="./logout">Logout</a></li>
                         </ul>
                     </li>
