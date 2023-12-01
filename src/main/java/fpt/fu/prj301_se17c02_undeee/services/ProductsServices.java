@@ -5,12 +5,14 @@
 package fpt.fu.prj301_se17c02_undeee.services;
 
 import fpt.fu.prj301_se17c02_undeee.models.Categories;
+import fpt.fu.prj301_se17c02_undeee.models.Paging;
 import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.models.SizeProducts;
 import fpt.fu.prj301_se17c02_undeee.models.Sizes;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,12 +27,26 @@ public class ProductsServices extends DBConnect {
     private ResultSet rs = null;
     private String sql = "";
 
-    public List<Products> getAllProductsAvailable() {
+    public Paging getAllProductsAvailable(String search, String category_id, int page, int perPage) {
+        Paging paging = new Paging();
         List<Products> list = new ArrayList<>();
-        sql = "select * from Products where status = 'Active'";
         try {
-            pst = connection.prepareStatement(sql);
-            rs = pst.executeQuery();
+            int limit = perPage;
+            int offset = (page - 1) * perPage;
+            sql = "select * from Products where status = 'Active'";
+            String sqlCount = "select count(*) as numberItem from Products where status = 'Active'";
+            if (search != null) {
+                sql += "and name like '%" + search + "%'";
+                sqlCount += "and name like '%" + search + "%'";
+            }
+            if (category_id != null && !category_id.equals("")) {
+                sql += "and category_id = " + category_id;
+                sqlCount += "and category_id = " + category_id;
+            }
+            
+            Statement st = connection.createStatement();
+            sql += " limit " + limit + " offset " + offset;
+            rs = st.executeQuery(sql);
             while (rs.next()) {
                 Products p = new Products();
                 p.setId(rs.getInt(1));
@@ -42,12 +58,22 @@ public class ProductsServices extends DBConnect {
                 p.setCreate_at(rs.getDate(7));
                 list.add(p);
             }
+            paging.setP(list);
+            paging.setPage(page);
+            paging.setPerPage(perPage);
+            
+            ResultSet rsTotal = st.executeQuery(sqlCount);
+            int total = 0;
+            while (rsTotal.next()) {
+                total += rsTotal.getInt(1);
+            }
+            paging.setTotal(total);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return list;
+        return paging;
     }
-    
+
     public SizeProducts getSizeProductById(int product_id, int size_id) {
         SizeProducts sp = null;
         sql = "Select p.name, p.image, s.name, s.percent, p.price from Products p left join Sizes s on p.category_id = s.category_id where p.id = ? and s.id = ?";
@@ -140,9 +166,9 @@ public class ProductsServices extends DBConnect {
         return list;
     }
 
-        public String getSizes(String id) {
+    public String getSizes(String id) {
         List<Sizes> list = new ArrayList<>();
-        String query = "SELECT * FROM Sizes  where product_id = "+id+";";
+        String query = "SELECT * FROM Sizes  where product_id = " + id + ";";
         Sizes category = null;
         PreparedStatement preparestatement;
         try {
@@ -160,24 +186,25 @@ public class ProductsServices extends DBConnect {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        String size="";
-        
-            for (Sizes sizes : list) {
-                if (sizes.getName().equals("Small")) {
-                    size=size+1;
-                }
-                  if (sizes.getName().equals("Regular")) {
-                    size=size+2;
-                }
-                    if (sizes.getName().equals("Large")) {
-                    size=size+3;
-                }
+        String size = "";
+
+        for (Sizes sizes : list) {
+            if (sizes.getName().equals("Small")) {
+                size = size + 1;
             }
+            if (sizes.getName().equals("Regular")) {
+                size = size + 2;
+            }
+            if (sizes.getName().equals("Large")) {
+                size = size + 3;
+            }
+        }
         return size;
     }
+
     public List<Products> searchProducts(String search) {
         List<Products> list = new ArrayList<>();
-        String query = "SELECT * FROM Products WHERE status  ='"+search+"' OR  name LIKE '%" + search + "%';";
+        String query = "SELECT * FROM Products WHERE status  ='" + search + "' OR  name LIKE '%" + search + "%';";
         Products product = null;
         PreparedStatement preparestatement;
         try {
@@ -200,10 +227,9 @@ public class ProductsServices extends DBConnect {
         return list;
     }
 
-    
-      public List<Products> searchProductsByCategory(String category) {
+    public List<Products> searchProductsByCategory(String category) {
         List<Products> list = new ArrayList<>();
-        String query = "SELECT * FROM Products WHERE category_id ="+category+";";
+        String query = "SELECT * FROM Products WHERE category_id =" + category + ";";
         Products product = null;
         PreparedStatement preparestatement;
         try {
@@ -225,6 +251,7 @@ public class ProductsServices extends DBConnect {
         }
         return list;
     }
+
     public int insertProducts(String name, int categoryID, String image, double price, String status) {
         try {
             String insertQuery = "INSERT INTO Products (name, category_id, image, price, status) VALUES (?, ?, ?, ?,?)";

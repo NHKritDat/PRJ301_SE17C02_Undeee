@@ -73,7 +73,7 @@
                         } else {
                         %>
                         <li class="nav-item">
-                            <a class="nav-link" href="./AddToCartController">View products</a>
+                            <a class="nav-link" href="./customer-product">View products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./EditCartController">Cart</a>

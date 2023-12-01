@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="fpt.fu.prj301_se17c02_undeee.models.Paging"%>
 <%@page import="fpt.fu.prj301_se17c02_undeee.models.Categories"%>
 <%@page import="fpt.fu.prj301_se17c02_undeee.services.ProductsServices"%>
 <%@page import="fpt.fu.prj301_se17c02_undeee.models.SizeProducts"%>
@@ -12,26 +13,41 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
-<%  ProductsServices ps = new ProductsServices();
-    List<Products> ProductList = (List<Products>) request.getAttribute("ProductList");
-    List<Categories> CategoryList = (List<Categories>) request.getAttribute("CategoryList");
+<%  Paging paging = (Paging) request.getAttribute("paging");
+    String search = (String) request.getAttribute("search");
     String category = request.getParameter("category");
+
+    if (search == null) {
+        search = "";
+    }
     int category_id = 0;
-    if (category != null) {
+    if (category != null && !category.equals("")) {
         category_id = Integer.parseInt(category);
+    } else {
+        category = "";
+    }
+
+    ProductsServices ps = new ProductsServices();
+    List<Products> ProductList = paging.getP();
+    List<Categories> CategoryList = (List<Categories>) request.getAttribute("CategoryList");
+    double numPage = Math.ceil((double) paging.getTotal() / (double) paging.getPerPage());
+    String pageInstant = (String) request.getAttribute("page");
+    int numPageInstant = 1;
+    if (pageInstant != null) {
+        numPageInstant = Integer.parseInt(pageInstant);
     }
 %>
 <div class="container mt-3">
-    
+
     <div class="row mb-3">
         <div class="col-md-3">
-            <form role="search" class="d-flex" action="AddToCartController" method="get" aria-label="Search">
+            <form role="search" class="d-flex" action="./customer-product" method="get" aria-label="Search">
                 <input class="form-control" type="search" placeholder="Search" name="search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
         <div class="col-md-2">
-            <form action="./AddToCartController" method="get">
+            <form action="./customer-product" method="get">
                 <select class="form-control" id="categories" name="category" onchange="this.form.submit()">
                     <option hidden="">Categories</option>
                     <%  for (Categories categories : CategoryList) {
@@ -44,7 +60,7 @@
             </form>
         </div>
     </div>
-                
+
     <div class="row">
         <%
             for (Products p : ProductList) {
@@ -58,8 +74,8 @@
                     <p class="card-text">Giá gốc: <%= p.getPrice()%></p>
                 </div>
                 <div class="card-footer">
-                    <form method="post" action="./AddToCartController">
-                        <select name="size_id" class="form-control" style="float: left; width: 32%">
+                    <form method="post" action="./AddToCartController" style="display: flex">
+                        <select name="size_id" class="form-control">
                             <%
                                 for (SizeProducts sp : l) {
                             %>
@@ -68,22 +84,39 @@
                                 }
                             %>
                         </select>
-                        <input type="number" name="quantity" placeholder="0" required="" class="form-control" style="float: left; width: 25%">
-                        <button type="submit" class="btn btn-success" value="<%= p.getId()%>" name="product_id">Add to cart</button>
+                        <input type="number" name="quantity" placeholder="0" required="" min="0" max="99" class="form-control" style="width: 50%">
+                        <button type="submit" class="btn btn-success" value="<%= p.getId()%>" name="product_id" style="width: 370px">Add to cart</button>
                     </form>
                 </div>
             </div>
         </div>
         <%  }
         %>
-        
-<!--        <div class="overlay" id="overlay" onclick="closePopup()"></div>
-        <div class="popup col-md-3" id="popup">
-            <div class="card">
-                
-            </div>
-        </div>-->
+
+        <!--        <div class="overlay" id="overlay" onclick="closePopup()"></div>
+                <div class="popup col-md-3" id="popup">
+                    <div class="card">
+                        
+                    </div>
+                </div>-->
     </div>
-        
+
+    <div class="row">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="<%if (numPageInstant > 1) {%>./customer-product?page=<%= numPageInstant - 1%>&search=<%= search%>&category=<%= category%><%}%>" tabindex="-1">Previous</a>
+                </li>
+                <% for (int i = 0; i < numPage; i++) {%>
+                <li class="page-item">
+                    <a class="page-link" href="./customer-product?page=<%= i + 1%>&search=<%= search%>&category=<%= category%>"><%= i + 1%></a>
+                </li>
+                <%}%>
+                <li class="page-item">
+                    <a class="page-link" href="<%if (numPageInstant < numPage) {%>./customer-product?page=<%= numPageInstant + 1%>&search=<%= search%>&category=<%= category%><%}%>">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>
 <%@include file="layout/footer.jsp" %>

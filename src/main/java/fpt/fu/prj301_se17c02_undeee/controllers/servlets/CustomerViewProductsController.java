@@ -4,26 +4,25 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.models.Cart;
 import fpt.fu.prj301_se17c02_undeee.models.Categories;
-import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
-import fpt.fu.prj301_se17c02_undeee.models.Products;
+import fpt.fu.prj301_se17c02_undeee.models.Paging;
 import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Admin
  */
-public class AddToCartController extends HttpServlet {
+@WebServlet(name = "CustomerViewProductsController", urlPatterns = {"/customer-product"})
+public class CustomerViewProductsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +41,10 @@ public class AddToCartController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddToCartController</title>");
+            out.println("<title>Servlet CustomerViewProductsController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddToCartController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CustomerViewProductsController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,6 +62,24 @@ public class AddToCartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String search = request.getParameter("search");
+        String category_id = request.getParameter("category");
+        String page_String = request.getParameter("page");
+
+        int page = page_String != null ? Integer.parseInt(page_String) : 1;
+        int perPage = 12;
+
+        ProductsServices ps = new ProductsServices();
+        Paging paging = ps.getAllProductsAvailable(search, category_id, page, perPage);
+        List<Categories> l = ps.getCategories();
+
+        request.setAttribute("paging", paging);
+        request.setAttribute("search", search);
+        request.setAttribute("category", category_id);
+        request.setAttribute("CategoryList", l);
+
+        RequestDispatcher rd = request.getRequestDispatcher("/views/CustomerViewProductsJSP.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -76,30 +93,7 @@ public class AddToCartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String product_id_string = request.getParameter("product_id");
-        String size_id_string = request.getParameter("size_id");
-        String quantity_string = request.getParameter("quantity");
 
-        int product_id = Integer.parseInt(product_id_string);
-        int size_id = Integer.parseInt(size_id_string);
-        int quantity = Integer.parseInt(quantity_string);
-
-        if (quantity != 0) {
-            OrderDetails ods = new OrderDetails();
-            ods.setProduct_id(product_id);
-            ods.setSize_id(size_id);
-            ods.setQuantity(quantity);
-
-            HttpSession session = request.getSession();
-            Cart cart = (Cart) session.getAttribute("CART");
-            if (cart == null) {
-                cart = new Cart();
-            }
-            cart.add(ods);
-            session.setAttribute("CART", cart);
-        }
-
-        response.sendRedirect("./customer-product");
     }
 
     /**
