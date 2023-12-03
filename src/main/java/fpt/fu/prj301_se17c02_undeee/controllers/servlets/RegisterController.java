@@ -76,41 +76,44 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
         String fullname = request.getParameter("txtFullName");
         String email = request.getParameter("txtEmail");
         String phone = request.getParameter("txtPhone");
         String password = request.getParameter("txtPassword");
+        String url = "register";
 
         RegisterError errors = new RegisterError();
         boolean foundError = false;
         try {
             if (phone.length() < 0 || phone.length() > 11) {
                 foundError = true;
-                errors.setPhoneError("The phone number must have 11 digits!");
+                errors.setPhoneError("The phone number must have 10 digits!");
             }
             if (password.length() < 0 || password.length() > 10) {
                 foundError = true;
-                errors.setPasswordError("The password must have 10 characters!");
+                errors.setPasswordError("Password must be between 0 and 10 characters!");
             }
-            if (foundError = true) {
+            if (foundError) {
                 request.setAttribute("ERROR", errors);
             }
-            
-            UsersServices sv = new UsersServices();
-            boolean result = sv.registerAccount(email, fullname, phone, password, 1, "/img/avataruser.jpeg");
-            if (result) {
-                response.sendRedirect("./login");
-            }
 
-        } catch (SQLException e) {
-            if (e.equals("duplicate")) { //khi nhập 1 giá trị đã có ==> sql sẽ báo lỗi duplicate
-                foundError = true;
-                errors.setEmailError("Email must be unique!");
+            UsersServices sv = new UsersServices();
+            boolean result = sv.registerAccount(email, fullname, phone, password, 1, "avataruser.jpg");
+            if (result) {
+                url = "login";
             }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            request.setAttribute("ERROR", errors);
+        } finally {
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+
+            rd.forward(request, response);
+
         }
     }
-        
+
     /**
      * Returns a short description of the servlet.
      *

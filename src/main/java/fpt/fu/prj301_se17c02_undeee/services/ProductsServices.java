@@ -5,12 +5,14 @@
 package fpt.fu.prj301_se17c02_undeee.services;
 
 import fpt.fu.prj301_se17c02_undeee.models.Categories;
+import fpt.fu.prj301_se17c02_undeee.models.Paging;
 import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.models.SizeProducts;
 import fpt.fu.prj301_se17c02_undeee.models.Sizes;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,12 +27,26 @@ public class ProductsServices extends DBConnect {
     private ResultSet rs = null;
     private String sql = "";
 
-    public List<Products> getAllProductsAvailable() {
+    public Paging getAllProductsAvailable(String search, String category_id, int page, int perPage) {
+        Paging paging = new Paging();
         List<Products> list = new ArrayList<>();
-        sql = "select * from Products where status = 'Active'";
         try {
-            pst = connection.prepareStatement(sql);
-            rs = pst.executeQuery();
+            int limit = perPage;
+            int offset = (page - 1) * perPage;
+            sql = "select * from Products where status = 'Active'";
+            String sqlCount = "select count(*) as numberItem from Products where status = 'Active'";
+            if (search != null) {
+                sql += "and name like '%" + search + "%'";
+                sqlCount += "and name like '%" + search + "%'";
+            }
+            if (category_id != null && !category_id.equals("")) {
+                sql += "and category_id = " + category_id;
+                sqlCount += "and category_id = " + category_id;
+            }
+            
+            Statement st = connection.createStatement();
+            sql += " limit " + limit + " offset " + offset;
+            rs = st.executeQuery(sql);
             while (rs.next()) {
                 Products p = new Products();
                 p.setId(rs.getInt(1));
@@ -42,10 +58,20 @@ public class ProductsServices extends DBConnect {
                 p.setCreated_at(rs.getDate(7));
                 list.add(p);
             }
+            paging.setP(list);
+            paging.setPage(page);
+            paging.setPerPage(perPage);
+            
+            ResultSet rsTotal = st.executeQuery(sqlCount);
+            int total = 0;
+            while (rsTotal.next()) {
+                total += rsTotal.getInt(1);
+            }
+            paging.setTotal(total);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return list;
+        return paging;
     }
 
     public SizeProducts getSizeProductById(int product_id, int size_id) {
@@ -99,6 +125,32 @@ public class ProductsServices extends DBConnect {
     public List<Products> getAllProducts() {
         List<Products> list = new ArrayList<>();
         String query = "SELECT * FROM Products ";
+        try {
+            pst = connection.prepareStatement(query);
+            ResultSet res = pst.executeQuery();
+            while (res.next()) {
+                Products product = new Products();
+                product.setId(res.getInt(1));
+                product.setName(res.getString(2));
+                product.setCategory_id(res.getInt(3));
+                product.setImage(res.getString(4));
+                product.setPrice(res.getDouble(5));
+                product.setStatus(res.getString(6));
+                product.setCreated_at(res.getDate(7));
+                list.add(product);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return list;
+    }
+
+    public List<Products> getTop8BestSellerProducts() {
+        List<Products> list = new ArrayList<>();
+        String query = "SELECT product_id , name, category_id, image, price, status, products.created_at, count\n"
+                + "FROM bestseller JOIN products ON product_id = id\n"
+                + "ORDER BY count DESC\n"
+                + "LIMIT 8; ";
         try {
             pst = connection.prepareStatement(query);
             ResultSet res = pst.executeQuery();
@@ -404,5 +456,55 @@ public class ProductsServices extends DBConnect {
         }
         return size;
 
+    }
+
+    public Paging getPetsPage(String search, int page, int perPage) {
+        Paging newspaging = new Paging();
+        List<Products> list = new ArrayList<>();
+        int limit = perPage;
+        int offset = (page - 1) * perPage;
+        String query = "SELECT* FROM Products ";
+        String countQuery = "SELECT COUNT(*)AS NUMBERPET FROM Products ";
+        if (search != null) {
+            query += "WHERE  category_id ='" + search + "' or status  ='" + search + "' OR  name LIKE '%" + search + "%'";
+            countQuery += "WHERE category_id ='" + search + "' or status  ='" + search + "' OR  name LIKE '%" + search + "%'";
+
+        }
+
+        query += "ORDER BY id\n"
+                + " LIMIT " + limit
+                + " OFFSET " + offset + ";";
+
+        try {
+
+            Statement stm;
+            stm = connection.createStatement();
+            ResultSet res = stm.executeQuery(query);
+            while (res.next()) {
+                int product_id = res.getInt("id");
+                String name = res.getString("name");
+                int category_id = res.getInt("category_id");
+                String image = res.getString("image");
+                double price = res.getDouble("price");
+                String status = res.getString("status");
+                Date created_at = res.getTimestamp("created_at");
+
+                Products product = new Products(product_id, name, category_id, image, price, status, created_at);
+                list.add(product);
+            }
+            newspaging.setP(list);
+            newspaging.setPage(page);
+            newspaging.setPerPage(perPage);
+            rs = stm.executeQuery(countQuery);
+            int total = 0;
+            while (rs.next()) {
+                total = rs.getInt(1);
+            }
+            newspaging.setTotal(total);
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return newspaging;
     }
 }
