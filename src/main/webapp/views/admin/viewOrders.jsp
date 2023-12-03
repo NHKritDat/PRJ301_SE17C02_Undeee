@@ -105,34 +105,33 @@
                         <% }%>
                     </tbody>
                 </table>
-
-                </body>
-                </html>
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-                <script>
-                                            function changeSearchBy() {
-                                                var searchBy = document.getElementById("searchBy").value;
-                                                var searchInput = document.getElementById("searchInput");
-
-                                                if (searchBy === "status") {
-                                                    searchInput.type = "text";
-                                                    searchInput.placeholder = "Search order status";
-                                                } else if (searchBy === "customerName") {
-                                                    searchInput.type = "text";
-                                                    searchInput.placeholder = "Search customer name";
-                                                } else {
-                                                    searchInput.type = "date";
-                                                }
-                                            }
-
-                </script>
             </div>
         </div>
         <%@include file="../layout/footer.jsp" %>
-<script>
-    window.onpageshow = function (event) {
-        if (event.persisted) {
-            window.location.reload();
-        }
-    };
-</script>
+    </body>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+                        function changeSearchBy() {
+                            var searchBy = document.getElementById("searchBy").value;
+                            var searchInput = document.getElementById("searchInput");
+
+                            if (searchBy === "status") {
+                                searchInput.type = "text";
+                                searchInput.placeholder = "Search order status";
+                            } else if (searchBy === "customerName") {
+                                searchInput.type = "text";
+                                searchInput.placeholder = "Search customer name";
+                            } else {
+                                searchInput.type = "date";
+                            }
+                        }
+
+                        window.onpageshow = function (event) {
+                            if (event.persisted) {
+                                window.location.reload();
+                            }
+                        };
+
+    </script>
+</html>

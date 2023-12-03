@@ -362,6 +362,101 @@ public class OrdersServices extends DBConnect {
         return orderDetailsList;
     }
 
+    public List<OrderDto> getOrderHistory(int user_id) {
+        List<OrderDto> orderDetailsList = new ArrayList<>();
+
+        sql = "SELECT o.*, od.*, p.*, s.*, c.*, u.*, a.*, "
+                + "o.id AS order_id, "
+                + "od.id AS order_detail_id, "
+                + "p.id AS product_id, p.name AS product_name, "
+                + "s.id AS size_id, s.name AS size_name, "
+                + "c.id AS category_id, c.name AS category_name, "
+                + "u.id AS user_id, a.id AS address_id "
+                + "FROM Orders o "
+                + "JOIN Users u ON o.user_id = u.id "
+                + "JOIN Addresses a ON o.address_id = a.id "
+                + "JOIN OrderDetails od ON o.id = od.order_id "
+                + "JOIN Products p ON od.product_id = p.id "
+                + "JOIN Sizes s ON od.size_id = s.id "
+                + "JOIN Categories c ON p.category_id = c.id "
+                + "WHERE u.id = ?";
+
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setInt(1, user_id);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                OrderDto orderDetailsDto = new OrderDto();
+
+                Orders order = new Orders();
+                order.setId(rs.getInt("order_id"));
+                order.setUser_id(rs.getInt("user_id"));
+                order.setAddress_id(rs.getInt("address_id"));
+                order.setTotal_price(rs.getDouble("total_price"));
+                order.setStatus(rs.getString("status"));
+                order.setCreated_at(rs.getTimestamp("created_at"));
+
+                Users user = new Users();
+                user.setId(rs.getInt("user_id"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setFullname(rs.getString("fullname"));
+                user.setPhone(rs.getString("phone"));
+                user.setAvatar(rs.getString("avatar"));
+                user.setRole(rs.getInt("role"));
+                user.setCreated_at(rs.getTimestamp("created_at"));
+
+                Addresses address = new Addresses();
+                address.setId(rs.getInt("address_id"));
+                address.setUser_id(rs.getInt("user_id"));
+                address.setAddress_detail(rs.getString("address_detail"));
+                address.setCreated_at(rs.getTimestamp("created_at"));
+
+                OrderDetails orderDetail = new OrderDetails();
+                orderDetail.setOrder_detail_id(rs.getInt("order_detail_id"));
+                orderDetail.setOrder_id(rs.getInt("order_id"));
+                orderDetail.setProduct_id(rs.getInt("product_id"));
+                orderDetail.setSize_id(rs.getInt("size_id"));
+                orderDetail.setQuantity(rs.getInt("quantity"));
+                orderDetail.setCreated_at(rs.getTimestamp("created_at"));
+
+                Products product = new Products();
+                product.setId(rs.getInt("product_id"));
+                product.setName(rs.getString("product_name"));
+                product.setCategory_id(rs.getInt("category_id"));
+                product.setImage(rs.getString("image"));
+                product.setPrice(rs.getDouble("price"));
+                product.setStatus(rs.getString("status"));
+                product.setCreated_at(rs.getTimestamp("created_at"));
+
+                Sizes size = new Sizes();
+                size.setId(rs.getInt("size_id"));
+                size.setCategory_id(rs.getInt("category_id"));
+                size.setName(rs.getString("size_name"));
+                size.setPercent(rs.getDouble("percent"));
+                size.setCreated_at(rs.getTimestamp("created_at"));
+
+                Categories category = new Categories();
+                category.setCategory_id(rs.getInt("category_id"));
+                category.setName(rs.getString("category_name"));
+                category.setCreated_at(rs.getTimestamp("created_at"));
+
+                orderDetailsDto.setOrder(order);
+                orderDetailsDto.setUser(user);
+                orderDetailsDto.setAddress(address);
+                orderDetailsDto.setOrderDetail(orderDetail);
+                orderDetailsDto.setProduct(product);
+                orderDetailsDto.setSize(size);
+                orderDetailsDto.setCategory(category);
+                orderDetailsList.add(orderDetailsDto);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return orderDetailsList;
+    }
+    
     public void updateOrders(String status, double total_price, int id) {
         try {
             sql = "UPDATE Orders SET status=?, total_price=? WHERE id= " + id;

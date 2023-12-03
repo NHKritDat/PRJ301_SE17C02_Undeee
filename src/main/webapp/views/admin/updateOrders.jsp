@@ -70,10 +70,11 @@
                     </select>
                 </div>
                 <hr>
+                <label>Order Details:</label>
                 <%                    
                     for (OrderDto orderDetail : orderDetailList) {
                 %>
-                <label>Order Details:</label>
+                
                 <br>
 
                 <input type="hidden" name="AllOrderDetailsId" value="<%= orderDetail.getOrderDetail().getOrder_detail_id()%>">

@@ -53,6 +53,9 @@
                         <li class="nav-item">
                             <a class="nav-link disabled" aria-disabled="true"><%= total_quantity%></a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./my-orders">My orders</a>
+                        </li>
                         <%
                         } else {
                         %>
