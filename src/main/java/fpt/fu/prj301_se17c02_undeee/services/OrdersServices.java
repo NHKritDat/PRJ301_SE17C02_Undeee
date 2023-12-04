@@ -6,10 +6,10 @@ package fpt.fu.prj301_se17c02_undeee.services;
 
 import fpt.fu.prj301_se17c02_undeee.models.Addresses;
 import fpt.fu.prj301_se17c02_undeee.models.Categories;
-import fpt.fu.prj301_se17c02_undeee.models.OrderDetailDto;
 import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
 import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
 import fpt.fu.prj301_se17c02_undeee.models.Orders;
+import fpt.fu.prj301_se17c02_undeee.models.Paging;
 import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.models.Sizes;
 import fpt.fu.prj301_se17c02_undeee.models.Users;
@@ -64,71 +64,164 @@ public class OrdersServices extends DBConnect {
         }
     }
 
-    public List<OrderDto> getOrders(String search, String searchBy) {
+//    public List<OrderDto> getOrders(String search, String searchBy) {
+//        List<OrderDto> orders = new ArrayList<>();
+//        try {
+//            sql = "SELECT * FROM Orders o "
+//                    + "JOIN Users u ON o.user_id = u.id "
+//                    + "JOIN Addresses a ON o.address_id = a.id ";
+//            if (search != null && !search.isEmpty() && searchBy != null && !searchBy.isEmpty()) {
+//                sql += " WHERE ";
+//                switch (searchBy) {
+//                    case "status":
+//                        sql += "o.status LIKE '%" + search + "%'";
+//                        break;
+//                    case "customerName":
+//                        sql += "u.fullname LIKE '%" + search + "%'";
+//                        break;
+//                    case "createdAt":
+//                        sql += "o.created_at LIKE '%" + search + "%'";
+//                        break;
+//                }
+//            }
+//            pst = connection.prepareStatement(sql);
+//            rs = pst.executeQuery();
+//            while (rs.next()) {
+//                OrderDto orderDto = new OrderDto();
+//
+//                Orders order = new Orders();
+//                order.setId(rs.getInt("id"));
+//                order.setUser_id(rs.getInt("user_id"));
+//                order.setAddress_id(rs.getInt("address_id"));
+//                order.setTotal_price(rs.getDouble("total_price"));
+//                order.setStatus(rs.getString("status"));
+//                order.setCreated_at(rs.getTimestamp("created_at"));
+//
+//                Users user = new Users();
+//                user.setId(rs.getInt("id"));
+//                user.setEmail(rs.getString("email"));
+//                user.setPassword(rs.getString("password"));
+//                user.setFullname(rs.getString("fullname"));
+//                user.setPhone(rs.getString("phone"));
+//                user.setAvatar(rs.getString("avatar"));
+//                user.setRole(rs.getInt("role"));
+//                user.setCreated_at(rs.getTimestamp("created_at"));
+//
+//                Addresses address = new Addresses();
+//                address.setId(rs.getInt("id"));
+//                address.setUser_id(rs.getInt("user_id"));
+//                address.setAddress_detail(rs.getString("address_detail"));
+//                address.setCreated_at(rs.getTimestamp("created_at"));
+//
+//                orderDto.setOrder(order);
+//                orderDto.setUser(user);
+//                orderDto.setAddress(address);
+//                orders.add(orderDto);
+//            }
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//        return orders;
+//    }
+    public Paging getOrders(String search, String searchBy, int page, int perPage) {
+        Paging paging = new Paging();
         List<OrderDto> orders = new ArrayList<>();
         try {
-            sql = "SELECT * FROM Orders o "
+            int limit = perPage;
+            int offset = (page - 1) * perPage;
+
+            sql = "SELECT o.id AS order_id, u.id AS user_id, a.id AS address_id, "
+                    + "o.total_price, o.status, o.created_at AS order_created_at, "
+                    + "u.email, u.password, u.fullname, u.phone, u.avatar, u.role, u.created_at AS user_created_at, "
+                    + "a.address_detail, a.created_at AS address_created_at "
+                    + "FROM Orders o "
                     + "JOIN Users u ON o.user_id = u.id "
                     + "JOIN Addresses a ON o.address_id = a.id ";
+
+            String sqlCount = "SELECT COUNT(*) AS total FROM Orders o "
+                    + "JOIN Users u ON o.user_id = u.id "
+                    + "JOIN Addresses a ON o.address_id = a.id ";
+
             if (search != null && !search.isEmpty() && searchBy != null && !searchBy.isEmpty()) {
                 sql += " WHERE ";
                 switch (searchBy) {
                     case "status":
                         sql += "o.status LIKE '%" + search + "%'";
+                        sqlCount += "o.status LIKE '%" + search + "%'";
                         break;
                     case "customerName":
                         sql += "u.fullname LIKE '%" + search + "%'";
+                        sqlCount += "u.fullname LIKE '%" + search + "%'";
                         break;
                     case "createdAt":
                         sql += "o.created_at LIKE '%" + search + "%'";
+                        sqlCount += "o.created_at LIKE '%" + search + "%'";
                         break;
                 }
             }
-            pst = connection.prepareStatement(sql);
-            rs = pst.executeQuery();
+
+            Statement st = connection.createStatement();
+            sql += "ORDER BY order_id "
+                    + " LIMIT " + limit
+                    + " OFFSET " + offset;
+            rs = st.executeQuery(sql);
             while (rs.next()) {
                 OrderDto orderDto = new OrderDto();
 
                 Orders order = new Orders();
-                order.setId(rs.getInt("id"));
+                order.setId(rs.getInt("order_id"));
                 order.setUser_id(rs.getInt("user_id"));
                 order.setAddress_id(rs.getInt("address_id"));
                 order.setTotal_price(rs.getDouble("total_price"));
                 order.setStatus(rs.getString("status"));
-                order.setCreated_at(rs.getTimestamp("created_at"));
+                order.setCreated_at(rs.getTimestamp("order_created_at"));
 
                 Users user = new Users();
-                user.setId(rs.getInt("id"));
+                user.setId(rs.getInt("user_id"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
                 user.setPhone(rs.getString("phone"));
                 user.setAvatar(rs.getString("avatar"));
                 user.setRole(rs.getInt("role"));
-                user.setCreated_at(rs.getTimestamp("created_at"));
+                user.setCreated_at(rs.getTimestamp("user_created_at"));
 
                 Addresses address = new Addresses();
-                address.setId(rs.getInt("id"));
+                address.setId(rs.getInt("address_id"));
                 address.setUser_id(rs.getInt("user_id"));
                 address.setAddress_detail(rs.getString("address_detail"));
-                address.setCreated_at(rs.getTimestamp("created_at"));
+                address.setCreated_at(rs.getTimestamp("address_created_at"));
 
                 orderDto.setOrder(order);
                 orderDto.setUser(user);
                 orderDto.setAddress(address);
                 orders.add(orderDto);
             }
+
+            paging.setO(orders);
+            paging.setPage(page);
+            paging.setPerPage(perPage);
+
+            ResultSet rsTotal = st.executeQuery(sqlCount);
+            int total = 0;
+            while (rsTotal.next()) {
+                total += rsTotal.getInt(1);
+            }
+            paging.setTotal(total);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return orders;
+        return paging;
     }
-    
 
-    public OrderDto getOrdersById(int id) {
+    public OrderDto getOrdersById(int id) { //
         OrderDto orderDto = null;
         try {
-            sql = "SELECT * FROM Orders o "
+            sql = "SELECT o.id AS order_id, u.id AS user_id, a.id AS address_id, "
+                    + "o.total_price, o.status, o.created_at AS order_created_at, "
+                    + "u.email, u.password, u.fullname, u.phone, u.avatar, u.role, u.created_at AS user_created_at, "
+                    + "a.address_detail, a.created_at AS address_created_at "
+                    + "FROM Orders o "
                     + "JOIN Users u ON o.user_id = u.id "
                     + "JOIN Addresses a ON o.address_id = a.id "
                     + "WHERE o.id = " + id;
@@ -139,28 +232,28 @@ public class OrdersServices extends DBConnect {
                 orderDto = new OrderDto();
 
                 Orders order = new Orders();
-                order.setId(rs.getInt("id"));
+                order.setId(rs.getInt("order_id"));
                 order.setUser_id(rs.getInt("user_id"));
                 order.setAddress_id(rs.getInt("address_id"));
                 order.setTotal_price(rs.getDouble("total_price"));
                 order.setStatus(rs.getString("status"));
-                order.setCreated_at(rs.getTimestamp("created_at"));
+                order.setCreated_at(rs.getTimestamp("order_created_at"));
 
                 Users user = new Users();
-                user.setId(rs.getInt("id"));
+                user.setId(rs.getInt("user_id"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
                 user.setPhone(rs.getString("phone"));
                 user.setAvatar(rs.getString("avatar"));
                 user.setRole(rs.getInt("role"));
-                user.setCreated_at(rs.getTimestamp("created_at"));
+                user.setCreated_at(rs.getTimestamp("user_created_at"));
 
                 Addresses address = new Addresses();
-                address.setId(rs.getInt("id"));
+                address.setId(rs.getInt("address_id"));
                 address.setUser_id(rs.getInt("user_id"));
                 address.setAddress_detail(rs.getString("address_detail"));
-                address.setCreated_at(rs.getTimestamp("created_at"));
+                address.setCreated_at(rs.getTimestamp("address_created_at"));
 
                 orderDto.setOrder(order);
                 orderDto.setUser(user);
@@ -170,6 +263,58 @@ public class OrdersServices extends DBConnect {
             System.out.println(e.getMessage());
         }
         return orderDto;
+    }
+    
+    public List<OrderDto> getOrdersByUserId(int user_id) { //
+        List<OrderDto> ordersList = new ArrayList<>();       
+        try {
+            sql = "SELECT o.id AS order_id, u.id AS user_id, a.id AS address_id, "
+                    + "o.total_price, o.status, o.created_at AS order_created_at, "
+                    + "u.email, u.password, u.fullname, u.phone, u.avatar, u.role, u.created_at AS user_created_at, "
+                    + "a.address_detail, a.created_at AS address_created_at "
+                    + "FROM Orders o "
+                    + "JOIN Users u ON o.user_id = u.id "
+                    + "JOIN Addresses a ON o.address_id = a.id "
+                    + "WHERE u.id = " + user_id;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                OrderDto orderDto = new OrderDto();
+
+                Orders order = new Orders();
+                order.setId(rs.getInt("order_id"));
+                order.setUser_id(rs.getInt("user_id"));
+                order.setAddress_id(rs.getInt("address_id"));
+                order.setTotal_price(rs.getDouble("total_price"));
+                order.setStatus(rs.getString("status"));
+                order.setCreated_at(rs.getTimestamp("order_created_at"));
+
+                Users user = new Users();
+                user.setId(rs.getInt("user_id"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setFullname(rs.getString("fullname"));
+                user.setPhone(rs.getString("phone"));
+                user.setAvatar(rs.getString("avatar"));
+                user.setRole(rs.getInt("role"));
+                user.setCreated_at(rs.getTimestamp("user_created_at"));
+
+                Addresses address = new Addresses();
+                address.setId(rs.getInt("address_id"));
+                address.setUser_id(rs.getInt("user_id"));
+                address.setAddress_detail(rs.getString("address_detail"));
+                address.setCreated_at(rs.getTimestamp("address_created_at"));
+
+                orderDto.setOrder(order);
+                orderDto.setUser(user);
+                orderDto.setAddress(address);
+                ordersList.add(orderDto);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return ordersList;
     }
 
     public OrderDto getOrderDetailsByOrderDetailId(int order_detail_id) {
@@ -267,7 +412,7 @@ public class OrdersServices extends DBConnect {
         return orderDetailsDto;
     }
 
-    public List<OrderDto> getOrderDetailsByOrderId(int order_id) {
+    public List<OrderDto> getOrderDetailsByOrderId(int order_id) { //
         List<OrderDto> orderDetailsList = new ArrayList<>();
 
         sql = "SELECT o.*, od.*, p.*, s.*, c.*, u.*, a.*, "
@@ -456,8 +601,8 @@ public class OrdersServices extends DBConnect {
         }
         return orderDetailsList;
     }
-    
-    public void updateOrders(String status, double total_price, int id) {
+
+    public void updateOrders(String status, double total_price, int id) { //
         try {
             sql = "UPDATE Orders SET status=?, total_price=? WHERE id= " + id;
             pst = connection.prepareStatement(sql);
@@ -469,7 +614,7 @@ public class OrdersServices extends DBConnect {
         }
     }
 
-    public void updateTotalPrice(double total_price, int id) {
+    public void updateTotalPrice(double total_price, int id) { //
         try {
             sql = "UPDATE Orders SET total_price=? WHERE id= " + id;
             pst = connection.prepareStatement(sql);
@@ -480,7 +625,7 @@ public class OrdersServices extends DBConnect {
         }
     }
 
-    public void updateOrderDetails(int product_id, int size_id, int quantity, int order_detail_id) {
+    public void updateOrderDetails(int product_id, int size_id, int quantity, int order_detail_id) { //
         try {
             sql = "UPDATE OrderDetails SET product_id=?, size_id=?, quantity=? WHERE id= " + order_detail_id;
             pst = connection.prepareStatement(sql);
@@ -493,7 +638,7 @@ public class OrdersServices extends DBConnect {
         }
     }
 
-    public void deleteOrders(int orderId) {
+    public void deleteOrders(int orderId) { //
         String deleteOrderDetailsSql = "DELETE FROM OrderDetails WHERE order_id = ?";
         String deleteOrderSql = "DELETE FROM Orders WHERE id = ?";
         try {
@@ -528,7 +673,7 @@ public class OrdersServices extends DBConnect {
         }
     }
 
-    public void deleteOrderDetails(int id) {
+    public void deleteOrderDetails(int id) { //
         sql = "DELETE FROM OrderDetails WHERE id = " + id;
         try {
             pst = connection.prepareStatement(sql);
