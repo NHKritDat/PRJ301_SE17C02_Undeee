@@ -5,10 +5,13 @@
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
 import fpt.fu.prj301_se17c02_undeee.models.RegisterError;
+import fpt.fu.prj301_se17c02_undeee.models.Users;
 import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,6 +25,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "RegisterController", urlPatterns = {"/register"})
 public class RegisterController extends HttpServlet {
+    private static final String REGISTER_PAGE = "/views/register.jsp";
+    private static final String LOGIN_PAGE = "/views/login.jsp";
+    private static final String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,20}$";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -81,46 +87,77 @@ public class RegisterController extends HttpServlet {
         String email = request.getParameter("txtEmail");
         String phone = request.getParameter("txtPhone");
         String password = request.getParameter("txtPassword");
-        String url = "register";
+        String confirm = request.getParameter("txtConfirm");
+        String url = REGISTER_PAGE;
 
         RegisterError errors = new RegisterError();
+        UsersServices u = new UsersServices();
         boolean foundError = false;
         try {
-            if (phone.length() < 0 || phone.length() > 11) {
+            List<Users> list = new ArrayList<>();
+            list = u.getAllUsers();
+            for (Users users : list) {
+                if (email.equals(users.getEmail())){
+                    foundError = true;
+                    errors.setEmailUniqueError(email + " " + "Already Existed!!!");
+                    break;
+                }
+            }
+            if (email.length() < 6 || email.length() > 30 || !email.contains("@")){
+                foundError = true;
+                errors.setEmailError("Email requires from 6 to 30 chars and email format");
+            }
+                        
+            if (!(phone.length() == 10)) {
                 foundError = true;
                 errors.setPhoneError("The phone number must have 10 digits!");
             }
-            if (password.length() < 0 || password.length() > 10) {
+            if (!password.trim().matches(passwordRegex)) {
                 foundError = true;
-                errors.setPasswordError("Password must be between 0 and 10 characters!");
+                errors.setPasswordError("Low password security! (eg. Phong@123) ");
+            }
+            if (!confirm.trim().equals(password.trim())) {
+                foundError = true;
+                errors.setPasswordError("Confirm must match password!!!");
+            }
+             if (fullname.length() < 2 || fullname.length() > 50) {
+                foundError = true;
+                errors.setPasswordError("Full name requires from 2 to 50 chars");
             }
             if (foundError) {
                 request.setAttribute("ERROR", errors);
+            } else {            
+                boolean result = u.registerAccount(email, fullname, phone, password, 1, "avataruser.jpg");
+                if (result) {
+                    url = LOGIN_PAGE;
+                }
             }
 
-            UsersServices sv = new UsersServices();
-            boolean result = sv.registerAccount(email, fullname, phone, password, 1, "avataruser.jpg");
-            if (result) {
-                url = "login";
-            }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            request.setAttribute("ERROR", errors);
-        } finally {
+            String errMsg = e.getMessage();
+            log("RegisterController_SQL: " + errMsg);
+                    
+//            if (errMsg.contains("duplicate")) {
+//                errors.setEmailError(email + "" + "Already existed");
+//            }
+//            request.setAttribute("ERROR", errors);
+        }
+  
+        finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
 
-            rd.forward(request, response);
+        rd.forward(request, response);
 
-        }
     }
+}
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
+/**
+ * Returns a short description of the servlet.
+ *
+ * @return a String containing servlet description
+ */
+@Override
+public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

@@ -11,8 +11,11 @@ package fpt.fu.prj301_se17c02_undeee.models;
 public class RegisterError {
 
     private String emailError;
+    private String emailUniqueError;
     private String passwordError;
     private String phoneError;
+    private String fullnameError;
+    private String confirmPasswordError;
 
     public RegisterError() {
     }
@@ -35,6 +38,20 @@ public class RegisterError {
      */
     public void setEmailError(String emailError) {
         this.emailError = emailError;
+    }
+
+    /**
+     * @return the emailUniqueError
+     */
+    public String getEmailUniqueError() {
+        return emailUniqueError;
+    }
+
+    /**
+     * @param emailUniqueError the emailUniqueError to set
+     */
+    public void setEmailUniqueError(String emailUniqueError) {
+        this.emailUniqueError = emailUniqueError;
     }
 
     /**
@@ -64,5 +81,36 @@ public class RegisterError {
     public void setPhoneError(String phoneError) {
         this.phoneError = phoneError;
     }
+
+    /**
+     * @return the fullnameError
+     */
+    public String getFullnameError() {
+        return fullnameError;
+    }
+
+    /**
+     * @param fullnameError the fullnameError to set
+     */
+    public void setFullnameError(String fullnameError) {
+        this.fullnameError = fullnameError;
+    }
+
+    /**
+     * @return the confirmPasswordError
+     */
+    public String getConfirmPasswordError() {
+        return confirmPasswordError;
+    }
+
+    /**
+     * @param confirmPasswordError the confirmPasswordError to set
+     */
+    public void setConfirmPasswordError(String confirmPasswordError) {
+        this.confirmPasswordError = confirmPasswordError;
+    }
+
+    
+    
 
 }
