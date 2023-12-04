@@ -94,7 +94,7 @@ public class UpdateUserController extends HttpServlet {
         String password = request.getParameter("password");
         String phone = request.getParameter("phone");
         String imageSave = u.getAvatar();
-        
+
         Part part = request.getPart("image");
         if (part.getSize() > 0) {
             String folderSaveFile = "/views/users_avatar";

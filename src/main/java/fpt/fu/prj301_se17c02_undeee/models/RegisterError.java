@@ -110,7 +110,4 @@ public class RegisterError {
         this.confirmPasswordError = confirmPasswordError;
     }
 
-    
-    
-
 }

@@ -9,6 +9,7 @@ package fpt.fu.prj301_se17c02_undeee.models;
  * @author Phong
  */
 public class UpdateUsersError {
+
     private String updatePhoneError;
 
     public UpdateUsersError() {
@@ -27,8 +28,5 @@ public class UpdateUsersError {
     public void setUpdatePhoneError(String updatePhoneError) {
         this.updatePhoneError = updatePhoneError;
     }
-    
-    
-    
-    
+
 }

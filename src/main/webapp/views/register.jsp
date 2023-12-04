@@ -16,7 +16,7 @@
     <form action="register" method="POST">
         <h1>Sign Up</h1>
         <h2>Join us and you will never regret that choice</h2>
-        
+
         <input type="text" name="txtEmail" value="" placeholder="Email"/><br>
 
         <%
@@ -70,7 +70,7 @@
         <%
             }
         %>
-        
+
         <input type="text" name="txtFullName" value="" placeholder="Full Name"/><br>
         <%
             if (errors != null && errors.getFullnameError() != null) {

@@ -18,13 +18,12 @@ import java.util.List;
  *
  * @author Admin
  */
-
 public class UsersServices extends DBConnect {
 
     private PreparedStatement pst = null;
     private ResultSet rs = null;
     private String sql = "";
-    
+
     public List<Addresses> getAddresses(int user_id) {
         List<Addresses> list = new ArrayList<>();
         sql = "select * from Addresses where user_id = ?";

@@ -99,13 +99,13 @@ public class RegisterController extends HttpServlet {
             for (Users users : list) {
                 if (email.equals(users.getEmail())){
                     foundError = true;
-                    errors.setEmailUniqueError(email + " " + "Already Existed!!!");
+                    errors.setEmailUniqueError(email + " " + "Already Existed!");
                     break;
                 }
             }
             if (email.length() < 6 || email.length() > 30 || !email.contains("@")){
                 foundError = true;
-                errors.setEmailError("Email requires from 6 to 30 chars and email format");
+                errors.setEmailError("Email must be from 6 to 10 characters and have the correct email format!");
             }
                         
             if (!(phone.length() == 10)) {
@@ -114,15 +114,15 @@ public class RegisterController extends HttpServlet {
             }
             if (!password.trim().matches(passwordRegex)) {
                 foundError = true;
-                errors.setPasswordError("Low password security! (eg. Phong@123) ");
+                errors.setPasswordError("Low password security! The password must have an uppercase first letter, lowercase, number and one special character! (eg. Phong@123) ");
             }
             if (!confirm.trim().equals(password.trim())) {
                 foundError = true;
-                errors.setPasswordError("Confirm must match password!!!");
+                errors.setPasswordError("Confirm the password must match the password you entered above!");
             }
              if (fullname.length() < 2 || fullname.length() > 50) {
                 foundError = true;
-                errors.setPasswordError("Full name requires from 2 to 50 chars");
+                errors.setPasswordError("Full name must be from 2 to 50 characters!");
             }
             if (foundError) {
                 request.setAttribute("ERROR", errors);

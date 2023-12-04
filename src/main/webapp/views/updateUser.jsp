@@ -40,7 +40,7 @@
                 <label for="phone" class="form-label">Phone</label>
                 <input class="form-control" value="<%= u.getPhone()%>" name="phone" placeholder="Enter new phone number"/><br>
                 <%
-                    if (errors != null && errors.getUpdatePhoneError()!= null) {
+                    if (errors != null && errors.getUpdatePhoneError() != null) {
                 %>
                 <font style="color:red">
                 <%= errors.getUpdatePhoneError()%>
