@@ -4,6 +4,8 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
+import fpt.fu.prj301_se17c02_undeee.models.RegisterError;
+import fpt.fu.prj301_se17c02_undeee.models.UpdateUsersError;
 import fpt.fu.prj301_se17c02_undeee.models.Users;
 import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
@@ -27,6 +29,8 @@ import javax.servlet.http.Part;
 @MultipartConfig
 @WebServlet(name = "UpdateUserController", urlPatterns = {"/updateUser"})
 public class UpdateUserController extends HttpServlet {
+
+    private static final String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,20}$";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -85,12 +89,14 @@ public class UpdateUserController extends HttpServlet {
         HttpSession session = request.getSession();
         Users u = (Users) session.getAttribute("user_loged");
         UsersServices us = new UsersServices();
+        UpdateUsersError errors = new UpdateUsersError();
+        boolean foundError = false;
 
         String fullname = request.getParameter("fullname");
         String password = request.getParameter("password");
         String phone = request.getParameter("phone");
         String imageSave = u.getAvatar();
-        
+
         Part part = request.getPart("image");
         if (part.getSize() > 0) {
             String folderSaveFile = "/views/users_avatar";
@@ -105,6 +111,17 @@ public class UpdateUserController extends HttpServlet {
         }
 
         if (fullname != null && phone != null && password != null) {
+            if (!(phone.length() == 10)) {
+                foundError = true;
+                errors.setUpdatePhoneError("The phone number must have 10 digits!");
+            }
+            if (!password.trim().matches(passwordRegex)) {
+                foundError = true;
+                errors.setUpdatePasswordError("Low password security! The password must have an uppercase first letter, lowercase, number and one special character! (eg. Phong@123) ");
+            }
+            if (foundError) {
+                request.setAttribute("UPDATE_ERROR", errors);
+            }
             int result = us.updateUsers(fullname, password, phone, imageSave, u.getId());
             if (result > 0) {
                 System.out.println("Update successfully!");
