@@ -72,9 +72,7 @@ public class CustomerViewOrdersController extends HttpServlet {
         OrdersServices orderService = new OrdersServices();
         //List<OrderDto> orderList = orderService.getOrdersByUserId(user.getId());
         Paging paging = orderService.getOrdersByUserId(user.getId(), page, perPage);
-        System.out.println(paging);
         List<OrderDto> orderList = paging.getO();
-        System.out.println(orderList);
         for (OrderDto order : orderList) {
             List<OrderDto> orderDetailList = orderService.getOrderDetailsByOrderId(order.getOrder().getId());
             order.setOrderDetailList(orderDetailList);

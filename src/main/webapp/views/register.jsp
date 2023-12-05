@@ -92,7 +92,7 @@
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-6" style="margin-top: 80px;">
                 <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <a href="./register" class="">
+                        <a href="./register" class="" style="text-decoration: none">
                             <h3 class="text-primary" style="color: aqua !important;"><i class="fa fa-user-edit me-2" style="color: aqua"></i>Undeee</h3>
                         </a>
                         <h3>Sign Up</h3>
