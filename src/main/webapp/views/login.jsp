@@ -12,9 +12,6 @@
                 text-align: center;
                 padding: 20px;
                 margin-top: 30px;
-
-
-
                 color: white;
                 font-size: 16px;
                 font-weight: 300;
