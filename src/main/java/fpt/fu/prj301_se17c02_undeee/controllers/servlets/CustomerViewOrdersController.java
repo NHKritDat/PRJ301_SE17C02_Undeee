@@ -5,6 +5,7 @@
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
 import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
+import fpt.fu.prj301_se17c02_undeee.models.Paging;
 import fpt.fu.prj301_se17c02_undeee.models.Users;
 import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
 import java.io.IOException;
@@ -63,15 +64,23 @@ public class CustomerViewOrdersController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Users user = (Users) session.getAttribute("user_loged");
+        String pageParam = request.getParameter("page");
+        
+        int page = pageParam != null ? Integer.parseInt(pageParam) : 1;
+        int perPage = 4;
         
         OrdersServices orderService = new OrdersServices();
-        List<OrderDto> orderList = orderService.getOrdersByUserId(user.getId());
+        //List<OrderDto> orderList = orderService.getOrdersByUserId(user.getId());
+        Paging paging = orderService.getOrdersByUserId(user.getId(), page, perPage);
+        System.out.println(paging);
+        List<OrderDto> orderList = paging.getO();
+        System.out.println(orderList);
         for (OrderDto order : orderList) {
             List<OrderDto> orderDetailList = orderService.getOrderDetailsByOrderId(order.getOrder().getId());
             order.setOrderDetailList(orderDetailList);
         }
-        
-        request.setAttribute("orderList", orderList);
+        request.setAttribute("paging", paging);
+        //request.setAttribute("orderList", orderList);
         
         RequestDispatcher rd = request.getRequestDispatcher("/views/customerViewOrders.jsp");
         rd.forward(request, response);

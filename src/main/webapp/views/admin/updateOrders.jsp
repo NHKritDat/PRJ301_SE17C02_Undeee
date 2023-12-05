@@ -41,8 +41,8 @@
                 <p class="card-text">Created at: <%= formattedDate%></p>
                 <p class="card-text">Status:
                     <select name="status">
-                        <option value="success" <%= order.getOrder().getStatus().equals("success") ? "selected" : ""%>>Success</option>
-                        <option value="pending" <%= order.getOrder().getStatus().equals("pending") ? "selected" : ""%>>Pending</option>
+                        <option value="Success" <%= order.getOrder().getStatus().equals("Success") ? "selected" : ""%>>Success</option>
+                        <option value="Pending" <%= order.getOrder().getStatus().equals("Pending") ? "selected" : ""%>>Pending</option>
                     </select>
                 </p>
             </div>

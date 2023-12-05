@@ -78,18 +78,11 @@ public class ViewOrdersController extends HttpServlet {
         int perPage = 10;
 
         OrdersServices orderService = new OrdersServices();
-        //    List<OrderDto> orders = orderService.getOrders(search, searchBy);
         Paging paging = orderService.getOrders(search, searchBy, page, perPage);
-       // List<OrderDto> orders = orderService.getOrders();
                 
         request.setAttribute("paging", paging);
-    //    request.setAttribute("orders", orders);
         request.setAttribute("search", search);
         request.setAttribute("searchBy", searchBy);
-        // Thêm tổng số trang để hiển thị phân trang
-//        int totalOrders = orderService.getTotalOrders(search, searchBy);
-//        int totalPages = (int) Math.ceil((double) totalOrders / pageSize);
-//        request.setAttribute("totalPages", totalPages);
 
         RequestDispatcher rd = request.getRequestDispatcher("/views/admin/viewOrders.jsp");
         rd.forward(request, response);
