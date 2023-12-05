@@ -8,6 +8,7 @@ import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
 import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -60,7 +61,7 @@ public class DeleteOrderDetailsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.sendRedirect("./");
     }
 
     /**
@@ -82,12 +83,13 @@ public class DeleteOrderDetailsController extends HttpServlet {
             orderService.deleteOrderDetails(Integer.parseInt(orderDetailId));
             List<OrderDto> orderList = orderService.getOrderDetailsByOrderId(Integer.parseInt(id));
             for (OrderDto order : orderList) {
-                total_price += order.getProduct().getPrice() * order.getSize().getPercent() * order.getOrderDetail().getQuantity();
+                total_price += Math.round(order.getProduct().getPrice() * order.getSize().getPercent() * order.getOrderDetail().getQuantity() * Math.pow(10, 3)) / Math.pow(10, 3);
             }
-            orderService.updateTotalPrice(total_price, Integer.parseInt(id));
+            DecimalFormat decimalFormat = new DecimalFormat("#.###");
+            String formattedPrice = decimalFormat.format(total_price);
+            orderService.updateTotalPrice(Double.parseDouble(formattedPrice), Integer.parseInt(id));
         }
         response.sendRedirect("./view-orderDetails?id=" + id);
-//        response.sendRedirect("./view-orderDetails?id=" + id + "&refresh=" + System.currentTimeMillis());
     }
 
     /**

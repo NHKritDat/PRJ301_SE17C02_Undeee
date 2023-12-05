@@ -4,16 +4,12 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
 
-import fpt.fu.prj301_se17c02_undeee.models.OrderDetails;
 import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
-import fpt.fu.prj301_se17c02_undeee.models.Products;
-import fpt.fu.prj301_se17c02_undeee.models.Sizes;
 import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
-import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -65,7 +61,7 @@ public class UpdateOrderDetailsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.sendRedirect("./");
     }
 
     /**
@@ -79,12 +75,13 @@ public class UpdateOrderDetailsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
         String[] AllOrderDetailsId = request.getParameterValues("AllOrderDetailsId");
 
         OrdersServices orderService = new OrdersServices();
 
-        double total_price = 0;
+        double total_price = 0.0;
 
         for (String orderDetailsId : AllOrderDetailsId) {
             String product_id = request.getParameter("product_" + orderDetailsId);
@@ -97,9 +94,11 @@ public class UpdateOrderDetailsController extends HttpServlet {
         for (OrderDto order : orderList) {
             total_price += order.getProduct().getPrice() * order.getSize().getPercent() * order.getOrderDetail().getQuantity();
         }
+        DecimalFormat decimalFormat = new DecimalFormat("#.###");
+        String formattedPrice = decimalFormat.format(total_price);
         String status = request.getParameter("status");
         if (status != null) {
-            orderService.updateOrders(status, total_price, Integer.parseInt(id));
+            orderService.updateOrders(status, Double.parseDouble(formattedPrice), Integer.parseInt(id));
             response.sendRedirect("./view-orders?updateSuccess=true");
         } else {
             response.sendRedirect("./view-orders?updateSuccess=false");

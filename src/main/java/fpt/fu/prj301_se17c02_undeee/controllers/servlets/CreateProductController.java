@@ -105,7 +105,7 @@ public class CreateProductController extends HttpServlet {
             rd.forward(request, response);
         }
 
-        String folderSaveFile = "/views/Drinks";
+        String folderSaveFile = "/views/products";
         String pathUpload = request.getServletContext().getRealPath(folderSaveFile);
         String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 

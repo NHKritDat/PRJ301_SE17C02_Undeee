@@ -6,6 +6,8 @@ package fpt.fu.prj301_se17c02_undeee.services;
 
 import fpt.fu.prj301_se17c02_undeee.models.Addresses;
 import fpt.fu.prj301_se17c02_undeee.models.Users;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,6 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -75,13 +78,20 @@ public class UsersServices extends DBConnect {
 
     public Users checkLogin(String email, String password) {
         try {
-            sql = "Select * from Users where email = ? and password = ?";
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] digest = md.digest();
+            String myPassword = DatatypeConverter.printHexBinary(digest).toUpperCase();
+            
+            sql = "Select * from Users where email = ? and (password = ? or password = ?)";
             pst = connection.prepareStatement(sql);
             pst.setString(1, email);
             pst.setString(2, password);
+            pst.setString(3, myPassword);
             rs = pst.executeQuery();
             if (rs.next()) {
                 int id = rs.getInt("id");
+                password = rs.getString("password");
                 String fullname = rs.getString("fullname");
                 String phone = rs.getString("phone");
                 String avatar = rs.getString("avatar");
@@ -89,7 +99,7 @@ public class UsersServices extends DBConnect {
                 Date created_at = rs.getDate("created_at");
                 return new Users(id, email, password, fullname, phone, avatar, role, created_at);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NoSuchAlgorithmException e) {
             System.out.println(e.getMessage());
         }
         return null;

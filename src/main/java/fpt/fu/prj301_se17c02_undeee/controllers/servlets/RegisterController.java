@@ -9,6 +9,8 @@ import fpt.fu.prj301_se17c02_undeee.models.Users;
 import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -122,18 +125,22 @@ public class RegisterController extends HttpServlet {
             }
              if (fullname.length() < 2 || fullname.length() > 50) {
                 foundError = true;
-                errors.setPasswordError("Full name must be from 2 to 50 characters!");
+                errors.setFullnameError("Full name must be from 2 to 50 characters!");
             }
             if (foundError) {
                 request.setAttribute("ERROR", errors);
-            } else {            
-                boolean result = u.registerAccount(email, fullname, phone, password, 1, "avataruser.jpg");
+            } else {    
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.update(password.getBytes());
+                byte[] digest = md.digest();
+                String myPassword = DatatypeConverter.printHexBinary(digest).toUpperCase();
+                boolean result = u.registerAccount(email, fullname, phone, myPassword, 1, "avataruser.jpg");
                 if (result) {
                     url = LOGIN_PAGE;
                 }
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | NoSuchAlgorithmException e) {
             String errMsg = e.getMessage();
             log("RegisterController_SQL: " + errMsg);
                     

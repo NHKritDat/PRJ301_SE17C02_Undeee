@@ -8,14 +8,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 */
 
 .footer-bottom{
-    background-color: black;
     text-align: center;
     padding: 20px;
     margin-top: 30px;
-    color: white;
+    color: black;
     font-size: 16px;
     font-weight: 300;
 }
+
 .footer-main{
     display: flex;
     justify-content: space-between;

@@ -31,7 +31,7 @@
     List<Products> ProductList = paging.getP();
     List<Categories> CategoryList = (List<Categories>) request.getAttribute("CategoryList");
     double numPage = Math.ceil((double) paging.getTotal() / (double) paging.getPerPage());
-    String pageInstant = (String) request.getAttribute("page");
+    String pageInstant = request.getParameter("page");
     int numPageInstant = 1;
     if (pageInstant != null) {
         numPageInstant = Integer.parseInt(pageInstant);
@@ -68,9 +68,9 @@
         %>
         <div class="col-md-3 mb-3">
             <div class="card">
-                <img src="views/Drinks/<%= p.getImage()%>" class="card-img-top" alt="<%= p.getName()%>" style="width: 100%; height: 250px">
+                <img src="views/products/<%= p.getImage()%>" class="card-img-top" alt="<%= p.getName()%>" style="width: 100%; height: 250px">
                 <div class="card-body">
-                    <h5 class="card-title"><%= p.getName()%></h5>
+                    <h6 class="card-title"><%= p.getName()%></h6>
                     <p class="card-text">Giá gốc: <%= p.getPrice()%></p>
                 </div>
                 <div class="card-footer">
@@ -85,7 +85,7 @@
                             %>
                         </select>
                         <input type="number" name="quantity" placeholder="0" required="" min="0" max="99" class="form-control" style="width: 50%">
-                        <button type="submit" class="btn btn-success" value="<%= p.getId()%>" name="product_id" style="width: 370px">Add to cart</button>
+                        <button type="submit" class="btn btn-success" value="<%= p.getId()%>" name="product_id">+</button>
                     </form>
                 </div>
             </div>

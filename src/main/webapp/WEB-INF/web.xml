@@ -12,6 +12,14 @@
         <servlet-name>CreateOrdersController</servlet-name>
         <servlet-class>fpt.fu.prj301_se17c02_undeee.controllers.servlets.CreateOrdersController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewOrdersHistoryController</servlet-name>
+        <servlet-class>fpt.fu.prj301_se17c02_undeee.controllers.servlets.ViewOrdersHistoryController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CustomerViewOrdersController</servlet-name>
+        <servlet-class>fpt.fu.prj301_se17c02_undeee.controllers.servlets.CustomerViewOrdersController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AddToCartController</servlet-name>
         <url-pattern>/AddToCartController</url-pattern>
@@ -23,6 +31,10 @@
     <servlet-mapping>
         <servlet-name>CreateOrdersController</servlet-name>
         <url-pattern>/CreateOrdersController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerViewOrdersController</servlet-name>
+        <url-pattern>/order-history</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

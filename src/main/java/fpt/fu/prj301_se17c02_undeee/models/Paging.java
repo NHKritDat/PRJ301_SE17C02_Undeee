@@ -16,6 +16,7 @@ public class Paging {
     private int perPage;
     private int total;
     private List<Products> p;
+    private List<OrderDto> o;
 
     public int getPage() {
         return page;
@@ -47,6 +48,14 @@ public class Paging {
 
     public void setP(List<Products> p) {
         this.p = p;
+    }
+
+    public List<OrderDto> getO() {
+        return o;
+    }
+
+    public void setO(List<OrderDto> o) {
+        this.o = o;
     }
 
 }
