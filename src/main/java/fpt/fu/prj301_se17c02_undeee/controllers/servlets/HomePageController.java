@@ -64,8 +64,7 @@ public class HomePageController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        
-              ProductsServices ps = new ProductsServices();
+        ProductsServices ps = new ProductsServices();
         List<Products> list = ps.getTop8BestSellerProducts();
 
         List<Categories> categoryList = ps.getCategories();
