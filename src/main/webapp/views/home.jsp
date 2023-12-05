@@ -15,7 +15,7 @@
 <%@include file="layout/header.jsp" %>
 <div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
 <!-- Danh sách sản phẩm dạng card -->
-<div class="container mt-6">
+<div class="container mt-6 mb-3">
 
     <div class="center blue">  <h1 >Undeee menu</h1></div>
     <div  class="center"> <h2>Best Seller</h2></div>

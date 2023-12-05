@@ -17,14 +17,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     width: 50px;
     height: 50px;
 }
+
 .nav-item{
     margin-right: 50px;
 }
+
 .nav-link{
     color: white;
     font-weight: 500;
     font-size: 20px;
 }
+
 #navbarNav{
     margin-left: 120px;
 }
