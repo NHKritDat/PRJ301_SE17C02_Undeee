@@ -19,7 +19,7 @@
 
     List<OrderDto> orders = paging.getO();
     double numPage = Math.ceil((double) paging.getTotal() / (double) paging.getPerPage());
-    String pageInstant = (String) request.getAttribute("page");
+    String pageInstant = request.getParameter("page");
     int numPageInstant = 1;
     if (pageInstant != null) {
         numPageInstant = Integer.parseInt(pageInstant);
@@ -44,8 +44,7 @@
 
 <%@include file="../layout/header.jsp" %>
 <div class="container padding-top-100">
-    <div class="row"> 
-        <a href="view-orders"><h1>View Orders</h1></a>
+    <div class="row">
         <h2>Order Lists</h2>
         <form action="view-orders" class="row">
             <div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-4">
@@ -128,29 +127,6 @@
                 </ul>
             </nav>
         </div>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script>
-                            function changeSearchBy() {
-                                var searchBy = document.getElementById("searchBy").value;
-                                var searchInput = document.getElementById("searchInput");
-
-                                if (searchBy === "status") {
-                                    searchInput.type = "text";
-                                    searchInput.placeholder = "Search order status";
-                                } else if (searchBy === "customerName") {
-                                    searchInput.type = "text";
-                                    searchInput.placeholder = "Search customer name";
-                                } else {
-                                    searchInput.type = "date";
-                                }
-                            }
-
-//                            window.onpageshow = function (event) {
-//                                if (event.persisted) {
-//                                    window.location.reload();
-//                                }
-//                            };
-        </script>
     </div>
 </div>
 <%@include file="../layout/footer.jsp" %>

@@ -63,7 +63,7 @@ public class CreateOrdersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("./AddToCartController");
+        response.sendRedirect("./customer-product");
     }
 
     /**

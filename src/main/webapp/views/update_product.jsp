@@ -14,7 +14,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
 <div class="container padding-top-100">
-    <h1>Update phẩm mới</h1>
+    <h1>Update product</h1>
     <form action="./update-products?id=<%= product.getId()%>" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="tenSanPham">Product's name</label>
@@ -53,7 +53,7 @@
 
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Tạo sản phẩm</button>
+        <button type="submit" class="btn btn-primary">Update product</button>
     </form>
 </div>
 <%@include file="layout/footer.jsp" %>
