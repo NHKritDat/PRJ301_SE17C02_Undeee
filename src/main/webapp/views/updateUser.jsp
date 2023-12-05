@@ -29,7 +29,7 @@
 
             <div class="mb-3">
                 <label for="password" class="form-label">New Password</label>
-                <input class="form-control" value="<%= u.getPassword()%>" name="password" placeholder="Enter new password"/>
+                <input type="password" class="form-control" value="<%= u.getPassword()%>" name="password" placeholder="Enter new password"/>
             </div>
 
             <div class="mb-3">

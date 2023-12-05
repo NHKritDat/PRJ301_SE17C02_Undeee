@@ -162,7 +162,7 @@
                         </div>
                         <div class="card-footer">
 
-                            <button class="order-button" "><a href="AddToCartController?id=<%= product.getId()%>" class="btn" role="button">Order Now</a></button>
+                            <button class="order-button" "><a href="customer-product?id=<%= product.getId()%>" class="btn" role="button">Order Now</a></button>
 
                         </div>
                     </div>
