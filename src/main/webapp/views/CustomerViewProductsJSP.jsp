@@ -68,7 +68,7 @@
         %>
         <div class="col-md-3 mb-3">
             <div class="card">
-                <img src="views/Drinks/<%= p.getImage()%>" class="card-img-top" alt="<%= p.getName()%>" style="width: 100%; height: 250px">
+                <img src="views/products/<%= p.getImage()%>" class="card-img-top" alt="<%= p.getName()%>" style="width: 100%; height: 250px">
                 <div class="card-body">
                     <h6 class="card-title"><%= p.getName()%></h6>
                     <p class="card-text">Giá gốc: <%= p.getPrice()%></p>

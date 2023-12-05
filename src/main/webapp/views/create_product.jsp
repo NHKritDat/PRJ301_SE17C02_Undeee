@@ -14,7 +14,7 @@
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
-<div class="container padding-top-100">
+<div class="container padding-top-100 mb-3">
     <h1>Tạo sản phẩm mới</h1>
     <form action="create" method="POST" enctype="multipart/form-data">
         <div class="form-group">
@@ -25,9 +25,6 @@
             <label for="moTa">Product's price</label>
             <input type="number" class="form-control" id="giaSanPham" name="price" placeholder="Nhập gia san pham">
         </div>
-
-
-        --<!-- start category -->
 
         <div style="margin: 0 !important;" class="form-group">
             <label for="loaiSanPham">Categories</label>
@@ -42,9 +39,6 @@
                 %>     
             </select>
         </div>
-
-        --<!-- end category -->
-
 
         <div class="form-group">
             <label for="hinhAnh">Hình ảnh sản phẩm</label>

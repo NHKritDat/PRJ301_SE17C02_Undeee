@@ -122,7 +122,7 @@ public class ViewProductsController extends HttpServlet {
         ProductsServices newservice = new ProductsServices();
         Paging newspaging = newservice.getPetsPage(search, page, perpage);
         request.setAttribute("newsPaging", newspaging);
-        request.setAttribute("category", search);
+        request.setAttribute("category", category);
         RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
         rd.forward(request, response);
     }

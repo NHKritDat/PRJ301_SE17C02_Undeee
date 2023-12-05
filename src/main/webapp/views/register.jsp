@@ -49,7 +49,7 @@
             }
         %>
 
-        <input type="text" name="txtPassword" value="" placeholder="Password"/><br>
+        <input type="password" name="txtPassword" value="" placeholder="Password"/><br>
         <%
             if (errors != null && errors.getPasswordError() != null) {
         %>
@@ -60,7 +60,7 @@
             }
         %>
 
-        <input type="text" name="txtConfirm" value="" placeholder="Confirm Password"/><br>
+        <input type="password" name="txtConfirm" value="" placeholder="Confirm Password"/><br>
         <%
             if (errors != null && errors.getConfirmPasswordError() != null) {
         %>

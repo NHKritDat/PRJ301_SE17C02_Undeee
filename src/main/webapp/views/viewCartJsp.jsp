@@ -23,12 +23,12 @@
     int No = 0;
     double total_price = 0;
 %>
-<div class="container padding-top-100">
+<div class="container padding-top-100 mb-3">
+    <h2>Here is your cart!</h2>
+    <% if (check.equals("DON'T HAVE PRODUCTS")) {%>
+    <h5>There are no products in the cart yet!</h5>
+    <%} else {%>
     <div class="row">
-        <h2>Here is your cart!</h2>
-        <% if (check.equals("DON'T HAVE PRODUCTS")) {%>
-        <p>There are no products in the cart yet!</p>
-        <%} else {%>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -52,9 +52,7 @@
                     <th scope="row"><%= No%></th>
                     <td><%= sp.getProduct_name()%></td>
 
-                    <td><img src=".<%= sp.getImage()%>" style="width:200px; height:200px" alt="<%= sp.getImage()%>" class="img-thumbnail"/></td>
-
-                    <td><img src="./views/Drinks/<%= sp.getImage()%>" width="100px" height="100px" alt="<%= sp.getImage()%>" class="img-thumbnail"/></td>
+                    <td><img src="./views/products/<%= sp.getImage()%>" width="100px" height="100px" alt="<%= sp.getImage()%>" class="img-thumbnail"/></td>
 
                     <td>
                         <form action="./EditCartController" method="post">
@@ -87,10 +85,11 @@
             </tbody>
         </table>
     </div>
+            
     <div class="row">
         <h2>Ordering information</h2>
         <form action="./CreateOrdersController" method="post" onsubmit="return validateForm()">
-            <select class="form-control" id="diaChi" name="address" onchange="toggleAddressInput()">
+            <select class="form-control mb-3" id="diaChi" name="address" onchange="toggleAddressInput()">
                 <option value="default" selected="" hidden="">Chọn địa chỉ</option>
                 <%
                     for (Addresses a : list) {
@@ -102,12 +101,12 @@
                 <option value="other">Địa chỉ khác</option>
             </select>
 
-            <div id="diaChiKhacDiv" class="form-control" style="display: none">
+            <div id="diaChiKhacDiv" class="form-group" style="display: none">
                 <label for="diaChiKhac">Địa chỉ nhận hàng khác</label>
                 <input type="text" class="form-control" id="diaChiKhac" placeholder="Nhập địa chỉ nhận hàng" name="otherAddress" required="" disabled="">
             </div>
 
-            <div class="form-control">
+            <div class="form-group">
                 <label for="tongGia">Total price</label>
                 <input type="text" class="form-control" id="tongGia" name="total_price" value="<%= Math.round(total_price * Math.pow(10, 3)) / Math.pow(10, 3)%>" readonly="">
             </div>
@@ -116,4 +115,5 @@
     </div>
     <%}%>
 </div>
+
 <%@include file="layout/footer.jsp" %>
