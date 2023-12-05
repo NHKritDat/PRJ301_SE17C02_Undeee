@@ -34,7 +34,6 @@
         <link href="./assets/css/header.css" rel="stylesheet">
         <link href="./assets/css/home.css" rel="stylesheet">
         <link href="./assets/css/body.css" rel="stylesheet">
-        <link href="./assets/css/login.css" rel="stylesheet">
         <link rel="stylesheet" href="./assets/themify-icons/themify-icons.css">
     </head>
     <body>
@@ -108,7 +107,7 @@
                         <%
                             if (u == null) {
                         %>
-                        <button>
+                        <button class="btn btn-primary">
                             <a class="nav-link active" aria-current="page" href="./login">Đăng nhập</a>
                         </button>
                         <%
@@ -116,14 +115,17 @@
                         %>
                         <img src="views/users_avatar/<%= u.getAvatar()%>" alt="Logo" width="40" height="40" style="border-radius: 50px">
                         <li class="nav-item dropdown" style="list-style-type: none">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <%= u.getFullname()%>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="./updateUser">View profile</a></li>
 
-                                <li><a class="dropdown-item" href="./logout">Logout</a></li>
-                            </ul>
+                            <div class="btn-group">
+                                <a class="nav-link"><%= u.getFullname()%></a>
+                                <button type="button" class="btn nav-link dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="./updateUser">View profile</a></li>
+                                    <li><a class="dropdown-item" href="./logout">Logout</a></li>
+                                </ul>
+                            </div>
                         </li>
                         <%
                             }
