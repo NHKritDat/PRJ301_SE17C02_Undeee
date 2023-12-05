@@ -21,8 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebFilter(urlPatterns = {"/view-orderDetails", "/update-orders", "/delete", "/update-products", "/order-history", "/AddToCartController",
-    "/EditCartController", "/CreateOrderController", "/customer-product"})
+@WebFilter(urlPatterns = {"/order-history", "/AddToCartController", "/EditCartController", "/CreateOrderController", "/customer-product"})
 public class CheckRollCustomer implements Filter {
 
     @Override
