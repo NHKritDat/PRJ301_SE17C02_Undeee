@@ -82,14 +82,20 @@ public class DeleteOrderDetailsController extends HttpServlet {
         if (orderDetailId != null) {
             orderService.deleteOrderDetails(Integer.parseInt(orderDetailId));
             List<OrderDto> orderList = orderService.getOrderDetailsByOrderId(Integer.parseInt(id));
-            for (OrderDto order : orderList) {
-                total_price += Math.round(order.getProduct().getPrice() * order.getSize().getPercent() * order.getOrderDetail().getQuantity() * Math.pow(10, 3)) / Math.pow(10, 3);
+
+            if (orderList.isEmpty()) {
+                orderService.deleteOrders(Integer.parseInt(id));
+                response.sendRedirect("./view-orders?updateSuccess=true");
+            } else {
+                for (OrderDto order : orderList) {
+                    total_price += Math.round(order.getProduct().getPrice() * order.getSize().getPercent() * order.getOrderDetail().getQuantity() * Math.pow(10, 3)) / Math.pow(10, 3);
+                }
+                DecimalFormat decimalFormat = new DecimalFormat("#.###");
+                String formattedPrice = decimalFormat.format(total_price);
+                orderService.updateTotalPrice(Double.parseDouble(formattedPrice), Integer.parseInt(id));
+                response.sendRedirect("./view-orderDetails?id=" + id);
             }
-            DecimalFormat decimalFormat = new DecimalFormat("#.###");
-            String formattedPrice = decimalFormat.format(total_price);
-            orderService.updateTotalPrice(Double.parseDouble(formattedPrice), Integer.parseInt(id));
         }
-        response.sendRedirect("./view-orderDetails?id=" + id);
     }
 
     /**
