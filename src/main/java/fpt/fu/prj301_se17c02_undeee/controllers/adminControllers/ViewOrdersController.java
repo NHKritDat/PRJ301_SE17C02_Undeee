@@ -4,8 +4,8 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
 
-
 import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
+import fpt.fu.prj301_se17c02_undeee.models.Paging;
 
 import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
 import java.io.IOException;
@@ -65,12 +65,32 @@ public class ViewOrdersController extends HttpServlet {
             throws ServletException, IOException {
         String search = request.getParameter("search");
         String searchBy = request.getParameter("searchBy");
+        String pageParam = request.getParameter("page");
+        
+        if (searchBy == null) {
+            searchBy = "";
+        }
+        if (search == null) {
+            search = "";
+        }
+        
+        int page = pageParam != null ? Integer.parseInt(pageParam) : 1;
+        int perPage = 10;
 
         OrdersServices orderService = new OrdersServices();
-        List<OrderDto> orders = orderService.getOrders(search, searchBy);
+        //    List<OrderDto> orders = orderService.getOrders(search, searchBy);
+        Paging paging = orderService.getOrders(search, searchBy, page, perPage);
+       // List<OrderDto> orders = orderService.getOrders();
+                
+        request.setAttribute("paging", paging);
+    //    request.setAttribute("orders", orders);
+        request.setAttribute("search", search);
+        request.setAttribute("searchBy", searchBy);
+        // Thêm tổng số trang để hiển thị phân trang
+//        int totalOrders = orderService.getTotalOrders(search, searchBy);
+//        int totalPages = (int) Math.ceil((double) totalOrders / pageSize);
+//        request.setAttribute("totalPages", totalPages);
 
-        request.setAttribute("orders", orders);
-        
         RequestDispatcher rd = request.getRequestDispatcher("/views/admin/viewOrders.jsp");
         rd.forward(request, response);
     }

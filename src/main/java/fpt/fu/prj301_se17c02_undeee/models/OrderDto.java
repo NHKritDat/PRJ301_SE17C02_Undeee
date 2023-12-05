@@ -4,6 +4,7 @@
  */
 package fpt.fu.prj301_se17c02_undeee.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,8 @@ public class OrderDto {
     private Categories category;
     private Products product;
     private Sizes size;
-    private List<OrderDetails> orderDetailList;
+    private List<OrderDto> orderDetailList;
+
 
     public OrderDto() {
     }
@@ -32,7 +34,7 @@ public class OrderDto {
         this.category = category;
         this.product = product;
         this.size = size;
-        this.orderDetailList = orderDetailList;
+        this.orderDetailList = new ArrayList<>();
     }
 
     public Orders getOrder() {
@@ -91,11 +93,11 @@ public class OrderDto {
         this.size = size;
     }
 
-    public List<OrderDetails> getOrderDetailList() {
+    public List<OrderDto> getOrderDetailList() {
         return orderDetailList;
     }
 
-    public void setOrderDetailList(List<OrderDetails> orderDetailList) {
+    public void setOrderDetailList(List<OrderDto> orderDetailList) {
         this.orderDetailList = orderDetailList;
     }
 

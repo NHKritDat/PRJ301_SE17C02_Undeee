@@ -37,7 +37,7 @@
                 %>
                 <tr>
                     <td><%= orderDetail.getOrderDetail().getOrder_id()%></td>
-                    <td><%= orderDetail.getCategory().getCategory_id()%></td>
+                    <td><%= orderDetail.getCategory().getName()%></td>
                     <td><%= orderDetail.getProduct().getName()%></td>
                     <td><%= orderDetail.getSize().getName()%></td>
                     <td><%= orderDetail.getOrderDetail().getQuantity()%></td>
@@ -53,17 +53,19 @@
                 <% }%>
             </tbody>
         </table>
-        <form action="update-orders">
-            <%
-                for (OrderDto orderDetail : orderDetails) {
-            %>
-            <input type="hidden" name="order_id" value="<%= orderDetail.getOrderDetail().getOrder_id()%>">
-            <input type="hidden" name="all_categories" value="<%= orderDetail.getCategory().getCategory_id()%>">
-            <%
-                }
-            %>
-            <input type="submit" value="Update">
-        </form>
+        <div class="d-flex justify-content-center mt-3">
+            <form action="update-orders">
+                <%
+                    for (OrderDto orderDetail : orderDetails) {
+                %>
+                <input type="hidden" name="order_id" value="<%= orderDetail.getOrderDetail().getOrder_id()%>">
+                <input type="hidden" name="all_categories" value="<%= orderDetail.getCategory().getCategory_id()%>">
+                <%
+                    }
+                %>
+                <input type="submit" class="btn btn-primary" value="Update">
+            </form>
+        </div>
     </div>
 </div>
 <%@include file="../layout/footer.jsp" %>
