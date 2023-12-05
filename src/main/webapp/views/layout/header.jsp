@@ -44,58 +44,8 @@
                 Ún đeee
             </a>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <%
-                            if (u != null) {
-                                if (u.getRole() == 1) {
-                        %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./customer-product">View products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./EditCartController">Cart</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true"><%= total_quantity%></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./order-history">My orders</a>
-                        </li>
-                        <%
-                        } else {
-                        %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./admin-page">Admin Page</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./view">View products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./create">Create products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./view-orders">View orders</a>
-                        </li>
-                        <%
-                            }
-                        } else {
-                        %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./customer-product">View products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./EditCartController">Cart</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true"><%= total_quantity%></a>
-                        </li>
-                        <%
-                            }
-                        %>
-                    </ul>
-                </div>
-                <div class="input-group-append">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
                     <%
                         if (u != null) {
                             if (u.getRole() == 1) {
@@ -111,6 +61,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" aria-disabled="true"><%= total_quantity%></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./order-history">My orders</a>
                     </li>
                     <%
                     } else {
@@ -148,6 +101,7 @@
                     %>
                 </ul>
             </div>
+
             <div class="input-group-append">
                 <%
                     if (u == null) {

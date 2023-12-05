@@ -14,7 +14,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
 <div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
-<!-- Danh sách sản phẩm dạng card -->
+
 <div class="container mt-6 mb-3">
 
     <div class="center blue">  <h1 >Undeee menu</h1></div>
@@ -30,8 +30,7 @@
     </form>
 
     <div class="row">
-        <%
-            List<Products> productList = (List<Products>) request.getAttribute("list");
+        <%            List<Products> productList = (List<Products>) request.getAttribute("list");
 
             for (int i = 0; i < productList.size(); i++) {
                 Products product = productList.get(i);
