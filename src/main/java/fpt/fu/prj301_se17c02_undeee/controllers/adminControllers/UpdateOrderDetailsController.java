@@ -61,7 +61,7 @@ public class UpdateOrderDetailsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.sendRedirect("./");
     }
 
     /**
@@ -75,6 +75,7 @@ public class UpdateOrderDetailsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
         String[] AllOrderDetailsId = request.getParameterValues("AllOrderDetailsId");
 

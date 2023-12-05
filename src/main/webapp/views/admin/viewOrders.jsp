@@ -11,7 +11,6 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    //List<OrderDto> orders = (List<OrderDto>) request.getAttribute("orders");
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     int no = 0;
     Paging paging = (Paging) request.getAttribute("paging");
@@ -20,7 +19,7 @@
 
     List<OrderDto> orders = paging.getO();
     double numPage = Math.ceil((double) paging.getTotal() / (double) paging.getPerPage());
-    String pageInstant = (String) request.getAttribute("page");
+    String pageInstant = request.getParameter("page");
     int numPageInstant = 1;
     if (pageInstant != null) {
         numPageInstant = Integer.parseInt(pageInstant);
@@ -45,8 +44,7 @@
 
 <%@include file="../layout/header.jsp" %>
 <div class="container padding-top-100">
-    <div class="row"> 
-        <a href="view-orders"><h1>View Orders</h1></a>
+    <div class="row">
         <h2>Order Lists</h2>
         <form action="view-orders" class="row">
             <div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-4">
@@ -60,7 +58,8 @@
                 <input type="date" name="search" class="form-control" id="searchInput" placeholder="">
             </div>
             <div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-3">
-                <button class="btn btn-primary btn-block" type="submit">Search</button>
+                <%--<button class="btn btn-primary btn-block" type="submit">Search</button>--%>
+                <button type="submit" class="btn btn-info rounded-pill m-2">Search</button>
             </div>
         </form>
     </div>
@@ -97,40 +96,20 @@
                     <td>
                         <form action="view-orderDetails">
                             <input type="hidden" name="id" value="<%= orderDto.getOrder().getId()%>">
-                            <input type="submit" value="View OrderDetails">
+                            <%--<input type="submit" value="View OrderDetails">--%>
+                            <button type="submit" class="btn btn-outline-info m-2">View OrderDetails</button>
                         </form>
                         <form action="delete-orders" onsubmit="return confirm('Are you sure you want to delete this order?');">
                             <input type="hidden" name="id" value="<%= orderDto.getOrder().getId()%>">
-                            <input type="submit" value="Delete">
+                            <%--<input type="submit" value="Delete">--%>
+                            <button type="submit" class="btn btn-outline-danger m-2">Delete</button>
                         </form>
                     </td>
                 </tr>
                 <% }%>
             </tbody>
         </table>
-        <%--
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item <%= (currentPage == 1) ? "disabled" : ""%>">
-                <a class="page-link" href="./view-orders?page=<%= currentPage - 1%>&search=<%= search%>&searchBy=<%= searchBy%>">
-                    Previous
-                </a>
-            </li>
-            <% for (int i = 1; i <= totalPages; i++) {%>
-            <li class="page-item <%= (i == currentPage) ? "active" : ""%>">
-                <a class="page-link" href="./view-orders?page=<%= i%>&search=<%= search%>&searchBy=<%= searchBy%>">
-                    <%= i%>
-                </a>
-            </li>
-            <% }%>
-            <li class="page-item <%= (currentPage == totalPages) ? "disabled" : ""%>">
-                <a class="page-link" href="./view-orders?page=<%= currentPage + 1%>&search=<%= search%>&searchBy=<%= searchBy%>">
-                    Next
-                </a>
-            </li>
-        </ul>
-    </nav>
-        --%>
+
         <div class="row">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
@@ -148,29 +127,6 @@
                 </ul>
             </nav>
         </div>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script>
-                            function changeSearchBy() {
-                                var searchBy = document.getElementById("searchBy").value;
-                                var searchInput = document.getElementById("searchInput");
-
-                                if (searchBy === "status") {
-                                    searchInput.type = "text";
-                                    searchInput.placeholder = "Search order status";
-                                } else if (searchBy === "customerName") {
-                                    searchInput.type = "text";
-                                    searchInput.placeholder = "Search customer name";
-                                } else {
-                                    searchInput.type = "date";
-                                }
-                            }
-
-//                            window.onpageshow = function (event) {
-//                                if (event.persisted) {
-//                                    window.location.reload();
-//                                }
-//                            };
-        </script>
     </div>
 </div>
 <%@include file="../layout/footer.jsp" %>

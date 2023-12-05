@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebFilter(urlPatterns = {"/AddToCartController", "/EditCartController", "/CreateOrderController", "/customer-product"})
+@WebFilter(urlPatterns = {"/order-history", "/AddToCartController", "/EditCartController", "/CreateOrderController", "/customer-product"})
 public class CheckRollCustomer implements Filter {
 
     @Override
@@ -40,7 +40,7 @@ public class CheckRollCustomer implements Filter {
             u = (Users) status;
         }
         if (u.getRole() == 2) {
-            res.sendRedirect("./admin-page");
+            res.sendRedirect("./");
         } else {
             chain.doFilter(request, response);
         }
@@ -49,5 +49,5 @@ public class CheckRollCustomer implements Filter {
     @Override
     public void destroy() {
     }
-    
+
 }

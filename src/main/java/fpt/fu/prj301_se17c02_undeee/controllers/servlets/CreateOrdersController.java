@@ -100,13 +100,17 @@ public class CreateOrdersController extends HttpServlet {
             ad = us.getAddress(u.getId(), address);
         }
 
-        OrdersServices os = new OrdersServices();
-        int order_id = os.insertOrder(u.getId(), ad.getId(), total_price, "Pending");
-        for (OrderDetails ods : cart.getAll()) {
-            os.insertOrderDetails(order_id, ods.getProduct_id(), ods.getSize_id(), ods.getQuantity());
+        if (cart.getSize() > 0) {
+            OrdersServices os = new OrdersServices();
+            int order_id = os.insertOrder(u.getId(), ad.getId(), total_price, "Pending");
+            for (OrderDetails ods : cart.getAll()) {
+                os.insertOrderDetails(order_id, ods.getProduct_id(), ods.getSize_id(), ods.getQuantity());
+            }
+            cart = new Cart();
+            session.setAttribute("CART", cart);
+        } else {
+            doGet(request, response);
         }
-        cart = new Cart();
-        session.setAttribute("CART", cart);
 
         RequestDispatcher rd = request.getRequestDispatcher("/views/viewOrderSuccess.jsp");
         rd.forward(request, response);

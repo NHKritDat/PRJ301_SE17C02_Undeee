@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+</div>
+
 <footer>
     <div class="footer-main">
         <div class="col-md-3 logo-footer"><img  class="footer-logo img-responsive " src="views/layout/logo.jpg" /></div>
@@ -38,26 +40,34 @@
             </div>
         </div>
 
-        <div style="  padding :0px !important;" class="footer-2 col-md-2 padding0">
+        <div style="padding :0px !important;" class="footer-2 col-md-2 padding0">
             <div class="footer-title">Về chúng tôi</div>
             <div class="footer-content">
-                <div class="menu-footer-abous"><ul id="menu-footer-ve-chung-toi" class="menu"><li id="menu-item-1319" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1319"><a href="/history/">Giới thiệu về Undeee</a></li>
-                        <li id="menu-item-1320" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1320"><a href="https://tocotocotea.com/nhuongquyen/">Nhượng quyền</a></li>
-                        <li id="menu-item-2119" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2119"><a href="http://tocotocotea.com/tin-tuc-khuyen-mai/">Tin tức khuyến mại</a></li>
-                        <li id="menu-item-1865" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1865"><a href="https://tocotocotea.com/quy-dinh-chung/">Quy định chung</a></li>
-                        <li id="menu-item-1866" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1866"><a href="https://tocotocotea.com/chinh-sach/thong-tin-ve-chu-so-huu-website/">TT liên hệ &#038; ĐKKD</a></li>
-                    </ul></div>                </div>
+                <div class="menu-footer-abous">
+                    <ul id="menu-footer-ve-chung-toi" class="menu">
+                        <li id="menu-item-1319" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1319">Giới thiệu về Undeee</li>
+                        <li id="menu-item-1320" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1320">Nhượng quyền</li>
+                        <li id="menu-item-2119" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2119">Tin tức khuyến mại</li>
+                        <li id="menu-item-1865" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1865">Quy định chung</li>
+                        <li id="menu-item-1866" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1866">TT liên hệ &#038; ĐKKD</li>
+                    </ul>
+                </div>                
+            </div>
         </div>
         <div class="footer-2 col-md-3">
             <div class="footer-title">Chính sách</div>
             <div class="footer-content">
-                <div class="menu-footer-policy"><ul id="menu-footer-chinh-sach" class="menu"><li id="menu-item-1313" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1313"><a href="/chinh-sach/dieu-khoan-chinh-sach-thanh-vien-than-thiet-tocotococlub/">Chính sách thành viên</a></li>
-                        <li id="menu-item-1314" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1314"><a href="/chinh-sach/quy-dinh-va-hinh-thuc-thanh-toan/">Hình thức thanh toán</a></li>
-                        <li id="menu-item-1315" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1315"><a href="/chinh-sach/chinh-sach-van-chuyen-giao-nhan/">Vận chuyển giao nhận</a></li>
-                        <li id="menu-item-1316" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1316"><a href="/chinh-sach/chinh-sach-doi-tra-hang-va-hoan-tien/">Đổi trả và hoàn tiền</a></li>
-                        <li id="menu-item-1317" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1317"><a href="/chinh-sach/chinh-sach-bao-ve-thong-tin-ca-nhan-cua-nguoi-tieu-dung/">Bảo vệ thông tin cá nhân</a></li>
-                        <li id="menu-item-1318" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1318"><a href="/chinh-sach/chinh-sach-bao-hanh-bao-tri/">Bảo trì, bảo hành</a></li>
-                    </ul></div>                </div>
+                <div class="menu-footer-policy">
+                    <ul id="menu-footer-chinh-sach" class="menu">
+                        <li id="menu-item-1313" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1313">Chính sách thành viên</li>
+                        <li id="menu-item-1314" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1314">Hình thức thanh toán</li>
+                        <li id="menu-item-1315" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1315">Vận chuyển giao nhận</li>
+                        <li id="menu-item-1316" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1316">Đổi trả và hoàn tiền</li>
+                        <li id="menu-item-1317" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1317">Bảo vệ thông tin cá nhân</li>
+                        <li id="menu-item-1318" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1318">Bảo trì, bảo hành</li>
+                    </ul>
+                </div>                
+            </div>
         </div>
     </div>
     <div class="footer-bottom">
@@ -70,10 +80,15 @@
     </div>
     <div class="footer-cover"></div>
 </footer>
+</div>
 
 <script src="./assets/js/popupCard.js"></script>
 <script src="./assets/js/submitOrder.js"></script>
 <script src="./assets/js/homePage.js"></script>
+<script src="./assets/js/customerViewOrders.js"></script>
+<script src="./assets/js/viewOrders.js"></script>
+<script src="./assets/js/updateOrders.js"></script>
+<script src="./assets/js/viewOrderDetails.js"></script>
 <script src="./assets/js/admin_view_product.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -81,5 +96,6 @@ integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cD
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>
