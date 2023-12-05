@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebFilter(urlPatterns = {"/login"})
+@WebFilter(urlPatterns = {"/login", "/register"})
 public class CheckAlreadyLogin implements Filter {
 
     @Override
@@ -41,7 +41,7 @@ public class CheckAlreadyLogin implements Filter {
         }
         if (u.getEmail() != null) {
             if (u.getRole() == 1) {
-                res.sendRedirect("./AddToCartController");
+                res.sendRedirect("./customer-product");
             } else {
                 res.sendRedirect("./admin-page");
             }

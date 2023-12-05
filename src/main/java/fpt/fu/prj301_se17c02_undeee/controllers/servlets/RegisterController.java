@@ -125,7 +125,7 @@ public class RegisterController extends HttpServlet {
             }
              if (fullname.length() < 2 || fullname.length() > 50) {
                 foundError = true;
-                errors.setPasswordError("Full name must be from 2 to 50 characters!");
+                errors.setFullnameError("Full name must be from 2 to 50 characters!");
             }
             if (foundError) {
                 request.setAttribute("ERROR", errors);
