@@ -2,26 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
+package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
 import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
+import fpt.fu.prj301_se17c02_undeee.models.Users;
 import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DecimalFormat;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-@WebServlet(name = "DeleteOrderDetailsController", urlPatterns = {"/delete-orderDetails"})
-public class DeleteOrderDetailsController extends HttpServlet {
+public class CustomerViewOrdersController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class DeleteOrderDetailsController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteOrderDetailsController</title>");
+            out.println("<title>Servlet CustomerViewOrdersController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DeleteOrderDetailsController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CustomerViewOrdersController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +61,20 @@ public class DeleteOrderDetailsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        Users user = (Users) session.getAttribute("user_loged");
+        
+        OrdersServices orderService = new OrdersServices();
+        List<OrderDto> orderList = orderService.getOrdersByUserId(user.getId());
+        for (OrderDto order : orderList) {
+            List<OrderDto> orderDetailList = orderService.getOrderDetailsByOrderId(order.getOrder().getId());
+            order.setOrderDetailList(orderDetailList);
+        }
+        
+        request.setAttribute("orderList", orderList);
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/views/customerViewOrders.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -75,21 +88,7 @@ public class DeleteOrderDetailsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        String orderDetailId = request.getParameter("order_detail_id");
-        OrdersServices orderService = new OrdersServices();
-        double total_price = 0;
-        if (orderDetailId != null) {
-            orderService.deleteOrderDetails(Integer.parseInt(orderDetailId));
-            List<OrderDto> orderList = orderService.getOrderDetailsByOrderId(Integer.parseInt(id));
-            for (OrderDto order : orderList) {
-                total_price += Math.round(order.getProduct().getPrice() * order.getSize().getPercent() * order.getOrderDetail().getQuantity() * Math.pow(10, 3)) / Math.pow(10, 3);
-            }
-            DecimalFormat decimalFormat = new DecimalFormat("#.###");
-            String formattedPrice = decimalFormat.format(total_price);
-            orderService.updateTotalPrice(Double.parseDouble(formattedPrice), Integer.parseInt(id));
-        }
-        response.sendRedirect("./view-orderDetails?id=" + id);
+        processRequest(request, response);
     }
 
     /**
