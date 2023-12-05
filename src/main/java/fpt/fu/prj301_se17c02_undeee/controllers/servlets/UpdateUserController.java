@@ -30,6 +30,8 @@ import javax.servlet.http.Part;
 @WebServlet(name = "UpdateUserController", urlPatterns = {"/updateUser"})
 public class UpdateUserController extends HttpServlet {
 
+    private static final String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,20}$";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -112,6 +114,10 @@ public class UpdateUserController extends HttpServlet {
             if (!(phone.length() == 10)) {
                 foundError = true;
                 errors.setUpdatePhoneError("The phone number must have 10 digits!");
+            }
+            if (!password.trim().matches(passwordRegex)) {
+                foundError = true;
+                errors.setUpdatePasswordError("Low password security! The password must have an uppercase first letter, lowercase, number and one special character! (eg. Phong@123) ");
             }
             if (foundError) {
                 request.setAttribute("UPDATE_ERROR", errors);

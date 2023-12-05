@@ -34,6 +34,15 @@
             <div class="mb-3">
                 <label for="password" class="form-label">New Password</label>
                 <input class="form-control" value="<%= u.getPassword()%>" name="password" placeholder="Enter new password"/>
+                <%
+                    if (errors != null && errors.getUpdatePasswordError() != null) {
+                %>
+                <font style="color:red">
+                <%= errors.getUpdatePasswordError()%>
+                </font><br>
+                <%
+                    }
+                %>
             </div>
 
             <div class="mb-3">
