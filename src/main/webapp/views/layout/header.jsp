@@ -33,6 +33,7 @@
         <link href="./assets/css/footer.css" rel="stylesheet">
         <link href="./assets/css/header.css" rel="stylesheet">
         <link href="./assets/css/home.css" rel="stylesheet">
+        <link href="./assets/css/login.css" rel="stylesheet">
         <link rel="stylesheet" href="./assets/themify-icons/themify-icons.css">
     </head>
     <body>
@@ -49,6 +50,9 @@
                         if (u != null) {
                             if (u.getRole() == 1) {
                     %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./">Home</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./customer-product">View products</a>
                     </li>
@@ -104,6 +108,7 @@
                 <%
                 } else {
                 %>
+                <img src="views/users_avatar/<%= u.getAvatar()%>" alt="Logo" width="40" height="40" style="border-radius: 50px">
                 <li class="nav-item dropdown" style="list-style-type: none">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <%= u.getFullname()%>
