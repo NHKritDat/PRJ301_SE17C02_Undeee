@@ -29,15 +29,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     margin-left: 120px;
 }
 
-.navbar{
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    width: 100% !important;
-}
-
 .padding-top-100{
     padding-top: 100px;
 }
