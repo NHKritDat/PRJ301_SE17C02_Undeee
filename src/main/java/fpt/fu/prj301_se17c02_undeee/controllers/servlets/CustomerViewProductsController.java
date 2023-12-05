@@ -4,11 +4,12 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.models.RegisterError;
-import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
+import fpt.fu.prj301_se17c02_undeee.models.Categories;
+import fpt.fu.prj301_se17c02_undeee.models.Paging;
+import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Phong
+ * @author Admin
  */
-@WebServlet(name = "RegisterController", urlPatterns = {"/register"})
-public class RegisterController extends HttpServlet {
+@WebServlet(name = "CustomerViewProductsController", urlPatterns = {"/customer-product"})
+public class CustomerViewProductsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +41,10 @@ public class RegisterController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegisterController</title>");
+            out.println("<title>Servlet CustomerViewProductsController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegisterController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CustomerViewProductsController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +62,23 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/views/register.jsp");
+        String search = request.getParameter("search");
+        String category_id = request.getParameter("category");
+        String page_String = request.getParameter("page");
+
+        int page = page_String != null ? Integer.parseInt(page_String) : 1;
+        int perPage = 12;
+
+        ProductsServices ps = new ProductsServices();
+        Paging paging = ps.getAllProductsAvailable(search, category_id, page, perPage);
+        List<Categories> l = ps.getCategories();
+
+        request.setAttribute("paging", paging);
+        request.setAttribute("search", search);
+        request.setAttribute("category", category_id);
+        request.setAttribute("CategoryList", l);
+
+        RequestDispatcher rd = request.getRequestDispatcher("/views/CustomerViewProductsJSP.jsp");
         rd.forward(request, response);
     }
 
@@ -76,42 +93,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String fullname = request.getParameter("txtFullName");
-        String email = request.getParameter("txtEmail");
-        String phone = request.getParameter("txtPhone");
-        String password = request.getParameter("txtPassword");
-        String url = "register";
 
-        RegisterError errors = new RegisterError();
-        boolean foundError = false;
-        try {
-            if (phone.length() < 0 || phone.length() > 11) {
-                foundError = true;
-                errors.setPhoneError("The phone number must have 10 digits!");
-            }
-            if (password.length() < 0 || password.length() > 10) {
-                foundError = true;
-                errors.setPasswordError("Password must be between 0 and 10 characters!");
-            }
-            if (foundError) {
-                request.setAttribute("ERROR", errors);
-            }
-
-            UsersServices sv = new UsersServices();
-            boolean result = sv.registerAccount(email, fullname, phone, password, 1, "avataruser.jpg");
-            if (result) {
-                url = "login";
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            request.setAttribute("ERROR", errors);
-        } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-
-            rd.forward(request, response);
-
-        }
     }
 
     /**

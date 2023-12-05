@@ -47,10 +47,10 @@
                                 if (u.getRole() == 1) {
                         %>
                         <li class="nav-item">
-                            <a class="nav-link" href="./AddToCartController">View products <i class="ti-home"></i></a>
+                            <a class="nav-link" href="./AddToCartController">View products <i class="ti ti-home"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./EditCartController">Cart <i class="ti-shopping-cart-full"></i></a>
+                            <a class="nav-link" href="./EditCartController">Cart <i class="ti ti-shopping-cart-full"></i></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link disabled" aria-disabled="true"><%= total_quantity%></a>
