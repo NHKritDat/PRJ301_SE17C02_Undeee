@@ -18,7 +18,7 @@
     double numPage = Math.ceil((double) paging.getTotal() / (double) paging.getPerPage());
     System.out.println("Total: " + paging.getTotal());
     System.out.println("PerPage: " + paging.getPerPage());
-    String pageInstant = (String) request.getAttribute("page");
+    String pageInstant = request.getParameter("page");
     int numPageInstant = 1;
     if (pageInstant != null) {
         numPageInstant = Integer.parseInt(pageInstant);
@@ -28,33 +28,17 @@
 %>
 <div class="container mt-5 padding-top-100">
     <h2>Order History</h2>
-    <% for (OrderDto order : orderList) {
-            Date created_at = order.getOrder().getCreated_at();
-            String formattedDate = dateFormat.format(created_at);
-    %>
-    <div class="card mb-3">
-        <div class="card-body">
-            <button class="btn btn-link" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
-            <div class="row">
-                <div class="col-md-3">
-                    <img src="views/layout/logo.jpg" alt="Product Image" class="img-fluid">
-                </div>
-                <div class="col-md-9">
-                    <h5 class="card-title">Order ID: <%= order.getOrder().getId()%></h5>
-                    <p class="card-text">Total Price: <%= order.getOrder().getTotal_price()%></p>
-                    <p class="card-text">Status: <%= order.getOrder().getStatus()%></p>
-                    <p class="card-text">Created At: <%= formattedDate%></p>
-                </div>
-            </div>
-            <form id="detailsForm_<%= order.getOrder().getId()%>" style="display: none;">
-                <h4>Order Details</h4>
-                <p class="card-text">Address: <%= order.getAddress().getAddress_detail()%></p>
-                <%
-                    for (OrderDto orderDetail : order.getOrderDetailList()) {
-                %>
+    <div class="row">
+        <% for (OrderDto order : orderList) {
+                Date created_at = order.getOrder().getCreated_at();
+                String formattedDate = dateFormat.format(created_at);
+        %>
+        <div class="card mb-3">
+            <div class="card-body">
+                <button class="btn btn-link" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
                 <div class="row">
                     <div class="col-md-3">
-                        <img src="#%>" alt="Product Image" class="img-fluid">
+                        <img src="views/layout/logo.jpg" alt="Product Image" class="img-fluid">
                     </div>
                     <div class="col-md-9">
                         <h5 class="card-title">Order ID: <%= order.getOrder().getId()%></h5>
@@ -63,6 +47,7 @@
                         <p class="card-text">Created At: <%= formattedDate%></p>
                     </div>
                 </div>
+
                 <form id="detailsForm_<%= order.getOrder().getId()%>" style="display: none;">
                     <h4>Order Details</h4>
                     <p class="card-text">Address: <%= order.getAddress().getAddress_detail()%></p>
@@ -86,7 +71,7 @@
         </div>
         <% }%>
     </div>
-    <% }%>
+
     <div class="row">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">

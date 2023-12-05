@@ -33,10 +33,6 @@
         <url-pattern>/CreateOrdersController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ViewOrdersHistoryController</servlet-name>
-        <url-pattern>/my-orders</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>CustomerViewOrdersController</servlet-name>
         <url-pattern>/order-history</url-pattern>
     </servlet-mapping>
