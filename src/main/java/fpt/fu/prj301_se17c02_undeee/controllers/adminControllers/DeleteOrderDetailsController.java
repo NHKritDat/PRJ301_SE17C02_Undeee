@@ -88,13 +88,15 @@ public class DeleteOrderDetailsController extends HttpServlet {
                 response.sendRedirect("./view-orders?updateSuccess=true");
             } else {
                 for (OrderDto order : orderList) {
-                    total_price += Math.round(order.getProduct().getPrice() * order.getSize().getPercent() * order.getOrderDetail().getQuantity() * Math.pow(10, 3)) / Math.pow(10, 3);
+                    total_price += order.getProduct().getPrice() * order.getSize().getPercent() * order.getOrderDetail().getQuantity();
                 }
                 DecimalFormat decimalFormat = new DecimalFormat("#.###");
                 String formattedPrice = decimalFormat.format(total_price);
                 orderService.updateTotalPrice(Double.parseDouble(formattedPrice), Integer.parseInt(id));
                 response.sendRedirect("./view-orderDetails?id=" + id);
             }
+        } else {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Order detail not found");
         }
     }
 

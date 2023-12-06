@@ -40,21 +40,25 @@
                 %>
                 <p class="card-text">Created at: <%= formattedDate%></p>
 
-                <p class="card-text">Status:
-                    <select name="status">
-                        <option value="Success" <%= order.getOrder().getStatus().equals("Success") ? "selected" : ""%>>Success</option>
-                        <option value="Pending" <%= order.getOrder().getStatus().equals("Pending") ? "selected" : ""%>>Pending</option>
-                    </select>
-                </p>
+                <div class="row">
+                    <div class="col-md-1">
+                        <p class="card-text">Status:</p>
+                    </div>
+                    <div class="col-md-4">
+                        <select name="status" class="form-control custom-select">
+                            <option value="Success" <%= order.getOrder().getStatus().equals("Success") ? "selected" : ""%>>Success</option>
+                            <option value="Pending" <%= order.getOrder().getStatus().equals("Pending") ? "selected" : ""%>>Pending</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
-
         <%-- Display Product List for Updating --%>
-        <div class="card mt-3">
+        <div class="card mt-3 mb-5">
             <div class="card-header">
                 Update Order-Details
             </div>
-            <div class="card-body">
+            <div class="card-body ">
 
                 <input type="hidden" name="id" value="<%= order.getOrder().getId()%>">
                 <%-- Iterate through the product list --%>
@@ -86,7 +90,7 @@
                                     <%= category.getName()%>
                                 </option>
                                 <% }
-                                    }%>
+                                        }%>
                             </select>
                         </td>
                         <td>
@@ -99,7 +103,7 @@
                                     <%= product.getName()%>  
                                 </option>   
                                 <% }
-                                    }%>
+                                        }%>
                             </select>
                         </td>
                         <td>
@@ -112,7 +116,7 @@
                                     <%= size.getName()%>  
                                 </option> 
                                 <% }
-                                    }%>
+                                        }%>
                             </select>
                         </td>
                         <td>

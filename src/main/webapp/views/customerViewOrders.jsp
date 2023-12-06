@@ -13,21 +13,17 @@
 <%@include file="layout/header.jsp" %>
 <%    Paging paging = (Paging) request.getAttribute("paging");
     List<OrderDto> orderList = paging.getO();
-    //List<OrderDto> orderList = (List) request.getAttribute("orderList");
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     double numPage = Math.ceil((double) paging.getTotal() / (double) paging.getPerPage());
-    System.out.println("Total: " + paging.getTotal());
-    System.out.println("PerPage: " + paging.getPerPage());
     String pageInstant = request.getParameter("page");
     int numPageInstant = 1;
     if (pageInstant != null) {
         numPageInstant = Integer.parseInt(pageInstant);
     }
-    System.out.println("numPage: " + numPage);
-    System.out.println("numPageInstant: " + numPageInstant);
 %>
-<div class="container mt-5 padding-top-100">
-    <h2>Order History</h2>
+<div class="container mt-4 mb-4">
+    <h3>Order History</h3>
+    <br>
     <div class="row">
         <% for (OrderDto order : orderList) {
                 Date created_at = order.getOrder().getCreated_at();
