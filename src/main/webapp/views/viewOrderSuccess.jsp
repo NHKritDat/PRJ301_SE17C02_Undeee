@@ -6,9 +6,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
-<div class="container padding-top-100">
+<div class="container padding-top-100 mb-3">
     <div class="row">
-        <p>You have placed your order successfully!</p>
+        <h5>You have placed your order successfully!</h5>
     </div>
 </div>
 <%@include file="layout/footer.jsp" %>

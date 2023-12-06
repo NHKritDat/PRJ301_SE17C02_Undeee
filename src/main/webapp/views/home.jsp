@@ -16,8 +16,10 @@
 
 
 
-    </head>
-    <body >
+
+
+    
+
 
         <div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
         <!-- Danh sách sản phẩm dạng card -->

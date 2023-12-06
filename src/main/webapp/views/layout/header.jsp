@@ -33,7 +33,7 @@
         <link href="./assets/css/footer.css" rel="stylesheet">
         <link href="./assets/css/header.css" rel="stylesheet">
         <link href="./assets/css/home.css" rel="stylesheet">
-        <link href="./assets/css/login.css" rel="stylesheet">
+        <link href="./assets/css/body.css" rel="stylesheet">
         <link rel="stylesheet" href="./assets/themify-icons/themify-icons.css">
 
     <style>
@@ -45,12 +45,7 @@
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
-             
-  
 
-        
-        
-        
         .alert {
             background: #ffdb9b;
             padding: 20px 40px;
@@ -208,93 +203,100 @@
     </head>
     <body>
 
-        <nav class="navbar navbar-expand-lg " style="background-color: aqua">
-            <a class="navbar-brand" href="./">
-                <img src="views/layout/logo.jpg" alt="Logo" width="40" height="40" style="border-radius: 50px">
-                Ún đeee
-            </a>
+        <div id="page-container">
+            <div id="content-wrap">
+                <nav class="navbar navbar-expand-lg " style="background-color: aqua">
+                    <a class="navbar-brand" href="./">
+                        <img src="views/layout/logo.jpg" alt="Logo" width="40" height="40" style="border-radius: 50px">
+                        Ún đeee
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <%
-                        if (u != null) {
-                            if (u.getRole() == 1) {
-                    %>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./customer-product">View products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./EditCartController">Cart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true"><%= total_quantity%></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./order-history">My orders</a>
-                    </li>
-                    <%
-                    } else {
-                    %>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./admin-page">Admin Page</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./view">View products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./create">Create products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./view-orders">View orders</a>
-                    </li>
-                    <%
-                        }
-                    } else {
-                    %>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./customer-product">View products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./EditCartController">Cart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true"><%= total_quantity%></a>
-                    </li>
-                    <%
-                        }
-                    %>
-                </ul>
-            </div>
-
-            <div class="input-group-append">
-                <%
-                    if (u == null) {
-                %>
-                <button>
-                    <a class="nav-link active" aria-current="page" href="./login">Đăng nhập</a>
-                </button>
-                <%
-                } else {
-                %>
-                <img src="views/users_avatar/<%= u.getAvatar()%>" alt="Logo" width="40" height="40" style="border-radius: 50px">
-                <li class="nav-item dropdown" style="list-style-type: none">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <%= u.getFullname()%>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="./updateUser">View profile</a></li>
 
-                        <li><a class="dropdown-item" href="./logout">Logout</a></li>
-                    </ul>
-                </li>
-                <%
-                    }
-                %>
-            </div>
-        </nav>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <%
+                                if (u != null) {
+                                    if (u.getRole() == 1) {
+                            %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./customer-product">View products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./EditCartController">Cart</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" aria-disabled="true"><%= total_quantity%></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./order-history">My orders</a>
+                            </li>
+                            <%
+                            } else {
+                            %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./admin-page">Admin Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./view">View products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./create">Create products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./view-orders">View orders</a>
+                            </li>
+                            <%
+                                }
+                            } else {
+                            %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./customer-product">View products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./EditCartController">Cart</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" aria-disabled="true"><%= total_quantity%></a>
+                            </li>
+                            <%
+                                }
+                            %>
+                        </ul>
+                    </div>
+
+                    <div class="input-group-append">
+                        <%
+                            if (u == null) {
+                        %>
+                        <button class="btn btn-primary">
+                            <a class="nav-link active" aria-current="page" href="./login">Đăng nhập</a>
+                        </button>
+                        <%
+                        } else {
+                        %>
+                        <img src="views/users_avatar/<%= u.getAvatar()%>" alt="Logo" width="40" height="40" style="border-radius: 50px">
+                        <li class="nav-item dropdown" style="list-style-type: none">
+
+                            <div class="btn-group">
+                                <a class="nav-link"><%= u.getFullname()%></a>
+                                <button type="button" class="btn nav-link dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="./updateUser">View profile</a></li>
+                                    <li><a class="dropdown-item" href="./logout">Logout</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <%
+                            }
+                        %>
+                    </div>
+                </nav>
+

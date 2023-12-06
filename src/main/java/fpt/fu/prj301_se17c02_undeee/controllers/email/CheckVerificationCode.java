@@ -1,26 +1,29 @@
+package fpt.fu.prj301_se17c02_undeee.controllers.email;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
-
-import fpt.fu.prj301_se17c02_undeee.models.Paging;
-import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import static java.lang.System.out;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author dell
+ * @author hiennt
  */
-@WebServlet(name = "ViewOrdersController", urlPatterns = {"/view-orders"})
-public class ViewOrdersController extends HttpServlet {
+/**
+ *
+ * @author hiennt
+ */
+@WebServlet(name = "LoginController", urlPatterns = {"/check-code"})
+public class CheckVerificationCode extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,18 +37,7 @@ public class ViewOrdersController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewOrdersController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewOrdersController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -60,29 +52,6 @@ public class ViewOrdersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String search = request.getParameter("search");
-        String searchBy = request.getParameter("searchBy");
-        String pageParam = request.getParameter("page");
-        
-        if (searchBy == null) {
-            searchBy = "";
-        }
-        if (search == null) {
-            search = "";
-        }
-        
-        int page = pageParam != null ? Integer.parseInt(pageParam) : 1;
-        int perPage = 10;
-
-        OrdersServices orderService = new OrdersServices();
-        Paging paging = orderService.getOrders(search, searchBy, page, perPage);
-                
-        request.setAttribute("paging", paging);
-        request.setAttribute("search", search);
-        request.setAttribute("searchBy", searchBy);
-
-        RequestDispatcher rd = request.getRequestDispatcher("/views/admin/viewOrders.jsp");
-        rd.forward(request, response);
     }
 
     /**
@@ -96,7 +65,24 @@ public class ViewOrdersController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        UserDTO user = (UserDTO) session.getAttribute("authcode");
 
+        String code1 = request.getParameter("num1");
+        String code2 = request.getParameter("num2");
+        String code3 = request.getParameter("num3");
+        String code4 = request.getParameter("num4");
+        String code5 = request.getParameter("num5");
+        String code6 = request.getParameter("num6");
+
+        String usercode = code1+code2+code3+code4+code5+code6;
+        if (usercode.equals(user.getCode())) {
+            request.setAttribute("report", "Correct Verification code");
+            request.getRequestDispatcher("/views/Result.jsp").forward(request, response);
+        } else {
+            request.setAttribute("report", "Incorrect Verification code");
+            request.getRequestDispatcher("/views/Result.jsp").forward(request, response);
+        }
     }
 
     /**
