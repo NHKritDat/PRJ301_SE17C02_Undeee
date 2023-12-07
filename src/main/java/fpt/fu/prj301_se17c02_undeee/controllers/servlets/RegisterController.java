@@ -20,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
 
 /**
@@ -28,6 +29,7 @@ import javax.xml.bind.DatatypeConverter;
  */
 @WebServlet(name = "RegisterController", urlPatterns = {"/register"})
 public class RegisterController extends HttpServlet {
+
     private static final String REGISTER_PAGE = "/views/register.jsp";
     private static final String LOGIN_PAGE = "/views/login.jsp";
     private static final String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,20}$";
@@ -100,17 +102,17 @@ public class RegisterController extends HttpServlet {
             List<Users> list = new ArrayList<>();
             list = u.getAllUsers();
             for (Users users : list) {
-                if (email.equals(users.getEmail())){
+                if (email.equals(users.getEmail())) {
                     foundError = true;
                     errors.setEmailUniqueError(email + " " + "Already Existed!");
                     break;
                 }
             }
-            if (email.length() < 6 || email.length() > 30 || !email.contains("@")){
+            if (email.length() < 6 || email.length() > 30 || !email.contains("@")) {
                 foundError = true;
                 errors.setEmailError("Email must be from 6 to 10 characters and have the correct email format!");
             }
-                        
+
             if (!(phone.length() == 10)) {
                 foundError = true;
                 errors.setPhoneError("The phone number must have 10 digits!");
@@ -123,48 +125,47 @@ public class RegisterController extends HttpServlet {
                 foundError = true;
                 errors.setPasswordError("Confirm the password must match the password you entered above!");
             }
-             if (fullname.length() < 2 || fullname.length() > 50) {
+            if (fullname.length() < 2 || fullname.length() > 50) {
                 foundError = true;
                 errors.setFullnameError("Full name must be from 2 to 50 characters!");
             }
             if (foundError) {
                 request.setAttribute("ERROR", errors);
-            } else {    
+            } else {
                 MessageDigest md = MessageDigest.getInstance("MD5");
                 md.update(password.getBytes());
                 byte[] digest = md.digest();
                 String myPassword = DatatypeConverter.printHexBinary(digest).toUpperCase();
-                boolean result = u.registerAccount(email, fullname, phone, myPassword, 1, "avataruser.jpg");
-                if (result) {
-                    url = LOGIN_PAGE;
-                }
+
+                HttpSession session = request.getSession();
+                session.setAttribute("newFullName", fullname);
+                session.setAttribute("newEmail", email);
+                session.setAttribute("newPhone", phone);
+                session.setAttribute("newPassword", myPassword);
+
+                response.sendRedirect("UserVerify");
+
+               
             }
 
-        } catch (SQLException | NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             String errMsg = e.getMessage();
             log("RegisterController_SQL: " + errMsg);
-                    
+
 //            if (errMsg.contains("duplicate")) {
 //                errors.setEmailError(email + "" + "Already existed");
 //            }
 //            request.setAttribute("ERROR", errors);
         }
-  
-        finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-
-        rd.forward(request, response);
-
     }
-}
 
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */
-@Override
-public String getServletInfo() {
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

@@ -35,15 +35,20 @@
         <link href="./assets/css/header.css" rel="stylesheet">
         <link href="./assets/css/home.css" rel="stylesheet">
         <link href="./assets/css/body.css" rel="stylesheet">
+        <link href="./assets/css/alert.css" rel="stylesheet">
         <link rel="stylesheet" href="./assets/themify-icons/themify-icons.css">
+
+
     </head>
     <body>
+
         <div id="page-container">
             <div id="content-wrap">
                 <nav class="navbar navbar-expand-lg " style="background-color: aqua">
                     <a class="navbar-brand" href="./">
                         <img src="views/layout/logo.jpg" alt="Logo" width="40" height="40" style="border-radius: 50px">
                         Ún đeee
+
                     </a>
 
                     <div class="collapse navbar-collapse" id="navbarNav">
@@ -133,5 +138,3 @@
                         %>
                     </div>
                 </nav>
-
-

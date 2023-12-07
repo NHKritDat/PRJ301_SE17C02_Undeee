@@ -13,10 +13,9 @@
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
-<div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
+        <div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
 
-<div class="container mt-6 mb-3">
-
+        <div class="container mt-6 mb-3">
     <div class="center blue">  <h1 >Undeee menu</h1></div>
     <div  class="center"> <h2>Best Sellers</h2></div>
 
