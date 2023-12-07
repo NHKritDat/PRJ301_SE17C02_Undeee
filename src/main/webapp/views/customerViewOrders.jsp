@@ -4,6 +4,8 @@
     Author     : dell
 --%>
 
+<%@page import="fpt.fu.prj301_se17c02_undeee.models.SizeProducts"%>
+<%@page import="fpt.fu.prj301_se17c02_undeee.services.ProductsServices"%>
 <%@page import="fpt.fu.prj301_se17c02_undeee.models.Paging"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -13,6 +15,7 @@
 <%@include file="layout/header.jsp" %>
 <%    Paging paging = (Paging) request.getAttribute("paging");
     List<OrderDto> orderList = paging.getO();
+    ProductsServices ps = new ProductsServices();
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     double numPage = Math.ceil((double) paging.getTotal() / (double) paging.getPerPage());
     String pageInstant = request.getParameter("page");
@@ -31,10 +34,13 @@
         %>
         <div class="card mb-3">
             <div class="card-body">
-                <button class="btn btn-link" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
+                <div class="mb-2">
+                    <button class="btn btn-info" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
+                </div>
+                
                 <div class="row">
                     <div class="col-md-3">
-                        <img src="views/layout/logo.jpg" alt="Product Image" class="img-fluid">
+                        <img src="views/layout/logo.jpg" alt="Product Image" class="img-fluid" style="width: 150px;border-radius: 50%">
                     </div>
                     <div class="col-md-9">
                         <h5 class="card-title">Order ID: <%= order.getOrder().getId()%></h5>
@@ -47,21 +53,46 @@
                 <form id="detailsForm_<%= order.getOrder().getId()%>" style="display: none;">
                     <h4>Order Details</h4>
                     <p class="card-text">Address: <%= order.getAddress().getAddress_detail()%></p>
-                    <%
-                        for (OrderDto orderDetail : order.getOrderDetailList()) {
-                    %>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <img src="./views/products/<%= orderDetail.getProduct().getImage()%>" alt="Product Image" class="img-fluid">
-                        </div>
-                        <div class="col-md-9">
-                            <p class="card-text">Quantity: <%= orderDetail.getOrderDetail().getQuantity()%></p>
-                            <p class="card-text">Size: <%= orderDetail.getSize().getName()%></p>
-                        </div>
-                    </div>
-                    <% }%>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                                int No = 0;
+                                for (OrderDto orderDetail : order.getOrderDetailList()) {
+                                    No++;
+                                    SizeProducts sp = ps.getSizeProductById(orderDetail.getProduct().getId(), orderDetail.getSize().getId());
+                                    List<SizeProducts> l = ps.getSizeProductById(orderDetail.getProduct().getId());
+                            %>
+                            <tr>
+                                <th scope="row"><%= No%></th>
+                                <td><%= sp.getProduct_name()%></td>
 
-                    <button class="btn btn-link" onclick="hideDetails('<%= order.getOrder().getId()%>')">Hide Details</button>
+                                <td><img src="./views/products/<%= sp.getImage()%>" width="100px" height="100px" alt="<%= sp.getImage()%>" class="img-thumbnail"/></td>
+
+                                <td>
+                                    <%= orderDetail.getSize().getName()%>
+                                </td>
+                                <td>
+                                    <%= orderDetail.getOrderDetail().getQuantity()%>
+                                </td>
+                                <td><%= Math.round(orderDetail.getOrderDetail().getQuantity() * sp.getPercent() * sp.getPrice() * Math.pow(10, 3)) / Math.pow(10, 3)%></td>
+                            </tr>
+                            <%
+                                }
+                            %>
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-info" onclick="hideDetails('<%= order.getOrder().getId()%>')">Hide Details</button>
                 </form>
             </div>
         </div>
