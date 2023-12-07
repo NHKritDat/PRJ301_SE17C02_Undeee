@@ -131,6 +131,8 @@ public class RegisterController extends HttpServlet {
             }
             if (foundError) {
                 request.setAttribute("ERROR", errors);
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
             } else {
                 MessageDigest md = MessageDigest.getInstance("MD5");
                 md.update(password.getBytes());
@@ -144,18 +146,11 @@ public class RegisterController extends HttpServlet {
                 session.setAttribute("newPassword", myPassword);
 
                 response.sendRedirect("UserVerify");
-
-               
             }
 
         } catch (NoSuchAlgorithmException e) {
             String errMsg = e.getMessage();
             log("RegisterController_SQL: " + errMsg);
-
-//            if (errMsg.contains("duplicate")) {
-//                errors.setEmailError(email + "" + "Already existed");
-//            }
-//            request.setAttribute("ERROR", errors);
         }
     }
 
