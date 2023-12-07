@@ -7,6 +7,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
+
 <div class="container-fluid position-relative d-flex p-0">
     <div class="container-fluid">
         <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
@@ -44,12 +45,13 @@
                             <label for="floatingPassword">Password</label>
                         </div>
 
+
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <div class="form-check">
                                 <input type="checkbox" <%= crChecked%> name="RememberMe" value="ON" class="form-check-input" id="exampleCheck1" style="border-color: aqua; background-color: aqua;">
                                 <label class="form-check-label" for="exampleCheck1">Remember me</label>
                             </div>
-                            <a href="" style="color: aqua;">Forgot Password</a>
+                            <a href="ForgotPasswordServlet" style="color: aqua;">Forgot Password</a>
                         </div>
                         <button type="submit" class="btn btn-primary py-3 w-100 mb-4" style="background-color: aqua; border-color: aqua;">Sign In</button>
                         <p class="text-center mb-0">Don't have an Account? <a href="./register" style="color: aqua;">Sign Up</a></p>

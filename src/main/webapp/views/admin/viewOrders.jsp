@@ -43,7 +43,7 @@
 %>
 
 <%@include file="../layout/header.jsp" %>
-<div class="container padding-top-100">
+<div class="container mt-4 mb-4">
     <div class="row">
         <h2>Order Lists</h2>
         <form action="view-orders" class="row">
@@ -56,10 +56,13 @@
             </div>
             <div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-5">
                 <input type="date" name="search" class="form-control" id="searchInput" placeholder="">
+                <select id="statusSelect" class="form-control custom-select" style="display: none;">
+                    <option value="Success">Success</option>
+                    <option value="Pending">Pending</option>
+                </select>
             </div>
             <div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-3">
-                <%--<button class="btn btn-primary btn-block" type="submit">Search</button>--%>
-                <button type="submit" class="btn btn-info rounded-pill m-2">Search</button>
+                <button type="submit" class="btn btn-info rounded-pill">Search</button>
             </div>
         </form>
     </div>
@@ -96,12 +99,10 @@
                     <td>
                         <form action="view-orderDetails">
                             <input type="hidden" name="id" value="<%= orderDto.getOrder().getId()%>">
-                            <%--<input type="submit" value="View OrderDetails">--%>
-                            <button type="submit" class="btn btn-outline-info m-2">View OrderDetails</button>
+                            <button type="submit" class="btn btn-outline-info m-2">View Order-Details</button>
                         </form>
                         <form action="delete-orders" onsubmit="return confirm('Are you sure you want to delete this order?');">
-                            <input type="hidden" name="id" value="<%= orderDto.getOrder().getId()%>">
-                            <%--<input type="submit" value="Delete">--%>
+                            <input type="hidden" name="id" value="<%= orderDto.getOrder().getId()%>">  
                             <button type="submit" class="btn btn-outline-danger m-2">Delete</button>
                         </form>
                     </td>
@@ -114,7 +115,7 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
-                        <a class="page-link" href="<%if (numPageInstant > 1) {%>./view-orders?page=<%= numPageInstant - 1%>&search=<%= search%>&searchBy=<%= searchBy%><%}%>" tabindex="-1">Previous</a>
+                        <a class="page-link" href="<%if (numPageInstant > 1) {%>./view-orders?page=<%= numPageInstant - 1%>&search=<%= search%>&searchBy=<%= searchBy%><%}%>">Previous</a>
                     </li>
                     <% for (int i = 0; i < numPage; i++) {%>
                     <li class="page-item">
@@ -129,4 +130,5 @@
         </div>
     </div>
 </div>
+
 <%@include file="../layout/footer.jsp" %>

@@ -65,7 +65,6 @@ public class DeleteOrdersController extends HttpServlet {
             orderToDelete.deleteOrders(Integer.parseInt(id));
         }
         response.sendRedirect("./view-orders");
-
     }
 
     /**

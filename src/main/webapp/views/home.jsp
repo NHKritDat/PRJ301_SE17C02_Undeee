@@ -13,12 +13,11 @@
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
-<div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
+        <div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
 
-<div class="container mt-6 mb-3">
-
+        <div class="container mt-6 mb-3">
     <div class="center blue">  <h1 >Undeee menu</h1></div>
-    <div  class="center"> <h2>Best Seller</h2></div>
+    <div  class="center"> <h2>Best Sellers</h2></div>
 
     <form id="searchForm" action="view" method="Post">
         <div class="input-group mb-3">
@@ -37,19 +36,20 @@
         %>
         <div class="col-md-3 mb-3">
             <div class="card">
-                <img src="views/Drinks/<%= product.getImage()%>" class="card-img-top" alt="<%= product.getName()%>" style="width: 100%">
+                <img src="views/products/<%= product.getImage()%>" class="card-img-top" alt="<%= product.getName()%>" style="width: 100%">
                 <div class="card-body">
                     <h6 class="card-title"><%= product.getName()%></h6>
                     <p class="card-text"><%= product.getPrice()%> $</p>
-                </div>
-                <div class="card-footer">
-                    <button class="order-button" "><a href="customer-product" class="btn" role="button">Order Now</a></button>
                 </div>
             </div>
         </div>
         <%
             }
         %>         
+    </div>
+    
+    <div class="row" style="justify-content: center">
+        <a href="customer-product" class="btn btn-info col-md-2 ">Order Now</a>
     </div>
 </div>
 <%@include file="layout/footer.jsp" %>

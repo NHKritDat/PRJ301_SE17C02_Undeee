@@ -9,7 +9,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 
 .footer-bottom{
     text-align: center;
-    padding: 20px;
     margin-top: 30px;
     color: black;
     font-size: 16px;
@@ -33,4 +32,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     align-items: center;
     margin-right: -130px;
     margin-left: 70px;
+}
+
+footer {
+  
+    bottom: 0;
+    width: 100%;
 }

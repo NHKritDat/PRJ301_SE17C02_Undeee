@@ -97,7 +97,7 @@ public class LoginController extends HttpServlet {
                 int role = user.getRole();
 
                 if (remember != null && remember.equals("ON")) {
-                    cEmail.setMaxAge(60 * 60 * 24 * 7); //7 ngày
+                    cEmail.setMaxAge(60 * 60 * 24 * 7);
                     cPassword.setMaxAge(60 * 60 * 24 * 7);
                     cRemember.setMaxAge(60 * 60 * 24 * 7);
                 } else {

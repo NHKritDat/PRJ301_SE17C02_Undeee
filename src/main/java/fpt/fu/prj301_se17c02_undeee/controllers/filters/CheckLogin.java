@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebFilter(urlPatterns = {"/order-history", "/update-products", "/CreateOrdersController",
     "/update-orderDetails", "/delete-orderDetails", "/updateUser", "/EditCartController",
-    "/CreateOrderController", "/admin-page", "/view", "/create", "/view-orders",
+    "/CreateOrderController", "/admin-page",  "/create", "/view-orders",
     "/delete", "/update-orders", "/view-orderDetails", "/delete-orders", "/AddToCartController"})
 public class CheckLogin implements Filter {
 
