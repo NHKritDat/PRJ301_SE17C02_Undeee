@@ -5,7 +5,6 @@
 
 
 function updateProductList(index) {
-    console.log("Updating dropdown for index:", index);
     var category = document.getElementById("category_" + index).value;
     var productSelect = document.getElementById("product_" + index);
     var sizeSelect = document.getElementById("size_" + index);
@@ -54,13 +53,8 @@ function updateSelectOptions2(select, options) {
 document.addEventListener("DOMContentLoaded", function () {
     var categoryDropdowns = document.querySelectorAll("[id^='category_']");
     categoryDropdowns.forEach(function (dropdown) {
-        console.log("Updating dropdown for:", dropdown.id);
+//        console.log("Updating dropdown for:", dropdown.id);
         updateProductList(dropdown);
-
     });
 });
-window.onpageshow = function (event) {
-    if (event.persisted) {
-        window.location.reload();
-    }
-};
+
