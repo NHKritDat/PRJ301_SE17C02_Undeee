@@ -20,6 +20,7 @@
         total_quantity += od.getQuantity();
     }
 %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -132,3 +133,5 @@
                         %>
                     </div>
                 </nav>
+
+

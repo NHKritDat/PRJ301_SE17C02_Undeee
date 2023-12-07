@@ -43,7 +43,7 @@
                     <p class="card-text"><%= product.getPrice()%> $</p>
                 </div>
                 <div class="card-footer">
-                    <button class="order-button" "><a href="customer-product" class="btn" role="button">Order Now</a></button>
+                    <button class="order-button"><a href="customer-product" class="btn" role="button">Order Now</a></button>
                 </div>
             </div>
         </div>
