@@ -43,10 +43,7 @@
 <%@include file="layout/header.jsp" %>
 <div class="container mt-4 myflex">
 
-
-    <!-- Thẻ <p> với class "report" và giá trị mặc định là 1 -->
     <p class="report" value="<%= report%>"></p>
-
 
     <h1 class="padding-top-100">Danh Sách Sản Phẩm</h1>
 
@@ -57,7 +54,7 @@
             <span class="fas fa-times"></span>
         </div>
     </div> 
-      
+
     <div class="alert1 hide">
         <span class="fas fa-exclamation-circle"></span>
         <span class="msg">Success alert!</span>
@@ -66,18 +63,15 @@
         </div>
     </div>
 
-
-    <div class="row mb-3">
-
-
+    <div class="row">
         <div class="col-md-3">
             <form id="searchForm"  class="d-flex" action="view" method="post" aria-label="Search">
                 <input id="searchInput" class="form-control" type="search" placeholder="Search" name="searchKeyword">
                 <button id="searchButton" class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
+        
         <div class="col-md-2">
-
             <form action="./view" method="post">
                 <select class="form-control" id="categories" name="searchKeyword" onchange="this.form.submit()">
                     <option hidden="">Categories</option>
@@ -89,21 +83,20 @@
                     %>
                 </select>
             </form>
-
         </div>
+                
         <div class="col-md-2">
-
-            <select name="status" class="form-control" id="status" >
-                <option value="">STATUS</option>
-                <option value="Active">Active</option>
-                <option value="Sold out">Sold out</option>
-
-            </select>
-            </form
+            <form action="./view" method="post">
+                <select name="status" class="form-control" id="status" >
+                    <option value="">STATUS</option>
+                    <option value="Active">Active</option>
+                    <option value="Sold out">Sold out</option>
+                </select>
+            </form>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-3">
         <%
             for (int i = 0; i < newsList.size(); i++) {
                 Products product = newsList.get(i);
@@ -129,12 +122,7 @@
             }
         %>         
     </div>
-
-
-
 </div>
-
-
 
 <div class="row">
     <nav aria-label="Page navigation example">
@@ -149,7 +137,6 @@
             <% }%>
             <li class="page-item">
                 <a class="page-link" href="<%if (numPageInstant < numberPage) {%> ./view?page=<%= numPageInstant + 1%>&perPage=<%= newsPaging.getPerPage()%><%= search == null ? "" : "&search=" + search%><%}%>" >Next</a>
-
             </li>
         </ul>
     </nav>

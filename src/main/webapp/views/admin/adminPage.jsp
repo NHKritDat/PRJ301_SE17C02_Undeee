@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="../layout/header.jsp" %>
-<div class="container padding-top-100">
+<div class="container mt-3">
     <h1>Admin Page</h1>
     <h1>Hi, <%= u.getFullname()%></h1>
     <form action="view-orders">

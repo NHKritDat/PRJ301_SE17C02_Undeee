@@ -37,9 +37,9 @@
         numPageInstant = Integer.parseInt(pageInstant);
     }
 %>
-<div class="container padding-top-100">
+<div class="container">
 
-    <div class="row mb-3">
+    <div class="row mb-3 mt-3">
         <div class="col-md-3">
             <form role="search" class="d-flex" action="./customer-product" method="get" aria-label="Search">
                 <input class="form-control" type="search" placeholder="Search" name="search">
@@ -85,20 +85,13 @@
                             %>
                         </select>
                         <input type="number" name="quantity" placeholder="0" required="" min="0" max="99" class="form-control" style="width: 50%">
-                        <button type="submit" class="btn btn-success" value="<%= p.getId()%>" name="product_id">+</button>
+                        <button type="submit" class="btn btn-outline-success" value="<%= p.getId()%>" name="product_id">+</button>
                     </form>
                 </div>
             </div>
         </div>
         <%  }
         %>
-
-        <!--        <div class="overlay" id="overlay" onclick="closePopup()"></div>
-                <div class="popup col-md-3" id="popup">
-                    <div class="card">
-                        
-                    </div>
-                </div>-->
     </div>
 
     <div class="row">

@@ -35,7 +35,7 @@
         <div class="card mb-3">
             <div class="card-body">
                 <div class="mb-2">
-                    <button class="btn btn-info" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
+                    <button class="btn btn-outline-info" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
                 </div>
                 
                 <div class="row">
@@ -92,7 +92,7 @@
                         </tbody>
                     </table>
 
-                    <button class="btn btn-info" onclick="hideDetails('<%= order.getOrder().getId()%>')">Hide Details</button>
+                    <button class="btn btn-outline-info" onclick="hideDetails('<%= order.getOrder().getId()%>')">Hide Details</button>
                 </form>
             </div>
         </div>

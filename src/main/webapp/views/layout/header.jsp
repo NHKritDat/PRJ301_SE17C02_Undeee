@@ -37,8 +37,6 @@
         <link href="./assets/css/body.css" rel="stylesheet">
         <link href="./assets/css/alert.css" rel="stylesheet">
         <link rel="stylesheet" href="./assets/themify-icons/themify-icons.css">
-
-
     </head>
     <body>
 

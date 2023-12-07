@@ -31,10 +31,6 @@ public class ProductsServices extends DBConnect {
         Paging paging = new Paging();
         List<Products> list = new ArrayList<>();
         try {
-
-            pst = connection.prepareStatement(sql);
-            rs = pst.executeQuery();
-
             int limit = perPage;
             int offset = (page - 1) * perPage;
             sql = "select * from Products where status = 'Active'";
@@ -47,7 +43,7 @@ public class ProductsServices extends DBConnect {
                 sql += "and category_id = " + category_id;
                 sqlCount += "and category_id = " + category_id;
             }
-            
+
             Statement st = connection.createStatement();
             sql += " limit " + limit + " offset " + offset;
             rs = st.executeQuery(sql);
@@ -66,7 +62,7 @@ public class ProductsServices extends DBConnect {
             paging.setP(list);
             paging.setPage(page);
             paging.setPerPage(perPage);
-            
+
             ResultSet rsTotal = st.executeQuery(sqlCount);
             int total = 0;
             while (rsTotal.next()) {
@@ -484,7 +480,7 @@ public class ProductsServices extends DBConnect {
 
             Statement stm;
             stm = connection.createStatement();
-             rs = stm.executeQuery(query);
+            rs = stm.executeQuery(query);
             while (rs.next()) {
                 int product_id = rs.getInt("id");
                 String name = rs.getString("name");

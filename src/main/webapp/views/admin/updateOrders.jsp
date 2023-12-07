@@ -128,7 +128,7 @@
                 </table>
 
                 <div class="text-center">
-                    <input type="submit" class="btn btn-primary" value="Update Order">
+                    <input type="submit" class="btn btn-outline-info" value="Update Order">
                 </div>
 
             </div>

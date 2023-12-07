@@ -14,7 +14,7 @@
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
-<div class="container padding-top-100 mb-3">
+<div class="container mt-3">
     <h1>Tạo sản phẩm mới</h1>
     <form action="create" method="POST" enctype="multipart/form-data">
         <div class="form-group">
@@ -54,8 +54,8 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Tạo sản phẩm</button>
+        <button type="submit" class="btn btn-outline-info">Tạo sản phẩm</button>
     </form>
-    <h1 >Trạng thái: <span style="color:red"> <%= report%></span></h1>
+    <h2>Trạng thái: <span style="color:red"> <%= report%></span></h2>
 </div>
 <%@include file="layout/footer.jsp" %>

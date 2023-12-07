@@ -15,7 +15,7 @@
 <%@include file="layout/header.jsp" %>
 <div> <img style="width: 100%" id="clubs" class="clubs" src="views/layout/Dong-gia-25k-slide-banner.png" alt=""></div>
 
-<div class="container mt-6 mb-3">
+<div class="container mt-3 mb-3">
     <div class="center blue"><h1>Undeee menu</h1></div>
     <div  class="center"><h2>Best Sellers</h2></div>
 
@@ -23,7 +23,7 @@
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm" id="searchInput" name="searchKeyword">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="searchButton">Tìm kiếm</button>
+                <button class="btn btn-outline-info" type="button" id="searchButton">Tìm kiếm</button>
             </div>
         </div>
     </form>
@@ -49,7 +49,7 @@
     </div>
 
     <div class="row" style="justify-content: center">
-        <a href="customer-product" class="btn btn-info col-md-2 ">Order Now</a>
+        <a href="customer-product" class="btn btn-outline-info col-md-2">Order Now</a>
     </div>
 </div>
 <%@include file="layout/footer.jsp" %>
