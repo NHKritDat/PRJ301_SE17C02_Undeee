@@ -83,8 +83,9 @@ public class OrdersServices extends DBConnect {
                     + "JOIN Users u ON o.user_id = u.id "
                     + "JOIN Addresses a ON o.address_id = a.id ";
 
-            if (search != null && !search.isEmpty() && searchBy != null && !searchBy.isEmpty()) {
+            if (search != null && !search.isEmpty() && searchBy != null && !searchBy.isEmpty()) {              
                 sql += " WHERE ";
+                sqlCount += " WHERE ";
                 switch (searchBy) {
                     case "status":
                         sql += "o.status LIKE '%" + search + "%'";
