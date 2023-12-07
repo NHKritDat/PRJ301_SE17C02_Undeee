@@ -20,6 +20,7 @@
         total_quantity += od.getQuantity();
     }
 %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -112,8 +113,8 @@
                         <%
                             if (u == null) {
                         %>
-                        <button class="btn btn-primary">
-                            <a class="nav-link active" aria-current="page" href="./login">Đăng nhập</a>
+                        <button class="btn btn-info">
+                            <a class="nav-link" aria-current="page" href="./login">Đăng nhập</a>
                         </button>
                         <%
                         } else {
@@ -137,4 +138,3 @@
                         %>
                     </div>
                 </nav>
-

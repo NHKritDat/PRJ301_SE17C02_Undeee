@@ -46,7 +46,7 @@
                         <form action="delete-orderDetails" method="POST" onsubmit="return confirm('Are you sure you want to delete this orderDetail?');">
                             <input type="hidden" name="id" value="<%= orderDetail.getOrderDetail().getOrder_id()%>">
                             <input type="hidden" name="order_detail_id" value="<%= orderDetail.getOrderDetail().getOrder_detail_id()%>">
-                            <input type="submit" value="Delete">
+                            <button type="submit" class="btn btn-outline-danger m-2">Delete</button>
                         </form>
                     </td>
                 </tr>
@@ -63,7 +63,9 @@
                 <%
                     }
                 %>
-                <input type="submit" class="btn btn-primary" value="Update">
+                <div class="m-n2">
+                    <button class="btn btn-outline-info w-100 m-2" type="submit">Update</button>
+                </div>
             </form>
         </div>
     </div>
