@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author hiennt
  */
-@WebServlet(name = "ResultLoginController",urlPatterns = {"/result-check"})
+@WebServlet(name = "ResultCheckVerificationCodeController",urlPatterns = {"/result-check"})
 public class ResultCheckVerificationCodeController extends HttpServlet {
    
     /** 

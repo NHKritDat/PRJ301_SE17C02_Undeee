@@ -4,9 +4,13 @@ package fpt.fu.prj301_se17c02_undeee.controllers.email;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +26,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author hiennt
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/check-code"})
+@WebServlet(name = "CheckVerificationCode", urlPatterns = {"/check-code"})
 public class CheckVerificationCode extends HttpServlet {
+    private static final String LOGIN_PAGE = "/views/login.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -75,10 +80,27 @@ public class CheckVerificationCode extends HttpServlet {
         String code5 = request.getParameter("num5");
         String code6 = request.getParameter("num6");
 
-        String usercode = code1+code2+code3+code4+code5+code6;
+        String usercode = code1 + code2 + code3 + code4 + code5 + code6;
         if (usercode.equals(user.getCode())) {
-            request.setAttribute("report", "Correct Verification code");
-            request.getRequestDispatcher("/views/Result.jsp").forward(request, response);
+            HttpSession ses = request.getSession();
+            String fullname = (String) ses.getAttribute("newFullName");
+            String email = (String) ses.getAttribute("newEmail");
+            String phone = (String) ses.getAttribute("newPhone");
+            String myPassword = (String) ses.getAttribute("newPassword");
+
+            UsersServices u = new UsersServices();
+            boolean result;
+            try {
+                result = u.registerAccount(email, fullname, phone, myPassword, 1, "avataruser.jpg");
+         if (result) {
+            request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
+            }
+            } catch (SQLException ex) {
+                Logger.getLogger(CheckVerificationCode.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+
+            
         } else {
             request.setAttribute("report", "Incorrect Verification code");
             request.getRequestDispatcher("/views/Result.jsp").forward(request, response);

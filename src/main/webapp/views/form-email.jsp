@@ -1,4 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<% String email = (String) request.getAttribute("email");%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -64,18 +66,18 @@
     <body>
         <!-- Thay đổi class container -->
         <div class="login-form-container">
-            <!-- Thay đổi action và method -->
             <form action="UserVerify" method="post">
-                <!-- Thêm trường email -->
+
+                <input type="hidden" name="token" value="${sessionScope.newFullName}">
+                <input type="hidden" name="email" value="${sessionScope.newEmail}">
+                <input type="hidden" name="password" value="${sessionScope.newPassword}">
+
+                <p>${sessionScope.newFullName}</p>
+
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input value="${sessionScope.newEmail}" type="email" id="email" name="email">
 
-                <!-- Thêm trường username -->
-                <label for="username">Password</label>
-                <input type="text" id="pass" name="password" required>
-
-                <!-- Thêm nút đăng ký -->
-                <button type="submit">Register</button>
+                <button type="submit">Send Code</button>
             </form>
         </div>
     </body>

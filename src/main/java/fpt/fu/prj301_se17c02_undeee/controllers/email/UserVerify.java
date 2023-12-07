@@ -38,7 +38,7 @@ public class UserVerify extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserVerify</title>");            
+            out.println("<title>Servlet UserVerify</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet UserVerify at " + request.getContextPath() + "</h1>");
@@ -59,7 +59,8 @@ public class UserVerify extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       RequestDispatcher rd = request.getRequestDispatcher("/views/form-email.jsp");
+
+        RequestDispatcher rd = request.getRequestDispatcher("/views/form-email.jsp");
         rd.forward(request, response);
     }
 
@@ -76,20 +77,20 @@ public class UserVerify extends HttpServlet {
             throws ServletException, IOException {
         String password = request.getParameter("password");
         String email = request.getParameter("email");
-        
+
         SendEmail sm = new SendEmail();
-        String code =sm.getRandom();
-        
+        String code = sm.getRandom();
+
         UserDTO user = new UserDTO(email, code);
-        
+
         boolean test = sm.sendEmail(user);
-        
+
         if (test) {
             HttpSession session = request.getSession();
             session.setAttribute("authcode", user);
             RequestDispatcher rd = request.getRequestDispatcher("/views/Verify.jsp");
-        rd.forward(request, response);
-        }           
+            rd.forward(request, response);
+        }
     }
 
     /**
