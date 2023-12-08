@@ -49,7 +49,6 @@
                     <a class="navbar-brand" href="./">
                         <img src="views/layout/logo.jpg" alt="Logo" width="40" height="40" style="border-radius: 50px">
                         Ún đeee
-
                     </a>
 
                     <div class="collapse navbar-collapse" id="navbarNav">
