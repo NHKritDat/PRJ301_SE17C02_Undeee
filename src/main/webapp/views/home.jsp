@@ -73,10 +73,7 @@
                     %>         
                 </div>
             </div>
-        </div>
-        <%
-            }
-        %>         
+        </div>        
     </div>
 
     <div class="row" style="justify-content: center">
