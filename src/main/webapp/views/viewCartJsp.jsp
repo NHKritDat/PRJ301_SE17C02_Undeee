@@ -23,7 +23,7 @@
     int No = 0;
     double total_price = 0;
 %>
-<div class="container padding-top-100 mb-3">
+<div class="container mt-3">
     <h2>Here is your cart!</h2>
     <% if (check.equals("DON'T HAVE PRODUCTS")) {%>
     <h5>There are no products in the cart yet!</h5>
@@ -70,10 +70,10 @@
                     </td>
                     <td>
                         <form action="./EditCartController" method="post">
-                            <button type="submit" class="btn btn-warning" value="down-<%= key%>-<%= key%>" name="edit">-</button>
+                            <button type="submit" class="btn btn-outline-warning" value="down-<%= key%>-<%= key%>" name="edit">-</button>
                             <%= orderDetails.getQuantity()%>
-                            <button type="submit" class="btn btn-success" value="up-<%= key%>-<%= key%>" name="edit">+</button>
-                            <button type="submit" class="btn btn-danger" value="remove-<%= key%>-<%= key%>" name="edit">Remove</button>
+                            <button type="submit" class="btn btn-outline-success" value="up-<%= key%>-<%= key%>" name="edit">+</button>
+                            <button type="submit" class="btn btn-outline-danger" value="remove-<%= key%>-<%= key%>" name="edit">Remove</button>
                         </form>
                     </td>
                     <td><%= Math.round(orderDetails.getQuantity() * sp.getPercent() * sp.getPrice() * Math.pow(10, 3)) / Math.pow(10, 3)%></td>
@@ -110,7 +110,7 @@
                 <label for="tongGia">Total price</label>
                 <input type="text" class="form-control" id="tongGia" name="total_price" value="<%= Math.round(total_price * Math.pow(10, 3)) / Math.pow(10, 3)%>" readonly="">
             </div>
-            <button type="submit" class="btn btn-success">Submit order</button>
+            <button type="submit" class="btn btn-outline-info">Submit order</button>
         </form>
     </div>
     <%}%>

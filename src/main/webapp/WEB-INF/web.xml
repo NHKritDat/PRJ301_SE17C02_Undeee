@@ -36,6 +36,12 @@
         <servlet-name>CustomerViewOrdersController</servlet-name>
         <url-pattern>/order-history</url-pattern>
     </servlet-mapping>
+        <jsp-config>
+        <taglib>
+            <taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+            <taglib-location>/WEB-INF/lib/jstl-1.2.jar</taglib-location>
+        </taglib>
+    </jsp-config>
     <session-config>
         <session-timeout>
             30

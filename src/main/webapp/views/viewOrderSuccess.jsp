@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
-<div class="container padding-top-100 mb-3">
+<div class="container mt-3">
     <div class="row">
         <div class="text-center">            
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 80px; height: 80px; border: 2px solid #00ff00; border-radius: 50%;">

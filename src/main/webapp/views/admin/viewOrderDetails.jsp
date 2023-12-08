@@ -14,7 +14,7 @@
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 %>  
 <%@include file="../layout/header.jsp" %>
-<div class="container padding-top-100">
+<div class="container mt-3">
     <h1>View Order-Details</h1>
     <div class="row">
         <table class="table table-striped-columns align-middle table-bordered">

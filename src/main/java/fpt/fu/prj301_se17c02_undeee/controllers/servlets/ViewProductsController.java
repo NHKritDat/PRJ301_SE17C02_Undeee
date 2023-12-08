@@ -64,6 +64,8 @@ public class ViewProductsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
         ProductsServices ps = new ProductsServices();
         // List<Products> list = ps.getAllProducts();
         List<Categories> categoryList = ps.getCategories();
@@ -78,12 +80,13 @@ public class ViewProductsController extends HttpServlet {
         String perpageInput = request.getParameter("perPage");
 
         int page = pageInput != null ? Integer.parseInt(pageInput) : 1;
-        int perpage = perpageInput != null ? Integer.parseInt(perpageInput) : 12;
+        int perpage = perpageInput != null ? Integer.parseInt(perpageInput) : 8;
         ProductsServices newservice = new ProductsServices();
         Paging newspaging = newservice.getPetsPage(search, page, perpage);
         List<Products> p = newspaging.getP();
         request.setAttribute("newsPaging", newspaging);
         request.setAttribute("category", search);
+        request.setAttribute("page", pageInput);
 
         RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
         rd.forward(request, response);
@@ -113,14 +116,15 @@ public class ViewProductsController extends HttpServlet {
         request.setAttribute("list", list);
         List<Categories> categoryList = ps.getCategories();
         request.setAttribute("categoryList", categoryList);
-
+         
         String pageInput = request.getParameter("page");
         String perpageInput = request.getParameter("perPage");
 
         int page = pageInput != null ? Integer.parseInt(pageInput) : 1;
-        int perpage = perpageInput != null ? Integer.parseInt(perpageInput) : 12;
+        int perpage = perpageInput != null ? Integer.parseInt(perpageInput) : 8;
         ProductsServices newservice = new ProductsServices();
         Paging newspaging = newservice.getPetsPage(search, page, perpage);
+
         request.setAttribute("newsPaging", newspaging);
         request.setAttribute("category", category);
         RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");

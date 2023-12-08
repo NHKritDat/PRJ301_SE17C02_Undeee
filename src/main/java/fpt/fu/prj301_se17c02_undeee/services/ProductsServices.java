@@ -43,10 +43,11 @@ public class ProductsServices extends DBConnect {
                 sql += "and category_id = " + category_id;
                 sqlCount += "and category_id = " + category_id;
             }
-            
+
             Statement st = connection.createStatement();
             sql += " limit " + limit + " offset " + offset;
             rs = st.executeQuery(sql);
+
             while (rs.next()) {
                 Products p = new Products();
                 p.setId(rs.getInt(1));
@@ -61,7 +62,7 @@ public class ProductsServices extends DBConnect {
             paging.setP(list);
             paging.setPage(page);
             paging.setPerPage(perPage);
-            
+
             ResultSet rsTotal = st.executeQuery(sqlCount);
             int total = 0;
             while (rsTotal.next()) {
@@ -479,15 +480,15 @@ public class ProductsServices extends DBConnect {
 
             Statement stm;
             stm = connection.createStatement();
-            ResultSet res = stm.executeQuery(query);
-            while (res.next()) {
-                int product_id = res.getInt("id");
-                String name = res.getString("name");
-                int category_id = res.getInt("category_id");
-                String image = res.getString("image");
-                double price = res.getDouble("price");
-                String status = res.getString("status");
-                Date created_at = res.getTimestamp("created_at");
+            rs = stm.executeQuery(query);
+            while (rs.next()) {
+                int product_id = rs.getInt("id");
+                String name = rs.getString("name");
+                int category_id = rs.getInt("category_id");
+                String image = rs.getString("image");
+                double price = rs.getDouble("price");
+                String status = rs.getString("status");
+                Date created_at = rs.getTimestamp("created_at");
 
                 Products product = new Products(product_id, name, category_id, image, price, status, created_at);
                 list.add(product);

@@ -37,7 +37,6 @@
         numPageInstant = Integer.parseInt(pageInstant);
     }
 %>
-
 <div class="colorlib-about">
     <div class="container">
         <div class="row mb-3">
@@ -62,45 +61,38 @@
             </div>
         </div>
 
-        <div class="row">
-            <%
-                for (Products p : ProductList) {
-                    List<SizeProducts> l = ps.getSizeProductById(p.getId());
-            %>
-            <div class="col-md-3 mb-3">
-                <div class="card">
-                    <img src="views/products/<%= p.getImage()%>" class="card-img-top" alt="<%= p.getName()%>" style="width: 100%; height: 250px">
-                    <div class="card-body">
-                        <h6 class="card-title"><%= p.getName()%></h6>
-                        <p class="card-text">Giá gốc: <%= p.getPrice()%></p>
-                    </div>
-                    <div class="card-footer">
-                        <form method="post" action="./AddToCartController" style="display: flex">
-                            <select name="size_id" class="form-control">
-                                <%
-                                    for (SizeProducts sp : l) {
-                                %>
-                                <option value="<%= sp.getSize_id()%>"><%= sp.getSize_name()%></option>
-                                <%
-                                    }
-                                %>
-                            </select>
-                            <input type="number" name="quantity" placeholder="0" required="" min="0" max="99" class="form-control" style="width: 50%">
-                            <button type="submit" class="btn btn-success" value="<%= p.getId()%>" name="product_id">+</button>
-                        </form>
-                    </div>
+    <div class="row">
+        <%
+            for (Products p : ProductList) {
+                List<SizeProducts> l = ps.getSizeProductById(p.getId());
+        %>
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <img src="views/products/<%= p.getImage()%>" class="card-img-top" alt="<%= p.getName()%>" style="width: 100%; height: 250px">
+                <div class="card-body">
+                    <h6 class="card-title"><%= p.getName()%></h6>
+                    <p class="card-text">Giá gốc: <%= p.getPrice()%></p>
+                </div>
+                <div class="card-footer">
+                    <form method="post" action="./AddToCartController" style="display: flex">
+                        <select name="size_id" class="form-control">
+                            <%
+                                for (SizeProducts sp : l) {
+                            %>
+                            <option value="<%= sp.getSize_id()%>"><%= sp.getSize_name()%></option>
+                            <%
+                                }
+                            %>
+                        </select>
+                        <input type="number" name="quantity" placeholder="0" required="" min="0" max="99" class="form-control" style="width: 50%">
+                        <button type="submit" class="btn btn-outline-success" value="<%= p.getId()%>" name="product_id">+</button>
+                    </form>
                 </div>
             </div>
-            <%  }
-            %>
-
-            <!--        <div class="overlay" id="overlay" onclick="closePopup()"></div>
-                    <div class="popup col-md-3" id="popup">
-                        <div class="card">
-                            
-                        </div>
-                    </div>-->
         </div>
+        <%  }
+        %>
+    </div>
 
         <div class="row">
             <nav aria-label="Page navigation example">

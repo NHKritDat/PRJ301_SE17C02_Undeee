@@ -129,9 +129,9 @@
                         </tbody>
                     </table>
 
-                    <div class="text-center">
-                        <input type="submit" class="btn btn-primary" value="Update Order">
-                    </div>
+                <div class="text-center">
+                    <input type="submit" class="btn btn-outline-info" value="Update Order">
+                </div>
 
                 </div>
             </div>
