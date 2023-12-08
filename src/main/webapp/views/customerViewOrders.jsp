@@ -28,12 +28,13 @@
   <div class="container">
     <h3>Order History</h3>
     <br>
+    
     <div class="row">
+        <div class="card mb-3">
         <% for (OrderDto order : orderList) {
                 Date created_at = order.getOrder().getCreated_at();
                 String formattedDate = dateFormat.format(created_at);
-        %>
-        <div class="card mb-3">
+        %>           
             <div class="card-body">
                 <div class="mb-2">
                     <button class="btn btn-outline-info" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
