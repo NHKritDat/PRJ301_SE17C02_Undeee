@@ -101,6 +101,7 @@
                     </div>
 
                     <div class="input-group-append">
+
                         <ul class="navbar-nav">
                             <%
                                 if (u == null) {
@@ -111,6 +112,7 @@
                                 </a>
                             </li>     
                         </ul>
+
                         <%
                         } else {
                         %>
