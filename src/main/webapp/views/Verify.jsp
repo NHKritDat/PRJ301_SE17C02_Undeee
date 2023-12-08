@@ -68,12 +68,6 @@
     </head>
 
     <body>
-        <%
-
-            // Get a session attribute
-            UserDTO user = (UserDTO) session.getAttribute("authcode");
-        %>
-        <h1>Code: <%= user.getCode()%></h1>
         <div>
             <form action="check-code" method="post">
                 <h1>Verification Code Input</h1>
@@ -85,7 +79,7 @@
                     <input name="num5" class="verification-code-input" type="number" maxlength="1" pattern="[0-9]" inputmode="numeric" min="0" required />
                     <input name="num6" class="verification-code-input" type="number" maxlength="1" pattern="[0-9]" inputmode="numeric" min="0" required />
                 </div>
-                <button class="submit-button" type="submit">Submit</button>
+                <button class="btn btn-outline-info" type="submit">Submit</button>
             </form>
             <p>You have received a 6-digit verification code via email.</p>
             <p>Please check your email to retrieve the code and complete the registration.</p>

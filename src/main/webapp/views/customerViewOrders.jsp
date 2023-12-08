@@ -24,7 +24,8 @@
         numPageInstant = Integer.parseInt(pageInstant);
     }
 %>
-<div class="container mt-4 mb-4">
+<div class="colorlib-about">
+  <div class="container">
     <h3>Order History</h3>
     <br>
     <div class="row">
@@ -35,86 +36,87 @@
         <div class="card mb-3">
             <div class="card-body">
                 <div class="mb-2">
-                    <button class="btn btn-info" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-3">
-                        <img src="views/layout/logo.jpg" alt="Product Image" class="img-fluid" style="width: 150px;border-radius: 50%">
+                    <button class="btn btn-outline-info" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
+                </div>  
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="views/layout/logo.jpg" alt="Product Image" class="img-fluid" style="width: 150px;border-radius: 50%">
+                        </div>
+                        <div class="col-md-9">
+                            <h5 class="card-title">Order ID: <%= order.getOrder().getId()%></h5>
+                            <p class="card-text">Total Price: <%= order.getOrder().getTotal_price()%></p>
+                            <p class="card-text">Status: <%= order.getOrder().getStatus()%></p>
+                            <p class="card-text">Created At: <%= formattedDate%></p>
+                        </div>
                     </div>
-                    <div class="col-md-9">
-                        <h5 class="card-title">Order ID: <%= order.getOrder().getId()%></h5>
-                        <p class="card-text">Total Price: <%= order.getOrder().getTotal_price()%></p>
-                        <p class="card-text">Status: <%= order.getOrder().getStatus()%></p>
-                        <p class="card-text">Created At: <%= formattedDate%></p>
-                    </div>
+
+                    <form id="detailsForm_<%= order.getOrder().getId()%>" style="display: none;">
+                        <h4>Order Details</h4>
+                        <p class="card-text">Address: <%= order.getAddress().getAddress_detail()%></p>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Size</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                    int No = 0;
+                                    for (OrderDto orderDetail : order.getOrderDetailList()) {
+                                        No++;
+                                        SizeProducts sp = ps.getSizeProductById(orderDetail.getProduct().getId(), orderDetail.getSize().getId());
+                                        List<SizeProducts> l = ps.getSizeProductById(orderDetail.getProduct().getId());
+                                %>
+                                <tr>
+                                    <th scope="row"><%= No%></th>
+                                    <td><%= sp.getProduct_name()%></td>
+
+                                    <td><img src="./views/products/<%= sp.getImage()%>" width="100px" height="100px" alt="<%= sp.getImage()%>" class="img-thumbnail"/></td>
+
+                                    <td>
+                                        <%= orderDetail.getSize().getName()%>
+                                    </td>
+                                    <td>
+                                        <%= orderDetail.getOrderDetail().getQuantity()%>
+                                    </td>
+                                    <td><%= Math.round(orderDetail.getOrderDetail().getQuantity() * sp.getPercent() * sp.getPrice() * Math.pow(10, 3)) / Math.pow(10, 3)%></td>
+                                </tr>
+                                <%
+                                    }
+                                %>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-outline-info" onclick="hideDetails('<%= order.getOrder().getId()%>')">Hide Details</button>
+                    </form>
+
                 </div>
+                <% }%>
+            </div>
 
-                <form id="detailsForm_<%= order.getOrder().getId()%>" style="display: none;">
-                    <h4>Order Details</h4>
-                    <p class="card-text">Address: <%= order.getAddress().getAddress_detail()%></p>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">No.</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Size</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <%
-                                int No = 0;
-                                for (OrderDto orderDetail : order.getOrderDetailList()) {
-                                    No++;
-                                    SizeProducts sp = ps.getSizeProductById(orderDetail.getProduct().getId(), orderDetail.getSize().getId());
-                                    List<SizeProducts> l = ps.getSizeProductById(orderDetail.getProduct().getId());
-                            %>
-                            <tr>
-                                <th scope="row"><%= No%></th>
-                                <td><%= sp.getProduct_name()%></td>
-
-                                <td><img src="./views/products/<%= sp.getImage()%>" width="100px" height="100px" alt="<%= sp.getImage()%>" class="img-thumbnail"/></td>
-
-                                <td>
-                                    <%= orderDetail.getSize().getName()%>
-                                </td>
-                                <td>
-                                    <%= orderDetail.getOrderDetail().getQuantity()%>
-                                </td>
-                                <td><%= Math.round(orderDetail.getOrderDetail().getQuantity() * sp.getPercent() * sp.getPrice() * Math.pow(10, 3)) / Math.pow(10, 3)%></td>
-                            </tr>
-                            <%
-                                }
-                            %>
-                        </tbody>
-                    </table>
-
-                    <button class="btn btn-info" onclick="hideDetails('<%= order.getOrder().getId()%>')">Hide Details</button>
-                </form>
+            <div class="row">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="<%if (numPageInstant > 1) {%>./order-history?page=<%= numPageInstant - 1%><%}%>" tabindex="-1">Previous</a>
+                        </li>
+                        <% for (int i = 0; i < numPage; i++) {%>
+                        <li class="page-item">
+                            <a class="page-link" href="./order-history?page=<%= i + 1%>"><%= i + 1%></a>
+                        </li>
+                        <%}%>
+                        <li class="page-item">
+                            <a class="page-link" href="<%if (numPageInstant < numPage) {%>./order-history?page=<%= numPageInstant + 1%><%}%>">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
-        <% }%>
-    </div>
-
-    <div class="row">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item">
-                    <a class="page-link" href="<%if (numPageInstant > 1) {%>./order-history?page=<%= numPageInstant - 1%><%}%>" tabindex="-1">Previous</a>
-                </li>
-                <% for (int i = 0; i < numPage; i++) {%>
-                <li class="page-item">
-                    <a class="page-link" href="./order-history?page=<%= i + 1%>"><%= i + 1%></a>
-                </li>
-                <%}%>
-                <li class="page-item">
-                    <a class="page-link" href="<%if (numPageInstant < numPage) {%>./order-history?page=<%= numPageInstant + 1%><%}%>">Next</a>
-                </li>
-            </ul>
-        </nav>
     </div>
 </div>
 <%@include file="layout/footer.jsp" %>

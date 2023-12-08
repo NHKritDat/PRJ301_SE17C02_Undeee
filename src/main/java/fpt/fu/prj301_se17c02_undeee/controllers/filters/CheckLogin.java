@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 @WebFilter(urlPatterns = {"/order-history", "/update-products", "/CreateOrdersController",
     "/update-orderDetails", "/delete-orderDetails", "/updateUser", "/EditCartController",
     "/CreateOrderController", "/admin-page",  "/create", "/view-orders",
-    "/delete", "/update-orders", "/view-orderDetails", "/delete-orders", "/AddToCartController"})
+    "/delete", "/update-orders", "/view-orderDetails", "/delete-orders"})
 public class CheckLogin implements Filter {
 
     @Override
