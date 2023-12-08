@@ -25,82 +25,55 @@
     <body>
         <!-- =============== Navigation ================ -->
         <div class="container">
-<div class="navigation">
-            <ul>
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="logo-apple"></ion-icon>
-                        </span>
-                        <span class="title">Brand Name</span>
-                    </a>
-                </li>
+            <div class="navigation">
+                <ul>
+                    <li>
+                        <a href="admin-page">
+                            <span class="icon">
+                                <ion-icon name="logo-apple"></ion-icon>
+                            </span>
+                            <span class="title">UnDeee</span>
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="home-outline"></ion-icon>
-                        </span>
-                        <span class="title">Dashboard</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="admin">
+                            <span class="icon">
+                                <ion-icon name="home-outline"></ion-icon>
+                            </span>
+                            <span class="title">Dashboard</span>
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="people-outline"></ion-icon>
-                        </span>
-                        <span class="title">Metting</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="chatbubble-outline"></ion-icon>
-                        </span>
-                        <span class="title">Messages</span>
-                    </a>
-                </li>
-<!--
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="help-outline"></ion-icon>
-                        </span>
-                        <span class="title">Help</span>
-                    </a>
-                </li>-->
-
-                <li>
-                    <a href="./updateUser">
-                        <span class="icon">
-                            <ion-icon name="settings-outline"></ion-icon>
-                        </span>
-                        <span class="title">Setting account</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="./updateUser">
+                            <span class="icon">
+                                <ion-icon name="settings-outline"></ion-icon>
+                            </span>
+                            <span class="title">Setting account</span>
+                        </a>
+                    </li>
 
 
-                <li>
-                    <a href="logout">
-                        <span class="icon">
-                            <ion-icon name="log-out-outline"></ion-icon>
-                        </span>
-                        <span class="title">Sign Out</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+                    <li>
+                        <a href="logout">
+                            <span class="icon">
+                                <ion-icon name="log-out-outline"></ion-icon>
+                            </span>
+                            <span class="title">Sign Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <!-- ========================= Main ==================== -->
             <div class="main">
-                <div style="94%" class="topbar">
+                <div style="width: 94%" class="topbar">
                     <div class="toggle">
                         <ion-icon name="menu-outline"></ion-icon>
                     </div>
 
 
-                   
+
                     <div class="user">
                         <img src="views/users_avatar/hoang-nam-tien-fpt.png" alt="">
                     </div>
@@ -171,38 +144,38 @@
                                 </tr>
                             </thead>
 
-                         
-                                <%
-                                    for (Orders o : listOrder) {
-                                        String pay = null;
-                                        String status = null;
-                                        if (o.getStatus().equalsIgnoreCase("Success")) {
-                                            pay = "Paid";
-                                            status = "delivered";
-                                        } else {
-                                            pay = "Due";
-                                            status = "pending";
 
+                            <%
+                                for (Orders o : listOrder) {
+                                    String pay = null;
+                                    String status = null;
+                                    if (o.getStatus().equalsIgnoreCase("Success")) {
+                                        pay = "Paid";
+                                        status = "delivered";
+                                    } else {
+                                        pay = "Due";
+                                        status = "pending";
+
+                                    }
+                                    String name = "Nguyen Thi Ngoc Han";
+                                    for (Users user : listUsers) {
+                                        if (o.getUser_id() == user.getId()) {
+                                            name = user.getFullname();
                                         }
-                                  String name ="Nguyen Thi Ngoc Han";
-                                  for (Users user: listUsers) {
-                                          if (o.getUser_id()==user.getId()) {
-                                                  name = user.getFullname();
-                                              }
-                                      }
+                                    }
 
 
-                                %>
-                                <tr>
-                                    <td><%=name%></td>
-                                    <td>$<%=o.getTotal_price()%></td>
-                                    <td><%=pay%></td>
-                                    <td><span class="status <%=status%>"><%=o.getStatus()%></span></td>
-                                </tr>
-                                <%    }
-                                %>
+                            %>
+                            <tr>
+                                <td><%=name%></td>
+                                <td>$<%=o.getTotal_price()%></td>
+                                <td><%=pay%></td>
+                                <td><span class="status <%=status%>"><%=o.getStatus()%></span></td>
+                            </tr>
+                            <%    }
+                            %>
 
-                          
+
                         </table>
                     </div>
 
@@ -215,8 +188,8 @@
                         <table>
                             <%
                                 for (Users user : listUsers) {
-                                 
-                                      
+
+
                             %>
                             <tr>
                                 <td width="60px">
@@ -227,9 +200,9 @@
                                 </td>
                             </tr>
                             <%
-                                        
-                                    }
-                                
+
+                                }
+
                             %>
 
 
