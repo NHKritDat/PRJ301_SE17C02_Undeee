@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package fpt.fu.prj301_se17c02_undeee.controllers.adminControllers;
+package fpt.fu.prj301_se17c02_undeee.controllers.forgotpassword;
 
-import fpt.fu.prj301_se17c02_undeee.services.OrdersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -15,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author dell
+ * @author Phong
  */
-@WebServlet(name = "DeleteOrdersController", urlPatterns = {"/delete-orders"})
-public class DeleteOrdersController extends HttpServlet {
+@WebServlet(name = "ReturnLogin", urlPatterns = {"/ReturnLogin"})
+public class ReturnLogin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +36,10 @@ public class DeleteOrdersController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteOrdersController</title>");
+            out.println("<title>Servlet ReturnLogin</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DeleteOrdersController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ReturnLogin at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,13 +57,10 @@ public class DeleteOrdersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String id = request.getParameter("id");
-        OrdersServices orderToDelete = new OrdersServices();
-        if (id != null) {
-            orderToDelete.deleteOrders(Integer.parseInt(id));
+        String button = request.getParameter("btnReturn");
+        if(button.equals("Return to sign in")){
+             response.sendRedirect("/views/login.jsp");
         }
-        response.sendRedirect("./view-orders");
     }
 
     /**
@@ -78,6 +74,7 @@ public class DeleteOrdersController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**

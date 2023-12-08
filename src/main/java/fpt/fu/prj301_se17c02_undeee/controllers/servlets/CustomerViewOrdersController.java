@@ -70,7 +70,7 @@ public class CustomerViewOrdersController extends HttpServlet {
         int perPage = 4;
         
         OrdersServices orderService = new OrdersServices();
-        //List<OrderDto> orderList = orderService.getOrdersByUserId(user.getId());
+
         Paging paging = orderService.getOrdersByUserId(user.getId(), page, perPage);
         List<OrderDto> orderList = paging.getO();
         for (OrderDto order : orderList) {
@@ -78,7 +78,6 @@ public class CustomerViewOrdersController extends HttpServlet {
             order.setOrderDetailList(orderDetailList);
         }
         request.setAttribute("paging", paging);
-        //request.setAttribute("orderList", orderList);
         
         RequestDispatcher rd = request.getRequestDispatcher("/views/customerViewOrders.jsp");
         rd.forward(request, response);

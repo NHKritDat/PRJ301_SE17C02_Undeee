@@ -68,16 +68,14 @@
     </div>
 
     <div class="row mb-3">
-
-
         <div class="col-md-5">
             <form id="searchForm"  class="d-flex" action="view" method="get" aria-label="Search">
                 <input id="searchInput" class="form-control" type="search" placeholder="Search" name="searchKeyWord">
                 <button id="searchButton" class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
+        
         <div class="col-md-2">
-
             <form action="./view" method="get">
                 <select style="appearance: auto" class="form-control" id="categories" name="searchKeyWord" onchange="this.form.submit()">
                     <option hidden="">Categories</option>
@@ -89,8 +87,8 @@
                     %>
                 </select>
             </form>
-
         </div>
+                
         <div class="col-md-2">
             <form action="./view" method="get">
                 <select style="appearance: auto" name="searchKeyWord" class="form-control"   onchange="this.form.submit()">
@@ -100,44 +98,38 @@
                         <%
                             }
                         %>
-
                 </select>
             </form>
         </div>
     </div>
 
-    <div class="row">
-        <%
-            for (int i = 0; i < newsList.size(); i++) {
-                Products product = newsList.get(i);
-        %>
-        <div class="col-md-3 mb-3">
-            <div class="card">
-                <img src="views/products/<%= product.getImage()%>" class="card-img-top" alt="Sản phẩm 1" style="width: 100%; height: 250px">
-                <div class="card-body">
-                    <span>
-                        <h6 class="card-title"><%= product.getName()%></h6>
-                    </span>
-                    <p class="card-text"><%= product.getPrice()%></p>
-                    <p class="card-text"><strong>Trạng thái: </strong><%= product.getStatus()%></p>
-                </div>
-                <div class="card-footer">
-                    <button style=""><a href="delete?id=<%= product.getId()%>" class="btn" role="button">Delete</a></button>
-                    <button style=""><a href="update-products?id=<%= product.getId()%>" class="btn" role="button">Update</a></button>
+        <div class="row">
+            <%
+                for (int i = 0; i < newsList.size(); i++) {
+                    Products product = newsList.get(i);
+            %>
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <img src="views/products/<%= product.getImage()%>" class="card-img-top" alt="Sản phẩm 1" style="width: 100%; height: 250px">
+                    <div class="card-body">
+                        <span>
+                            <h6 class="card-title"><%= product.getName()%></h6>
+                        </span>
+                        <p class="card-text"><%= product.getPrice()%></p>
+                        <p class="card-text"><strong>Trạng thái: </strong><%= product.getStatus()%></p>
+                    </div>
+                    <div class="card-footer">
+                        <button style="background-color: red"><a href="delete?id=<%= product.getId()%>" class="btn" role="button">Delete</a></button>
+                        <button style="background-color: yellow"><a href="update-products?id=<%= product.getId()%>" class="btn" role="button">Update</a></button>
 
+                    </div>
                 </div>
             </div>
+            <%
+                }
+            %>         
         </div>
-        <%
-            }
-        %>         
     </div>
-
-
-
-</div>
-
-
 
 <div class="row">
     <nav aria-label="Page navigation example">
@@ -152,7 +144,6 @@
             <% }%>
             <li class="page-item">
                 <a class="page-link" href="<%if (numPageInstant + 0.1 < numberPage) {%> ./view?page=<%= numPageInstant + 1%>&perPage=<%= newsPaging.getPerPage()%><%= search == null ? "&searchKeyWord=" + "" : "&searchKeyWord=" + search%><%}%>" >Next</a>
-
             </li>
         </ul>
     </nav>

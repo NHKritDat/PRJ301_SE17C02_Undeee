@@ -4,6 +4,8 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.forgotpassword;
 
+import fpt.fu.prj301_se17c02_undeee.models.PasswordResetError;
+import fpt.fu.prj301_se17c02_undeee.models.UpdateUsersError;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -29,6 +31,7 @@ public class PasswordResetServlet extends HttpServlet {
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/undeee";
     private static final String JDBC_USER = "root";
     private static final String JDBC_PASSWORD = "123";
+    private static final String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,20}$";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String token = request.getParameter("token");
@@ -61,11 +64,26 @@ public class PasswordResetServlet extends HttpServlet {
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String newPassword = request.getParameter("newPassword");
+        String confirmPassword = request.getParameter("confirmPassword");
         String token = request.getParameter("token");
         String email = request.getParameter("email");
+        boolean foundError = false;
+        PasswordResetError errors = new PasswordResetError();
         System.out.println("email kkia"+email);
         if (isTokenValid(token)) {
             // TODO: Process the new password and update the database
+            if (!newPassword.trim().matches(passwordRegex)) {
+                foundError = true;
+                errors.setNewPasswordError("Low password security! The password must have an uppercase first letter, lowercase, number and one special character! (eg. Phong@123) ");
+            }
+            if (!confirmPassword.trim().equals(newPassword.trim())) {
+                foundError = true;
+                errors.setConfirmPasswordError("Confirm the password must match the password you entered above!");
+            }
+            if (foundError){
+                request.setAttribute("RESET_PASSWORD_ERR", token);
+            }
+            
             updatePassword(email, newPassword);
             // TODO: Delete the token from the "forgot_pass" table
             deleteToken(token);
