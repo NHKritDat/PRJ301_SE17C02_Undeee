@@ -15,7 +15,6 @@
 <%@include file="layout/header.jsp" %>
 <%    Paging paging = (Paging) request.getAttribute("paging");
     List<OrderDto> orderList = paging.getO();
-    ProductsServices ps = new ProductsServices();
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     double numPage = Math.ceil((double) paging.getTotal() / (double) paging.getPerPage());
     String pageInstant = request.getParameter("page");
