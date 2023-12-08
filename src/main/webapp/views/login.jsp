@@ -37,14 +37,19 @@
                                     }
                                 }
                             %>
+                            <c:set var="error" value="${requestScope.LOGIN_ERROR}"/>
                             <input type="email" name="email" class="form-control" id="floatingInput" aria-describedby="emailHelp" placeholder="Enter email" value="<%=cuValue%>">
                             <label for="floatingInput">Email address</label>
                         </div>
                         <div class="form-floating mb-4">
                             <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" value="<%= cpValue%>">
                             <label for="floatingPassword">Password</label>
+                            <c:if test="${not empty error}">
+                                <font style="color:red">
+                                ${error}
+                                </font>
+                            </c:if>
                         </div>
-
 
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <div class="form-check">
