@@ -106,7 +106,7 @@
                     <input value="<%= product.getName()%>" style="margin-top: 40px;" type="text" class="inputA " id="tenSanPham" name="name" placeholder="Product Name" >
                 </div>
                 <div class="form-group">
-                    <input value="<%= product.getPrice()%>" type="number" class="inputA" id="giaSanPham" name="price" placeholder="Product Price" >
+                    <input value="<%= product.getPrice()%>" type="number" min="0" class="inputA" id="giaSanPham" name="price" placeholder="Product Price" required="">
                 </div>
 
                 <div style="margin: 0 !important;" class="form-group">
@@ -127,6 +127,7 @@
                         <%  for (String s : statusList) {
                         %>
                         <option value="<%= s%>" <% if (product.getStatus().length() == s.length()) { %> selected <% }%>> <%= s%> </option>
+
                         <%
                             }
                         %>

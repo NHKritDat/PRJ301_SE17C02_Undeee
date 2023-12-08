@@ -9,7 +9,6 @@
 
 <%
     String name = (String) session.getAttribute("user-loged");
-    String report = (String) request.getAttribute("report");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
