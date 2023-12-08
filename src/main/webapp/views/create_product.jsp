@@ -7,55 +7,178 @@
 <%@page import="java.util.List"%>
 <%
     String name = (String) session.getAttribute("name");
-    String report = (String) request.getAttribute("report");
-    if (report == null) {
-        report = "...";
+    int report = 2;
+    if (session.getAttribute("report") != null) {
+        report = (int) session.getAttribute("report");
     }
+    String alert = (String) request.getAttribute("alert");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
-<div class="container padding-top-100 mb-3">
-    <h1>Tạo sản phẩm mới</h1>
+<style>
+    body{
+        background-color: #00c0ff24;
+    }
+    #h1{
+        padding: 30px 2px 0px 113px;
+        font-size: 34px;
+    }
+    .top37{
+        margin-top: 37px;
+    }
+
+    .buttonA{
+        background-color: #f8d569;
+        border: solid #e2b907;
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .inputA{
+        border: solid white;
+        border-radius: 14px;
+        width: 112%;
+        padding: 15px;
+        margin-bottom: 20px;
+
+    }
+    .imgFile{
+        padding: 40px;
+        vertical-align: middle;
+        border-style: none;
+        width: 110%;
+        background-color: white;
+        margin-bottom: 120px
+    }
+    #hinhAnh{
+        margin-bottom: 31px;
+        padding: 20px;
+        background-color: white;
+    }
+    #loaiSanPham, #status{
+        appearance: auto;
+        border: solid white;
+        border-radius: 14px;
+        width: 112%;
+        height: 60px;
+        /* padding: 26px; */
+        margin-bottom: 40px;
+    }
+</style>
+
+
+<h1 id="h1" >Add new product</h1>
+<p class="report" value="<%=report%>"></p>
+<div class=" alert hide ">
+    <span class="fas fa-exclamation-circle"></span>
+    <span class="msg">Warning: <%=alert%>!</span>
+    <div class="close-btn">
+        <span class="fas fa-times"></span>
+    </div>
+</div> 
+<div class="container padding-top-60 mb-3">
+
     <form action="create" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="tenSanPham">Product's name</label>
-            <input type="text" class="form-control" id="tenSanPham" name="name" placeholder="Nhập tên sản phẩm">
-        </div>
-        <div class="form-group">
-            <label for="moTa">Product's price</label>
-            <input type="number" class="form-control" id="giaSanPham" name="price" placeholder="Nhập gia san pham">
-        </div>
 
-        <div style="margin: 0 !important;" class="form-group">
-            <label for="loaiSanPham">Categories</label>
-            <select class="form-control" id="loaiSanPham" name="category">
-                <%                            List<Categories> categoryList = (List<Categories>) request.getAttribute("categoryList");
-                    for (int i = 0; i < categoryList.size(); i++) {
-                        Categories category = categoryList.get(i);
-                %>
-                <option value="<%= category.getCategory_id()%>"><%= category.getName()%></option>
-                <%
-                    }
-                %>     
-            </select>
-        </div>
+        <div class="row">
 
-        <div class="form-group">
-            <label for="hinhAnh">Hình ảnh sản phẩm</label>
-            <input type="file" class="form-control-file" id="hinhAnh" name="image">
-        </div>
+            <div style="text-align: center" class="form-group col-md-4">
+                <input style="margin-top: 84px;" type="file" class="inputA top37" id="hinhAnh" name="image" >
+                <div style="text-align: center;">
+                    <img class="imgFile" src="https://th.bing.com/th/id/OIP.RgZdMqNzMgkH3o8rsku6BAAAAA?rs=1&pid=ImgDetMain" alt="" id="previewImage">
+                </div>
+              </div>
 
-        <div class="form-group">
-            <label  for="status">STATUS</label>
-            <select name="status" class="form-control" id="status">
-                <option value="Active">Active</option>
-                <option value="Sold out">Sold out</option>
+                <div style="width: 100px;"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input style="margin-top: 84px;" type="text" class="inputA " id="tenSanPham" name="name" placeholder="Product Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="inputA" id="giaSanPham" name="price" placeholder="Product Price" required="">
+                    </div>
 
-            </select>
-        </div>
+                    <div style="margin: 0 !important;" class="form-group">
+                        <select class="form-control"  id="loaiSanPham" name="category">
+                            <%                            List<Categories> categoryList = (List<Categories>) request.getAttribute("categoryList");
+                                for (int i = 0; i < categoryList.size(); i++) {
+                                    Categories category = categoryList.get(i);
+                            %>
+                            <option value="<%= category.getCategory_id()%>"><%= category.getName()%></option>
+                            <%
+                                }
+                            %>     
+                        </select>
+                    </div>
 
-        <button type="submit" class="btn btn-primary">Tạo sản phẩm</button>
+                    <div class="form-group">
+                        <select style="appearance:auto; "  name="status" class="form-control" id="status">
+                            <option value="Active">Active</option>
+                            <option value="Sold out">Sold out</option>
+
+                        </select>
+                    </div>
+
+                    <div style="text-align: center" >
+                        <button  type="submit" class="buttonA">Add new product</button>
+
+                    </div>
+
+                </div>
+            </div>
+
+
     </form>
-    <h1 >Trạng thái: <span style="color:red"> <%= report%></span></h1>
+
 </div>
+
+
+
+<!-- Đảm bảo bạn đã tải jQuery trước khi sử dụng -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+<script>
+// Sử dụng hàm jQuery() thay vì $ để đảm bảo $ đã được định nghĩa
+    jQuery(document).ready(function ($)
+
+    {
+        // Hàm kiểm tra và thực hiện các thao tác
+        function checkAndExecute() {
+            // Lấy giá trị của thuộc tính data-value của thẻ <p> có class "report"
+            var pValue = $('p.report').attr('value');
+            // Nếu giá trị là 0, thực hiện các thao tác
+            if (pValue === '0') {
+                $('.alert').addClass("show");
+                $('.alert').removeClass("hide");
+                $('.alert').addClass("showAlert");
+                // Đặt thời gian để ẩn alert sau 5 giây
+                setTimeout(function () {
+                    $('.alert').removeClass("show");
+                    $('.alert').addClass("hide");
+                }, 5000);
+                // Đổi giá trị của thuộc tính value thành 1
+                $('p.report').attr('value', '2');
+            }
+
+        }
+
+        // Gọi hàm khi trang được tải
+        checkAndExecute();
+        $('.close-btn').click(function () {
+            $('.alert').removeClass("show");
+            $('.alert').addClass("hide");
+            // Reset giá trị của thuộc tính value khi đóng alert
+            $('p.report').attr('value', '2');
+        });
+    }
+
+    );
+</script>
+<%session.removeAttribute("report");%>
+
+
+
 <%@include file="layout/footer.jsp" %>

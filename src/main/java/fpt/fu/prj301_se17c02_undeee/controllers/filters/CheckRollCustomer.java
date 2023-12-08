@@ -39,7 +39,7 @@ public class CheckRollCustomer implements Filter {
         if (status != null) {
             u = (Users) status;
         }
-        if (u.getRole() == 2) {
+        if (u.getRole() == 2||u.getRole() == 3) {
             res.sendRedirect("./");
         } else {
             chain.doFilter(request, response);

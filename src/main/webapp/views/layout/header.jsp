@@ -72,7 +72,7 @@
                                 <a class="nav-link" href="./order-history">My orders</a>
                             </li>
                             <%
-                            } else {
+                            }else if (u.getRole() == 2) {
                             %>
                             <li class="nav-item">
                                 <a class="nav-link" href="./admin-page">Admin Page</a>
@@ -88,7 +88,26 @@
                             </li>
                             <%
                                 }
-                            } else {
+                              else if (u.getRole() == 3) {
+                            %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./admin-page">Admin Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./view">View products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./create">Create products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./view-orders">View orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./admin">Boss room</a>
+                            </li>
+                            <%
+                            }
+                         else {
                             %>
                             <li class="nav-item">
                                 <a class="nav-link" href="./">Home</a>
@@ -104,6 +123,7 @@
                             </li>
                             <%
                                 }
+}
                             %>
                         </ul>
                     </div>

@@ -5,6 +5,7 @@
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
 import fpt.fu.prj301_se17c02_undeee.models.Categories;
+import fpt.fu.prj301_se17c02_undeee.models.Products;
 import fpt.fu.prj301_se17c02_undeee.services.ProductsServices;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 /**
@@ -87,20 +89,42 @@ public class CreateProductController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        ProductsServices productService = new ProductsServices();
+
         String name = request.getParameter("name");
+        Products product = productService.getProductByName(name);
+       
         String price = request.getParameter("price");
         String categoryID = request.getParameter("category");
-
+        int report; // bien thong bao 
         String status = request.getParameter("status");
         Part part = request.getPart("image");
 
-        if (name == null || price == null || categoryID == null || status == null
-                || name.isEmpty() || price.isEmpty() || categoryID.isEmpty() || status.isEmpty() || part.getSize() == 0) {
-            ProductsServices ps = new ProductsServices();
+        String alert = "";
+        if (product != null) {
+            alert += "A product with the name '" + product.getName() + "' already exists. ";
+        }
 
+        if (part != null) {
+            if (part.getSize() <= 0) {
+                alert += "Image cannot be empty. ";
+            }
+        } else {
+            alert += "Image part is null. ";
+        }
+
+        if (!alert.isEmpty()) {
+            if (!alert.contains("A")) {
+                 alert += "Image cannot be empty. ";
+            }
+            ProductsServices ps = new ProductsServices();
             List<Categories> categoryList = ps.getCategories();
+            report = 0;
+            HttpSession session = request.getSession();
+            session.setAttribute("report", report);
+
+            request.setAttribute("alert", alert);
             request.setAttribute("categoryList", categoryList);
-            request.setAttribute("report", "thêm sản phẩm thât bại");
             RequestDispatcher rd = request.getRequestDispatcher("/views/create_product.jsp");
             rd.forward(request, response);
         }
@@ -123,16 +147,18 @@ public class CreateProductController extends HttpServlet {
             categoryIDSave = Integer.parseInt(categoryID);
         }
         if (name != null && price != null && categoryID != null && status != null) {
-            ProductsServices productService = new ProductsServices();
+
             String imageSave = fileName;
             int result = productService.insertProducts(name, categoryIDSave, imageSave, priceSave, status);
             // tam thoi lay luon file name
             if (result > 0) {
+                report = 1;
+                HttpSession session = request.getSession();
+                session.setAttribute("report", report);
+
                 response.sendRedirect("view");
-                return;
             }
         }
-        response.sendRedirect("create");
     }
 
     /**
