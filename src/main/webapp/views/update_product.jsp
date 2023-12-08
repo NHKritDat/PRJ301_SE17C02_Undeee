@@ -18,7 +18,7 @@
     <form action="./update-products?id=<%= product.getId()%>" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="tenSanPham">Product's name</label>
-            <input type="text" value="<%= product.getName()%>" class="form-control" id="tenSanPham" name="name" placeholder="Nhập tên sản phẩm">
+            <input type="text" maxlength="24" value="<%= product.getName()%>" class="form-control" id="tenSanPham" name="name" placeholder="Nhập tên sản phẩm">
         </div>
         <div class="form-group">
             <label for="moTa">Product's price</label>

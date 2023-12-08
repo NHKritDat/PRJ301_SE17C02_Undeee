@@ -24,6 +24,7 @@
     if (pageInstant != null) {
         numPageInstant = Integer.parseInt(pageInstant);
     }
+    no += (numPageInstant - 1) * 10;
 %>    
 <%
     String updateSuccess = request.getParameter("updateSuccess");
@@ -43,7 +44,6 @@
 %>
 
 <%@include file="../layout/header.jsp" %>
-<!--<div class="container mt-4 mb-4">-->
 <div class="colorlib-about">
     <div class="container">
         <div class="row">

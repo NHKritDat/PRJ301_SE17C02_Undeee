@@ -81,7 +81,7 @@ public class LoginController extends HttpServlet {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             String remember = request.getParameter("RememberMe");
-
+            
             Cookie cEmail = new Cookie("cEmail", email);
             Cookie cPassword = new Cookie("cPassword", password);
             Cookie cRemember = new Cookie("cRemember", remember);
@@ -115,10 +115,11 @@ public class LoginController extends HttpServlet {
                 } else {
                     response.sendRedirect("./customer-product");
                 }
-
+                        
             } else {
-                response.sendRedirect("./login");
+                response.sendRedirect("login");
             }
+         
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

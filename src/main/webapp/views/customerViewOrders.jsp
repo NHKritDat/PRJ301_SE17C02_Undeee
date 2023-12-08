@@ -24,23 +24,24 @@
         numPageInstant = Integer.parseInt(pageInstant);
     }
 %>
-
-<%--<div class="container mt-4 mb-4">--%>
 <div class="colorlib-about">
-    <div class="container">
-
-
-        <h3>Order History</h3>
-        <br>
-        <div class="row">
-            <% for (OrderDto order : orderList) {
-                    Date created_at = order.getOrder().getCreated_at();
-                    String formattedDate = dateFormat.format(created_at);
-            %>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <button class="btn btn-info" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
+  <div class="container">
+    <h3>Order History</h3>
+    <br>
+    <div class="row">
+        <% for (OrderDto order : orderList) {
+                Date created_at = order.getOrder().getCreated_at();
+                String formattedDate = dateFormat.format(created_at);
+        %>
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="mb-2">
+                    <button class="btn btn-outline-info" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="views/layout/logo.jpg" alt="Product Image" class="img-fluid" style="width: 150px;border-radius: 50%">
                     </div>
 
                     <div class="row">
@@ -96,8 +97,7 @@
                                 %>
                             </tbody>
                         </table>
-
-                        <button class="btn btn-info" onclick="hideDetails('<%= order.getOrder().getId()%>')">Hide Details</button>
+                        <button class="btn btn-outline-info" onclick="hideDetails('<%= order.getOrder().getId()%>')">Hide Details</button>
                     </form>
 
                 </div>

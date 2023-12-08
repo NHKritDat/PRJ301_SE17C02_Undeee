@@ -66,9 +66,6 @@
                                 <h6 class="card-title"><%= product.getName()%></h6>
                                 <p class="card-text"><%= product.getPrice()%> $</p>
                             </div>
-                            <div class="card-footer text-center">
-                                <p><a href="customer-product" class="btn btn-button btn-lg" role="button">Order Now</a></p>
-                            </div>
                         </div>
                     </div>
                     <%
@@ -76,7 +73,14 @@
                     %>         
                 </div>
             </div>
-        </div> 
+        </div>
+        <%
+            }
+        %>         
+    </div>
+
+    <div class="row" style="justify-content: center">
+        <a href="customer-product" class="btn btn-outline-info col-md-2">Order Now</a>
     </div>
 </div>
 <%@include file="layout/footer.jsp" %>

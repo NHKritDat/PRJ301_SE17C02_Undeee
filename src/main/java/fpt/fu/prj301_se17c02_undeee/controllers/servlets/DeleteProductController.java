@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -62,14 +63,21 @@ public class DeleteProductController extends HttpServlet {
         ProductsServices productService = new ProductsServices();
         if (id != null) {
             int result = productService.deleteProducts(id);
+            int report;
+
             if (result > 0) {
                 System.out.println("delete success");
-                response.sendRedirect("view");
-
+                report = 1;
             } else {
-                response.sendRedirect("view");
-
+                report = 0;
             }
+
+// Lưu giá trị report vào session
+            HttpSession session = request.getSession();
+            session.setAttribute("report", report);
+
+            response.sendRedirect("view");
+
         }
     }
 
