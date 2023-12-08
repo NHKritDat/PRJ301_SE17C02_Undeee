@@ -37,12 +37,7 @@
             <div class="card-body">
                 <div class="mb-2">
                     <button class="btn btn-outline-info" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-3">
-                        <img src="views/layout/logo.jpg" alt="Product Image" class="img-fluid" style="width: 150px;border-radius: 50%">
-                    </div>
+                </div>  
 
                     <div class="row">
                         <div class="col-md-3">
