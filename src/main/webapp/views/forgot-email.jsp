@@ -8,71 +8,90 @@
         <style>
             /* CSS giữ nguyên */
 
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
+            * {
                 margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            .main {
                 display: flex;
-                align-items: center;
+                text-align: center;
                 justify-content: center;
-                height: 100vh;
+                margin-top: 100px;
+            }
+            .logo-img {
+                width: 100px;
+                border-radius: 50%;
             }
 
-            .login-form-container {
-                background-color: #fff;
-                padding: 25px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                width: 30%;
+            .heading {
+                margin-top: 24px;
+                font-weight: 500;
+                color: #000;
+                font-size: 30px;
             }
 
-            /* CSS thêm mới */
-            form {
-                display: flex;
-                flex-direction: column;
+            .text-description {
+                margin-top: 24px;
+                font-size: 15px;
+                white-space: pre-line;
+                text-align: justify;
+                margin: 0 20px;
+                line-height: 1.4;
+                padding-left: 8px;
             }
 
-            label {
-                margin-bottom: 8px;
-                display: block; /* Hiển thị các label theo chiều dọc */
-            }
-
-            input {
-                padding: 8px;
-                margin-bottom: 16px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                display: block; /* Hiển thị các input theo chiều dọc */
-            }
-
-            button {
-                padding: 10px;
-                background-color: #4caf50;
-                color: #fff;
-                border: none;
-                border-radius: 4px;
+            .btn {
+                margin-top: 24px;
+                border-radius: 20px;
+                border: 1px solid #000;
+                background-color: #cccccc;
+                color: #000;
+                font-size: 15px;
+                font-weight: 600;
+                margin: 20px;
+                padding: 12px 80px;
+                letter-spacing: 1px;
+                text-transform: capitalize;
                 cursor: pointer;
-                transition: background-color 0.3s;
             }
 
-            button:hover {
-                background-color: #45a049;
+            .content {
+                background-color: #a1c2e2ce;
+                display: inline-block;
+                white-space: pre-line;
+                margin-top: 32px;
+                width:400px;
+            }
+
+            .txtEmail {
+                
+                border-radius: 4px;
+                width: 300px;
+                height: 32px;
+
             }
             /* CSS thêm mới */
         </style>
     </head>
     <body>
         <!-- Thay đổi class container -->
-        <div class="login-form-container">
-            <!-- Thay đổi action và method -->
-            <form action="ForgotPasswordServlet" method="post">
-                <!-- Thêm trường email -->
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
 
-                <!-- Thêm nút đăng ký -->
-                <button type="submit">Register</button>
-            </form>
-        </div>
+        <!-- Thay đổi action và method -->
+        <form action="ForgotPasswordServlet" method="post">
+            <div class="main">
+                <div class="item">
+                    <img src="views/layout/logo.jpg" alt="Undee" class="logo-img">
+                    <h2 class="heading">Reset your password</h2>        
+                    <div class="content">
+                        <p class="text-description">Please enter your email after click link to reset password!</p>
+                        <h3>Email</h3>
+                        <input type="text" name="email" class="txtEmail">
+                        <button class="btn">Submit</button>
+                    </div>
+                </div>
+        </form>
+
     </body>
 </html>

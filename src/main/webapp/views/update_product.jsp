@@ -92,9 +92,7 @@
 <div class="container padding-top-60 mb-3">
 
     <form action="./update-products?id=<%= product.getId()%>" method="POST" enctype="multipart/form-data">
-
         <div class="row">
-
             <div style="text-align: center" class="form-group col-md-4">
                 <input style="margin-top: 40px;" type="file" class="inputA top37" id="hinhAnh" name="image" >
                 <div style="text-align: center;">
