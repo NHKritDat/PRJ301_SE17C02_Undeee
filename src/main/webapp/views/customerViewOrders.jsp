@@ -71,14 +71,12 @@
                                     int No = 0;
                                     for (OrderDto orderDetail : order.getOrderDetailList()) {
                                         No++;
-                                        SizeProducts sp = ps.getSizeProductById(orderDetail.getProduct().getId(), orderDetail.getSize().getId());
-                                        List<SizeProducts> l = ps.getSizeProductById(orderDetail.getProduct().getId());
                                 %>
                                 <tr>
                                     <th scope="row"><%= No%></th>
-                                    <td><%= sp.getProduct_name()%></td>
+                                    <td><%= orderDetail.getProduct().getName()%></td>
 
-                                    <td><img src="./views/products/<%= sp.getImage()%>" width="100px" height="100px" alt="<%= sp.getImage()%>" class="img-thumbnail"/></td>
+                                    <td><img src="./views/products/<%= orderDetail.getProduct().getImage()%>" width="100px" height="100px" alt="<%= orderDetail.getProduct().getImage()%>" class="img-thumbnail"/></td>
 
                                     <td>
                                         <%= orderDetail.getSize().getName()%>
@@ -86,7 +84,7 @@
                                     <td>
                                         <%= orderDetail.getOrderDetail().getQuantity()%>
                                     </td>
-                                    <td><%= Math.round(orderDetail.getOrderDetail().getQuantity() * sp.getPercent() * sp.getPrice() * Math.pow(10, 3)) / Math.pow(10, 3)%></td>
+                                    <td><%= Math.round(orderDetail.getOrderDetail().getQuantity() * orderDetail.getSize().getPercent() * orderDetail.getProduct().getPrice() * Math.pow(10, 3)) / Math.pow(10, 3)%></td>
                                 </tr>
                                 <%
                                     }
