@@ -37,6 +37,8 @@
         <link href="./assets/css/home.css" rel="stylesheet">
         <link href="./assets/css/body.css" rel="stylesheet">
         <link rel="stylesheet" href="./assets/themify-icons/themify-icons.css">
+        <link rel="stylesheet" href="./assets/css/icomoon.css">
+        <link rel="stylesheet" href="./assets/css/ionicons.min.css">
     </head>
     <body>
         <div id="page-container">

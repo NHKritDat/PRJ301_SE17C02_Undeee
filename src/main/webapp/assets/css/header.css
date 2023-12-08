@@ -37,12 +37,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 }
 
 .dropdown-menu {
-        background-color: #3498db; /* Set default background color */
-        border: 0;
-        border-radius: 0;
-    }
+    background-color: #fff; /* Set default background color */
+    border: 0;
+    border-radius: 0;
+}
 
-    .dropdown-menu a:hover {
-        background-color: aqua; /* Set background color on hover */
-        color: #000; /* Set text color on hover */
-    }
+.dropdown-menu a:hover {
+    background-color: aqua; /* Set background color on hover */
+    color: #000; /* Set text color on hover */
+}

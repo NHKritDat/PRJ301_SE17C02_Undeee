@@ -78,7 +78,6 @@
         </div>
     </div>
     <div class="footer-cover"></div>
-
 </footer>
 
 <script src="./assets/js/popupCard.js"></script>
