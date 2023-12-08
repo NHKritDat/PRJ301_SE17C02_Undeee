@@ -33,7 +33,7 @@ public class PasswordResetServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String token = request.getParameter("token");
         String email = request.getParameter("email");
-        
+
         if (isTokenValid(token)) {
             request.setAttribute("token", token);
             request.setAttribute("email", email);
@@ -43,7 +43,7 @@ public class PasswordResetServlet extends HttpServlet {
             response.sendRedirect("views/resetTokenError.jsp");
         }
     }
-    
+
     private boolean isTokenValid(String token) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
             String sql = "SELECT * FROM forgot_pass WHERE token = ?";
@@ -58,7 +58,7 @@ public class PasswordResetServlet extends HttpServlet {
             return false;
         }
     }
-    
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String newPassword = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
@@ -66,7 +66,7 @@ public class PasswordResetServlet extends HttpServlet {
         String email = request.getParameter("email");
         boolean foundError = false;
         PasswordResetError errors = new PasswordResetError();
-        System.out.println("email kkia"+email);
+        System.out.println("email kkia" + email);
         if (isTokenValid(token)) {
             // TODO: Process the new password and update the database
             if (!newPassword.trim().matches(passwordRegex)) {
@@ -77,21 +77,21 @@ public class PasswordResetServlet extends HttpServlet {
                 foundError = true;
                 errors.setConfirmPasswordError("Confirm the password must match the password you entered above!");
             }
-            if (foundError){
-                request.setAttribute("RESET_PASSWORD_ERR", token);
+            if (foundError) {
+                request.setAttribute("RESET_PASSWORD_ERR", errors);
             }
-            
+
             updatePassword(email, newPassword);
             // TODO: Delete the token from the "forgot_pass" table
             deleteToken(token);
-           
+
             response.sendRedirect("login");
         } else {
             deleteToken(token);
             response.sendRedirect("views/resetTokenError.jsp");
         }
     }
-    
+
     private void updatePassword(String email, String newPassword) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
             String sql = "UPDATE users SET password = ? WHERE email = ?";
@@ -104,7 +104,8 @@ public class PasswordResetServlet extends HttpServlet {
             e.printStackTrace(); // Handle the exception appropriately
         }
     }
-        private boolean isEmailValid(String email) {
+
+    private boolean isEmailValid(String email) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
             String sql = "SELECT * FROM users WHERE email = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -118,6 +119,7 @@ public class PasswordResetServlet extends HttpServlet {
             return false;
         }
     }
+
     private void deleteToken(String token) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
             String sql = "DELETE FROM forgot_pass WHERE token = ?";
