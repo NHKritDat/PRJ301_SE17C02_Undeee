@@ -4,7 +4,6 @@
  */
 package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 
-import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
 import fpt.fu.prj301_se17c02_undeee.models.Orders;
 import fpt.fu.prj301_se17c02_undeee.models.Users;
 import fpt.fu.prj301_se17c02_undeee.services.StatisticServices;
@@ -71,7 +70,7 @@ public class AdminPageController extends HttpServlet {
         double profits = st.calTotalProfits();
 
         // Định dạng số với 4 chữ số sau dấu thập phân
-        DecimalFormat df = new DecimalFormat("#.0000");
+        DecimalFormat df = new DecimalFormat("#.00");
         // Format giá trị và in ra màn hình
         String total_profits = df.format(profits);
         

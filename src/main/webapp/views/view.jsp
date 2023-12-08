@@ -68,7 +68,7 @@
 
     <div class="row mb-3">
         <div class="col-md-5">
-            <form id="searchForm"  class="d-flex" action="view" method="get" aria-label="Search">
+            <form id="searchForm" class="d-flex" action="view" method="get" aria-label="Search">
                 <input id="searchInput" class="form-control" type="search" placeholder="Search" name="searchKeyWord">
                 <button id="searchButton" class="btn btn-outline-success" type="submit">Search</button>
             </form>
@@ -118,8 +118,8 @@
                         <p class="card-text"><strong>Trạng thái: </strong><%= product.getStatus()%></p>
                     </div>
                     <div class="card-footer">
-                        <button style="background-color: red"><a href="delete?id=<%= product.getId()%>" class="btn" role="button">Delete</a></button>
-                        <button style="background-color: yellow"><a href="update-products?id=<%= product.getId()%>" class="btn" role="button">Update</a></button>
+                        <button><a href="delete?id=<%= product.getId()%>" class="btn" role="button">Delete</a></button>
+                        <button><a href="update-products?id=<%= product.getId()%>" class="btn" role="button">Update</a></button>
 
                     </div>
                 </div>

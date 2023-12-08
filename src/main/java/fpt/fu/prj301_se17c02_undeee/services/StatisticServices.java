@@ -4,8 +4,6 @@
  */
 package fpt.fu.prj301_se17c02_undeee.services;
 
-import fpt.fu.prj301_se17c02_undeee.models.Addresses;
-import fpt.fu.prj301_se17c02_undeee.models.OrderDto;
 import fpt.fu.prj301_se17c02_undeee.models.Orders;
 import fpt.fu.prj301_se17c02_undeee.models.Users;
 import java.sql.PreparedStatement;
@@ -13,9 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -91,7 +87,7 @@ public class StatisticServices extends DBConnect {
 
     public double calTotalProfits() {
         double count = 0;
-        String query = "SELECT sum(total_price) as Sales From Orders";
+        String query = "SELECT sum(total_price) as Sales From Orders where status = 'Success'";
         try {
             pst = connection.prepareStatement(query);
             ResultSet res = pst.executeQuery();

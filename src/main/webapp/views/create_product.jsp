@@ -94,7 +94,7 @@
                 <div style="width: 100px;"></div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <input style="margin-top: 84px;" type="text" class="inputA " id="tenSanPham" name="name" placeholder="Product Name" required="">
+                        <input maxlength="24" style="margin-top: 84px;" type="text" class="inputA " id="tenSanPham" name="name" placeholder="Product Name" required="">
                     </div>
                     <div class="form-group">
                         <input type="number" class="inputA" id="giaSanPham" name="price" placeholder="Product Price" required="">

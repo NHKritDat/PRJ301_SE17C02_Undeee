@@ -44,16 +44,6 @@
             <div class="container">
                 <div class="text-center"><h1 style="color: #88c8bc; font-weight: 700;">Undeee menu</h1></div>
                 <div class="text-center"><h2>Best Seller</h2></div>
-                <div class="col-sm-5 col-md-12">
-                    <form id="searchForm" action="view" method="Post">
-                        <div class="input-group">
-                            <input type="search" class="form-control search" placeholder="Search" id="searchInput" name="searchKeyword">
-                            <div class="input-group-append">
-                                <button class="btn btn-button submit-search text-center" type="submit">Search</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
                 <div class="row mt-3">
                     <%                List<Products> productList = (List<Products>) request.getAttribute("list");
                         for (int i = 0; i < productList.size(); i++) {

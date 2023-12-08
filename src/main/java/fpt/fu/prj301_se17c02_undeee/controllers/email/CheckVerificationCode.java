@@ -6,8 +6,6 @@ package fpt.fu.prj301_se17c02_undeee.controllers.email;
  */
 import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
-import java.io.PrintWriter;
-import static java.lang.System.out;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,8 +100,7 @@ public class CheckVerificationCode extends HttpServlet {
 
             
         } else {
-            request.setAttribute("report", "Incorrect Verification code");
-            request.getRequestDispatcher("/views/Result.jsp").forward(request, response);
+            response.sendRedirect("register");
         }
     }
 
