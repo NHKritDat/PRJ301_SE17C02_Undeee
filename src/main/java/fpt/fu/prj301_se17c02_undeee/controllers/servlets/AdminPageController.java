@@ -71,7 +71,7 @@ public class AdminPageController extends HttpServlet {
         double profits = st.calTotalProfits();
 
         // Định dạng số với 4 chữ số sau dấu thập phân
-        DecimalFormat df = new DecimalFormat("#.0000");
+        DecimalFormat df = new DecimalFormat("#.00");
         // Format giá trị và in ra màn hình
         String total_profits = df.format(profits);
         

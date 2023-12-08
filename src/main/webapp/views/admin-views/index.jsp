@@ -46,7 +46,7 @@
                 </li>
 
                 <li>
-                    <a href="https://meet.google.com/nhv-cxrb-oeb?authuser=0">
+                    <a href="#">
                         <span class="icon">
                             <ion-icon name="people-outline"></ion-icon>
                         </span>
@@ -55,7 +55,7 @@
                 </li>
 
                 <li>
-                    <a href="https://www.facebook.com/messages/e2ee/t/7582455995101952">
+                    <a href="#">
                         <span class="icon">
                             <ion-icon name="chatbubble-outline"></ion-icon>
                         </span>
@@ -73,7 +73,7 @@
                 </li>-->
 
                 <li>
-                    <a href="/updateUser">
+                    <a href="./updateUser">
                         <span class="icon">
                             <ion-icon name="settings-outline"></ion-icon>
                         </span>
@@ -94,13 +94,13 @@
         </div>
             <!-- ========================= Main ==================== -->
             <div class="main">
-                <div class="topbar">
+                <div style="94%" class="topbar">
                     <div class="toggle">
                         <ion-icon name="menu-outline"></ion-icon>
                     </div>
 
 
-
+                   
                     <div class="user">
                         <img src="views/users_avatar/hoang-nam-tien-fpt.png" alt="">
                     </div>
