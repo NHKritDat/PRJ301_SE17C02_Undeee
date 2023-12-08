@@ -2,27 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
+package fpt.fu.prj301_se17c02_undeee.controllers.forgotpassword;
 
-import fpt.fu.prj301_se17c02_undeee.models.Users;
-import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author dell
+ * @author Phong
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "ReturnLogin", urlPatterns = {"/ReturnLogin"})
+public class ReturnLogin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +36,10 @@ public class LoginController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");
+            out.println("<title>Servlet ReturnLogin</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ReturnLogin at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,8 +57,10 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
-        rd.forward(request, response);
+        String button = request.getParameter("btnReturn");
+        if(button.equals("Return to sign in")){
+             response.sendRedirect("/views/login.jsp");
+        }
     }
 
     /**
@@ -77,52 +74,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String remember = request.getParameter("RememberMe");
-            
-            Cookie cEmail = new Cookie("cEmail", email);
-            Cookie cPassword = new Cookie("cPassword", password);
-            Cookie cRemember = new Cookie("cRemember", remember);
-            if (email == null || password == null) {
-                response.sendRedirect("login");
-                return;
-            }
-            UsersServices userServices = new UsersServices();
-            Users user = userServices.checkLogin(email, password);
-            if (user != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user_loged", user);
-                int role = user.getRole();
-
-                if (remember != null && remember.equals("ON")) {
-                    cEmail.setMaxAge(60 * 60 * 24 * 7);
-                    cPassword.setMaxAge(60 * 60 * 24 * 7);
-                    cRemember.setMaxAge(60 * 60 * 24 * 7);
-                } else {
-                    cEmail.setMaxAge(0);
-                    cPassword.setMaxAge(0);
-                    cRemember.setMaxAge(0);
-                }
-
-                response.addCookie(cEmail);
-                response.addCookie(cPassword);
-                response.addCookie(cRemember);
-
-                if (role == 2) {
-                    response.sendRedirect("./admin-page");
-                } else {
-                    response.sendRedirect("./customer-product");
-                }
-                        
-            } else {
-                response.sendRedirect("login");
-            }
-         
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -133,6 +85,6 @@ public class LoginController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold> 
+    }// </editor-fold>
 
 }
