@@ -64,13 +64,21 @@ public class ViewProductsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        int category_id = 0;
+        String status = null;
         ProductsServices ps = new ProductsServices();
         // List<Products> list = ps.getAllProducts();
         List<Categories> categoryList = ps.getCategories();
+        List<String> statusList = new ArrayList<>();
+        statusList.add("Status");
+        statusList.add("Active");
+        statusList.add("Sold out");
         request.setAttribute("categoryList", categoryList);
         //  request.setAttribute("list", list);
 
         String search = request.getParameter("searchKeyWord");
+
         if (search == null) {
             search = "";
         }
@@ -78,12 +86,27 @@ public class ViewProductsController extends HttpServlet {
         String perpageInput = request.getParameter("perPage");
 
         int page = pageInput != null ? Integer.parseInt(pageInput) : 1;
-        int perpage = perpageInput != null ? Integer.parseInt(perpageInput) : 12;
+        int perpage = perpageInput != null ? Integer.parseInt(perpageInput) : 8;
         ProductsServices newservice = new ProductsServices();
         Paging newspaging = newservice.getPetsPage(search, page, perpage);
         List<Products> p = newspaging.getP();
+        if (search.matches("\\d+")) {
+            category_id = Integer.parseInt(search);
+        }
+
+        if (search.equalsIgnoreCase("Active")) {
+            status = "Active";
+        }
+        if (search.equalsIgnoreCase("Sold out")) {
+            status = "Sold out";
+        }
+        
+        request.setAttribute("searchKeyword", search);
         request.setAttribute("newsPaging", newspaging);
-        request.setAttribute("category", search);
+        request.setAttribute("category_id", category_id);
+        request.setAttribute("status", status);
+        request.setAttribute("page", pageInput);
+        request.setAttribute("statusList", statusList);
 
         RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
         rd.forward(request, response);
@@ -101,30 +124,32 @@ public class ViewProductsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductsServices ps = new ProductsServices();
-        List<Products> list = new ArrayList<>();
-        String search = (String) request.getParameter("searchKeyword");
-        String category = (String) request.getParameter("searchCategory");
-        if (category == null) {
-            list = ps.searchProducts(search);
-        } else {
-            list = ps.searchProductsByCategory(category);
-        }
-        request.setAttribute("list", list);
-        List<Categories> categoryList = ps.getCategories();
-        request.setAttribute("categoryList", categoryList);
-
-        String pageInput = request.getParameter("page");
-        String perpageInput = request.getParameter("perPage");
-
-        int page = pageInput != null ? Integer.parseInt(pageInput) : 1;
-        int perpage = perpageInput != null ? Integer.parseInt(perpageInput) : 12;
-        ProductsServices newservice = new ProductsServices();
-        Paging newspaging = newservice.getPetsPage(search, page, perpage);
-        request.setAttribute("newsPaging", newspaging);
-        request.setAttribute("category", category);
-        RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
-        rd.forward(request, response);
+//        ProductsServices ps = new ProductsServices();
+//        List<Products> list = new ArrayList<>();
+//        String search = (String) request.getParameter("searchKeyword");
+//        String category = (String) request.getParameter("searchCategory");
+//        if (category == null) {
+//            list = ps.searchProducts(search);
+//        } else {
+//            list = ps.searchProductsByCategory(category);
+//        }
+//        request.setAttribute("list", list);
+//        List<Categories> categoryList = ps.getCategories();
+//        request.setAttribute("categoryList", categoryList);
+//         
+//        String pageInput = request.getParameter("page");
+//        String perpageInput = request.getParameter("perPage");
+//
+//        int page = pageInput != null ? Integer.parseInt(pageInput) : 1;
+//        int perpage = perpageInput != null ? Integer.parseInt(perpageInput) : 8;
+//        ProductsServices newservice = new ProductsServices();
+//        Paging newspaging = newservice.getPetsPage(search, page, perpage);
+//        request.setAttribute("searchKeyword", search);
+//
+//        request.setAttribute("newsPaging", newspaging);
+//        request.setAttribute("category", category);
+//        RequestDispatcher rd = request.getRequestDispatcher("/views/view.jsp");
+//        rd.forward(request, response);
     }
 
     /**

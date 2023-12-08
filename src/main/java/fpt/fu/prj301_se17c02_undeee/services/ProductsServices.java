@@ -43,10 +43,11 @@ public class ProductsServices extends DBConnect {
                 sql += "and category_id = " + category_id;
                 sqlCount += "and category_id = " + category_id;
             }
-            
+
             Statement st = connection.createStatement();
             sql += " limit " + limit + " offset " + offset;
             rs = st.executeQuery(sql);
+
             while (rs.next()) {
                 Products p = new Products();
                 p.setId(rs.getInt(1));
@@ -61,7 +62,7 @@ public class ProductsServices extends DBConnect {
             paging.setP(list);
             paging.setPage(page);
             paging.setPerPage(perPage);
-            
+
             ResultSet rsTotal = st.executeQuery(sqlCount);
             int total = 0;
             while (rsTotal.next()) {
@@ -316,6 +317,27 @@ public class ProductsServices extends DBConnect {
         return 0;
     }
 
+        public Products getProductByName(String name) {
+        sql = "SELECT * FROM Products WHERE name =  '" + name + "' ";
+        Products product = null;
+        try {
+            pst = connection.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                product = new Products();
+                product.setId(rs.getInt(1));
+                product.setName(rs.getString(2));
+                product.setCategory_id(rs.getInt(3));
+                product.setImage(rs.getString(4));
+                product.setPrice(rs.getDouble(5));
+                product.setStatus(rs.getString(6));
+                product.setCreated_at(rs.getTimestamp(7));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return product;
+    }
     public Products getProductById(int id) {
         sql = "SELECT * FROM Products WHERE id =  " + id + " ";
         Products product = null;
@@ -466,8 +488,8 @@ public class ProductsServices extends DBConnect {
         String query = "SELECT* FROM Products ";
         String countQuery = "SELECT COUNT(*)AS NUMBERPET FROM Products ";
         if (search != null) {
-            query += "WHERE  category_id ='" + search + "' or status  ='" + search + "' OR  name LIKE '%" + search + "%'";
-            countQuery += "WHERE category_id ='" + search + "' or status  ='" + search + "' OR  name LIKE '%" + search + "%'";
+            query += "WHERE  category_id ='" + search + "' or status LIKE '%" + search + "%' OR  name LIKE '%" + search + "%'";
+            countQuery += "WHERE category_id ='" + search + "' or status  LIKE '%" + search + "%' OR  name LIKE '%" + search + "%'";
 
         }
 
@@ -479,15 +501,15 @@ public class ProductsServices extends DBConnect {
 
             Statement stm;
             stm = connection.createStatement();
-            ResultSet res = stm.executeQuery(query);
-            while (res.next()) {
-                int product_id = res.getInt("id");
-                String name = res.getString("name");
-                int category_id = res.getInt("category_id");
-                String image = res.getString("image");
-                double price = res.getDouble("price");
-                String status = res.getString("status");
-                Date created_at = res.getTimestamp("created_at");
+            rs = stm.executeQuery(query);
+            while (rs.next()) {
+                int product_id = rs.getInt("id");
+                String name = rs.getString("name");
+                int category_id = rs.getInt("category_id");
+                String image = rs.getString("image");
+                double price = rs.getDouble("price");
+                String status = rs.getString("status");
+                Date created_at = rs.getTimestamp("created_at");
 
                 Products product = new Products(product_id, name, category_id, image, price, status, created_at);
                 list.add(product);

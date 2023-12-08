@@ -17,3 +17,4 @@ function changeImage() {
 }
 
 setInterval(changeImage, 3000);
+

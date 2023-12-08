@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <!--    <filter>
+        <filter-name>CounterViewsHomeFilter</filter-name>
+        <filter-class>filters.CounterViewsHomeFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CounterViewsHomeFilter</filter-name>
+        <url-pattern>/home</url-pattern>
+    </filter-mapping>-->
+    <filter>
+        <filter-name>CounterViewsHome</filter-name>
+        <filter-class>fpt.fu.prj301_se17c02_undeee.controllers.filters.CounterViewsHome</filter-class>
+    </filter>
+    <filter>
+        <filter-name>CheckRollBoss</filter-name>
+        <filter-class>fpt.fu.prj301_se17c02_undeee.controllers.filters.CheckRollBoss</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CheckRollBoss</filter-name>
+        <url-pattern>/admin</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CounterViewsHome</filter-name>
+        <url-pattern>/home</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>AddToCartController</servlet-name>
         <servlet-class>fpt.fu.prj301_se17c02_undeee.controllers.servlets.AddToCartController</servlet-class>
@@ -36,6 +60,12 @@
         <servlet-name>CustomerViewOrdersController</servlet-name>
         <url-pattern>/order-history</url-pattern>
     </servlet-mapping>
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+            <taglib-location>/WEB-INF/lib/jstl-1.2.jar</taglib-location>
+        </taglib>
+    </jsp-config>
     <session-config>
         <session-timeout>
             30
