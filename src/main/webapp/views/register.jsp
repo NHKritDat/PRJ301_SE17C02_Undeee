@@ -12,7 +12,7 @@
 <%    RegisterError errors = (RegisterError) request.getAttribute("ERROR");
 %>
 
-<div class="container-fluid position-relative d-flex p-0">
+<div class="container-fluid position-relative d-flex p-0 mb-5">
     <div class="container-fluid">
         <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-6" style="margin-top: 80px;">

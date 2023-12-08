@@ -31,3 +31,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 #navbarNav{
     margin-left: 120px;
 }
+
+.padding-top-100{
+    padding-top: 100px;
+}
+
+.dropdown-menu {
+    background-color: #fff; /* Set default background color */
+    border: 0;
+    border-radius: 0;
+}
+
+.dropdown-menu a:hover {
+    background-color: aqua; /* Set background color on hover */
+    color: #000; /* Set text color on hover */
+}

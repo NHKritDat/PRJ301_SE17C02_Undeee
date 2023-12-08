@@ -26,34 +26,33 @@
             <input type="number" class="form-control" id="giaSanPham" name="price" placeholder="Nhập gia san pham">
         </div>
 
-        <div style="margin: 0 !important;" class="form-group">
-            <label for="loaiSanPham">Categories</label>
-            <select class="form-control" id="loaiSanPham" name="category">
-                <%                            List<Categories> categoryList = (List<Categories>) request.getAttribute("categoryList");
-                    for (int i = 0; i < categoryList.size(); i++) {
-                        Categories category = categoryList.get(i);
-                %>
-                <option value="<%= category.getCategory_id()%>"><%= category.getName()%></option>
-                <%
-                    }
-                %>     
-            </select>
-        </div>
+            <div style="margin: 0 !important;" class="form-group">
+                <label for="loaiSanPham">Categories</label>
+                <select class="form-control" id="loaiSanPham" name="category">
+                    <%                            List<Categories> categoryList = (List<Categories>) request.getAttribute("categoryList");
+                        for (int i = 0; i < categoryList.size(); i++) {
+                            Categories category = categoryList.get(i);
+                    %>
+                    <option value="<%= category.getCategory_id()%>"><%= category.getName()%></option>
+                    <%
+                        }
+                    %>     
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="hinhAnh">Hình ảnh sản phẩm</label>
-            <input type="file" class="form-control-file" id="hinhAnh" name="image">
-        </div>
+            <div class="form-group">
+                <label for="hinhAnh">Hình ảnh sản phẩm</label>
+                <input type="file" class="form-control-file" id="hinhAnh" name="image">
+            </div>
 
-        <div class="form-group">
-            <label  for="status">STATUS</label>
-            <select name="status" class="form-control" id="status">
-                <option value="Active">Active</option>
-                <option value="Sold out">Sold out</option>
+            <div class="form-group">
+                <label  for="status">STATUS</label>
+                <select name="status" class="form-control" id="status">
+                    <option value="Active">Active</option>
+                    <option value="Sold out">Sold out</option>
 
-            </select>
-        </div>
-
+                </select>
+            </div>
         <button type="submit" class="btn btn-outline-info">Tạo sản phẩm</button>
     </form>
     <h2>Trạng thái: <span style="color:red"> <%= report%></span></h2>

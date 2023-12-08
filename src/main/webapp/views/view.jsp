@@ -41,11 +41,11 @@
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
-<div class="container mt-4 myflex">
-
+<div class="colorlib-about">
+  <div class="container">
     <p class="report" value="<%= report%>"></p>
 
-    <h1 class="padding-top-100">Danh Sách Sản Phẩm</h1>
+    <h1>Danh Sách Sản Phẩm</h1>
 
     <div class=" alert hide ">
         <span class="fas fa-exclamation-circle"></span>
@@ -96,33 +96,33 @@
         </div>
     </div>
 
-    <div class="row mt-3">
-        <%
-            for (int i = 0; i < newsList.size(); i++) {
-                Products product = newsList.get(i);
-        %>
-        <div class="col-md-3 mb-3">
-            <div class="card">
-                <img src="views/products/<%= product.getImage()%>" class="card-img-top" alt="Sản phẩm 1" style="width: 100%; height: 250px">
-                <div class="card-body">
-                    <span>
-                        <h6 class="card-title"><%= product.getName()%></h6>
-                    </span>
-                    <p class="card-text"><%= product.getPrice()%></p>
-                    <p class="card-text"><strong>Trạng thái: </strong><%= product.getStatus()%></p>
-                </div>
-                <div class="card-footer">
-                    <button style=""><a href="delete?id=<%= product.getId()%>" class="btn" role="button">Delete</a></button>
-                    <button style=""><a href="update-products?id=<%= product.getId()%>" class="btn" role="button">Update</a></button>
+        <div class="row">
+            <%
+                for (int i = 0; i < newsList.size(); i++) {
+                    Products product = newsList.get(i);
+            %>
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <img src="views/products/<%= product.getImage()%>" class="card-img-top" alt="Sản phẩm 1" style="width: 100%; height: 250px">
+                    <div class="card-body">
+                        <span>
+                            <h6 class="card-title"><%= product.getName()%></h6>
+                        </span>
+                        <p class="card-text"><%= product.getPrice()%></p>
+                        <p class="card-text"><strong>Trạng thái: </strong><%= product.getStatus()%></p>
+                    </div>
+                    <div class="card-footer">
+                        <button style="background-color: red"><a href="delete?id=<%= product.getId()%>" class="btn" role="button">Delete</a></button>
+                        <button style="background-color: yellow"><a href="update-products?id=<%= product.getId()%>" class="btn" role="button">Update</a></button>
 
+                    </div>
                 </div>
             </div>
+            <%
+                }
+            %>         
         </div>
-        <%
-            }
-        %>         
     </div>
-</div>
 
 <div class="row">
     <nav aria-label="Page navigation example">
