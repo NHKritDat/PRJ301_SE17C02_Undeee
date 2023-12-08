@@ -29,14 +29,3 @@ function changeSearchBy() {
     }
 }
 
-//window.onpageshow = function (event) {
-//    if (event.persisted) {
-//        window.location.reload();
-//    }
-//};
-//function onPageShow() {
-//    // Reload the page to ensure updated data
-//    window.location.reload(true);
-//}
-//// Attach the onPageShow function to the onpageshow event
-//window.onpageshow = onPageShow;
