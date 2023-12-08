@@ -49,7 +49,8 @@
 
     <h1 class="padding-top-100">List of products</h1>
 
-    <p class="report" value="<%=report%>"></p>
+    
+<p class="report" value="<%=report%>"></p>
     <div class=" alert hide ">
         <span class="fas fa-exclamation-circle"></span>
         <span class="msg">Warning: Cannot delete this product!</span>
@@ -58,7 +59,7 @@
         </div>
     </div> 
 
-    <div class="alert1 hide">
+    <div class="alert1 hide ">
         <span class="fas fa-exclamation-circle"></span>
         <span class="msg">Success alert!</span>
         <div class="close-btn">

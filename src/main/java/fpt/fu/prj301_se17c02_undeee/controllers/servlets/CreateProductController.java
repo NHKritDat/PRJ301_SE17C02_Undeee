@@ -89,34 +89,52 @@ public class CreateProductController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+
+        Part part = request.getPart("image");
         ProductsServices productService = new ProductsServices();
 
         String name = request.getParameter("name");
         Products product = productService.getProductByName(name);
-       
-        String price = request.getParameter("price");
+
         String categoryID = request.getParameter("category");
         int report; // bien thong bao 
         String status = request.getParameter("status");
-        Part part = request.getPart("image");
-
+        String price = request.getParameter("price");
+        String image = request.getParameter("image");
         String alert = "";
+        boolean isNumeric = true;
+
+        for (int i = 0; i < price.length(); i++) {
+            char c = price.charAt(i);
+
+            // Kiểm tra xem ký tự có phải là số hoặc dấu chấm không
+            if (!Character.isDigit(c) && c != '.') {
+                isNumeric = false;
+                break; // Nếu tìm thấy ký tự không phải số hoặc dấu chấm, thoát khỏi vòng lặp
+            }
+        }
+
+        if (isNumeric==false) {
+            alert += "Please enter a valid price!. ";
+        }
+
         if (product != null) {
             alert += "A product with the name '" + product.getName() + "' already exists. ";
         }
+        if (image != null) {
+            alert += "Image cannot be empty. ";
+        }
 
-        if (part != null) {
+        if (part.getSize() <= 0) {
+                alert += "Image cannot be empty. ";
+            }
+       
             if (part.getSize() <= 0) {
                 alert += "Image cannot be empty. ";
             }
-        } else {
-            alert += "Image part is null. ";
-        }
+        
 
         if (!alert.isEmpty()) {
-            if (!alert.contains("A")) {
-                 alert += "Image cannot be empty. ";
-            }
             ProductsServices ps = new ProductsServices();
             List<Categories> categoryList = ps.getCategories();
             report = 0;
