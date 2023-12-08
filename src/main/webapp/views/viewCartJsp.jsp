@@ -76,10 +76,10 @@
                             <button type="submit" class="btn btn-outline-danger" value="remove-<%= key%>-<%= key%>" name="edit">Remove</button>
                         </form>
                     </td>
-                    <td><%= Math.round(orderDetails.getQuantity() * sp.getPercent() * sp.getPrice() * Math.pow(10, 3)) / Math.pow(10, 3)%></td>
+                    <td><%= Math.round(orderDetails.getQuantity() * sp.getPercent() * sp.getPrice() * Math.pow(10, 2)) / Math.pow(10, 2)%></td>
                 </tr>
                 <%
-                        total_price += Math.round(orderDetails.getQuantity() * sp.getPercent() * sp.getPrice() * Math.pow(10, 3)) / Math.pow(10, 3);
+                        total_price += Math.round(orderDetails.getQuantity() * sp.getPercent() * sp.getPrice() * Math.pow(10, 2)) / Math.pow(10, 2);
                     }
                 %>
             </tbody>
@@ -108,7 +108,7 @@
 
             <div class="form-group">
                 <label for="tongGia">Total price</label>
-                <input type="text" class="form-control" id="tongGia" name="total_price" value="<%= Math.round(total_price * Math.pow(10, 3)) / Math.pow(10, 3)%>" readonly="">
+                <input type="text" class="form-control" id="tongGia" name="total_price" value="<%= Math.round(total_price * Math.pow(10, 2)) / Math.pow(10, 2)%>" readonly="">
             </div>
             <button type="submit" class="btn btn-outline-info">Submit order</button>
         </form>

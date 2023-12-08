@@ -6,6 +6,8 @@ package fpt.fu.prj301_se17c02_undeee.controllers.forgotpassword;
 
 import fpt.fu.prj301_se17c02_undeee.models.PasswordResetError;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -81,6 +84,14 @@ public class PasswordResetServlet extends HttpServlet {
                 request.setAttribute("RESET_PASSWORD_ERR", errors);
             }
 
+            try {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.update(newPassword.getBytes());
+                byte[] digest = md.digest();
+                newPassword = DatatypeConverter.printHexBinary(digest).toUpperCase();
+            } catch (NoSuchAlgorithmException e) {
+                System.out.println(e.getMessage());
+            }
             updatePassword(email, newPassword);
             // TODO: Delete the token from the "forgot_pass" table
             deleteToken(token);
