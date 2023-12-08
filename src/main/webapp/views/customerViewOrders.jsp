@@ -15,7 +15,6 @@
 <%@include file="layout/header.jsp" %>
 <%    Paging paging = (Paging) request.getAttribute("paging");
     List<OrderDto> orderList = paging.getO();
-    ProductsServices ps = new ProductsServices();
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     double numPage = Math.ceil((double) paging.getTotal() / (double) paging.getPerPage());
     String pageInstant = request.getParameter("page");
@@ -28,12 +27,13 @@
   <div class="container">
     <h3>Order History</h3>
     <br>
+    
     <div class="row">
+        <div class="card mb-3">
         <% for (OrderDto order : orderList) {
                 Date created_at = order.getOrder().getCreated_at();
                 String formattedDate = dateFormat.format(created_at);
-        %>
-        <div class="card mb-3">
+        %>           
             <div class="card-body">
                 <div class="mb-2">
                     <button class="btn btn-outline-info" onclick="showDetails('<%= order.getOrder().getId()%>')">Show Details</button>
@@ -70,14 +70,12 @@
                                     int No = 0;
                                     for (OrderDto orderDetail : order.getOrderDetailList()) {
                                         No++;
-                                        SizeProducts sp = ps.getSizeProductById(orderDetail.getProduct().getId(), orderDetail.getSize().getId());
-                                        List<SizeProducts> l = ps.getSizeProductById(orderDetail.getProduct().getId());
                                 %>
                                 <tr>
                                     <th scope="row"><%= No%></th>
-                                    <td><%= sp.getProduct_name()%></td>
+                                    <td><%= orderDetail.getProduct().getName()%></td>
 
-                                    <td><img src="./views/products/<%= sp.getImage()%>" width="100px" height="100px" alt="<%= sp.getImage()%>" class="img-thumbnail"/></td>
+                                    <td><img src="./views/products/<%= orderDetail.getProduct().getImage()%>" width="100px" height="100px" alt="<%= orderDetail.getProduct().getImage()%>" class="img-thumbnail"/></td>
 
                                     <td>
                                         <%= orderDetail.getSize().getName()%>
@@ -85,7 +83,7 @@
                                     <td>
                                         <%= orderDetail.getOrderDetail().getQuantity()%>
                                     </td>
-                                    <td><%= Math.round(orderDetail.getOrderDetail().getQuantity() * sp.getPercent() * sp.getPrice() * Math.pow(10, 3)) / Math.pow(10, 3)%></td>
+                                    <td><%= Math.round(orderDetail.getOrderDetail().getQuantity() * orderDetail.getSize().getPercent() * orderDetail.getProduct().getPrice() * Math.pow(10, 3)) / Math.pow(10, 3)%></td>
                                 </tr>
                                 <%
                                     }
