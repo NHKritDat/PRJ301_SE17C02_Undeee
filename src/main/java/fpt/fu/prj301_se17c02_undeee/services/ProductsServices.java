@@ -317,6 +317,27 @@ public class ProductsServices extends DBConnect {
         return 0;
     }
 
+        public Products getProductByName(String name) {
+        sql = "SELECT * FROM Products WHERE name =  '" + name + "' ";
+        Products product = null;
+        try {
+            pst = connection.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                product = new Products();
+                product.setId(rs.getInt(1));
+                product.setName(rs.getString(2));
+                product.setCategory_id(rs.getInt(3));
+                product.setImage(rs.getString(4));
+                product.setPrice(rs.getDouble(5));
+                product.setStatus(rs.getString(6));
+                product.setCreated_at(rs.getTimestamp(7));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return product;
+    }
     public Products getProductById(int id) {
         sql = "SELECT * FROM Products WHERE id =  " + id + " ";
         Products product = null;
@@ -467,8 +488,8 @@ public class ProductsServices extends DBConnect {
         String query = "SELECT* FROM Products ";
         String countQuery = "SELECT COUNT(*)AS NUMBERPET FROM Products ";
         if (search != null) {
-            query += "WHERE  category_id ='" + search + "' or status  ='" + search + "' OR  name LIKE '%" + search + "%'";
-            countQuery += "WHERE category_id ='" + search + "' or status  ='" + search + "' OR  name LIKE '%" + search + "%'";
+            query += "WHERE  category_id ='" + search + "' or status LIKE '%" + search + "%' OR  name LIKE '%" + search + "%'";
+            countQuery += "WHERE category_id ='" + search + "' or status  LIKE '%" + search + "%' OR  name LIKE '%" + search + "%'";
 
         }
 
