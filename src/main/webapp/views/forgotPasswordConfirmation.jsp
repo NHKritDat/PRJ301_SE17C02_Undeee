@@ -65,17 +65,13 @@
         <form action="ReturnLogin" method="GET">
             <div class="main">
                 <div class="item">
-                    <img src="views/layout/logo.jpg" alt="Undee" class="logo-img">
+                    <img src="./views/layout/logo.jpg" alt="Undee" class="logo-img">
                     <h2 class="heading">Reset your password</h2>        
                     <div class="content">
-                        <p class="text-description">Check email for a link to reset your password.If it doesn't appear within few minutes.Check your spam folder!</p>                  
-                        <a href="./login.jsp" class="btn">Return to sign in</a>
-
+                        <p class="text-description">Check email for a link to reset your password.If it doesn't appear within few minutes.Check your spam folder!</p>
                     </div>
                 </div>
-
             </div>
         </form>
-
     </body>
 </html>
