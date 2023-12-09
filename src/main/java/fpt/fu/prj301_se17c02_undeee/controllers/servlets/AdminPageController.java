@@ -7,6 +7,7 @@ package fpt.fu.prj301_se17c02_undeee.controllers.servlets;
 import fpt.fu.prj301_se17c02_undeee.models.Orders;
 import fpt.fu.prj301_se17c02_undeee.models.Users;
 import fpt.fu.prj301_se17c02_undeee.services.StatisticServices;
+import fpt.fu.prj301_se17c02_undeee.services.UsersServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
@@ -64,6 +65,8 @@ public class AdminPageController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         StatisticServices st = new StatisticServices();
+        UsersServices us = new UsersServices();
+        List<Users> l = us.getAllUsers();
         int views = 1504;
         int number_orders = st.countOrders();
         int number_users = st.countUsers();
@@ -83,6 +86,7 @@ public class AdminPageController extends HttpServlet {
         request.setAttribute("total_profits", total_profits);
         request.setAttribute("listOrder", listOrder);
         request.setAttribute("listUsers", listUsers);
+        request.setAttribute("listU", l);
     
    RequestDispatcher rd = request.getRequestDispatcher("/views/admin-views/index.jsp");
         rd.forward(request, response);

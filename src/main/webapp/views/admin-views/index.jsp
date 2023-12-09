@@ -8,6 +8,7 @@
 
     List<Orders> listOrder = (List<Orders>) request.getAttribute("listOrder");
     List<Users> listUsers = (List<Users>) request.getAttribute("listUsers");
+    List<Users> listU = (List<Users>) request.getAttribute("listU");
     UsersServices us = new UsersServices();
 %>
 <!DOCTYPE html>
@@ -157,8 +158,8 @@
                                         status = "pending";
 
                                     }
-                                    String name = "Nguyen Thi Ngoc Han";
-                                    for (Users user : listUsers) {
+                                    String name = "";
+                                    for (Users user : listU) {
                                         if (o.getUser_id() == user.getId()) {
                                             name = user.getFullname();
                                         }
